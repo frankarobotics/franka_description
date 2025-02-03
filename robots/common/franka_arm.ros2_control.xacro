@@ -9,7 +9,8 @@
                  gazebo:=false
                  hand:=false
                  gazebo_effort:=false
-                 arm_prefix:=''">
+                 arm_prefix:=''
+                 multi_arm:=false">
 
     <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
     <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
