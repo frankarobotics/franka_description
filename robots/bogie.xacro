@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <xacro:include filename="$(find franka_description)/robots/inertia.xacro" />
+
+  <xacro:macro name="bogie" params="name mass parent *origin">
+    <xacro:property name="depth" value="0.32"/>
+    <xacro:property name="width" value="0.02"/>
+    <xacro:property name="height" value="0.015"/>
+
+    <link name="${name}_link" >
+      <visual>
+        <origin rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${height}" length="${height*1.5}" />
+        </geometry>
+        <material name="darkgrey">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+      <xacro:inertia-box mass="${mass}" width="${width}" depth="${depth}" height="${height}" />
+    </link>
+
+    <joint name="${name}_joint" type="revolute">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child  link="${name}_link" />
+      <axis   xyz="0 1 0" />
+      <limit  effort="500" velocity="20" upper="0.18" lower="-0.16"/>
+      <dynamics damping="0.003" friction="0.0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

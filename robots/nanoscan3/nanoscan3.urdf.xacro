@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="nanoscan3">
+
+  <!-- Use this if parameters are set from the launch file, otherwise delete -->
+  <xacro:arg name="mounting_kit" default="true" />
+  <xacro:arg name="sim_gazebo" default="false" />
+
+  <!-- create link fixed to the "world" -->
+  <link name="world" />
+
+  <!-- Load robot's macro with parameters -->
+  <!-- set prefix if multiple robots are used -->
+  <xacro:include filename="$(find sick_safetyscanners2)/description/robots/nanoscan3/nanoscan3_macro.xacro"/>
+  <xacro:property name="mounting_kit" value="$(arg mounting_kit)"/>
+  <xacro:nanoscan3 
+    name="nanoscan3"
+    parent="world" 
+    mounting_kit="${mounting_kit}"
+    ros_topic="/nanoscan3_topic"
+    update_rate="50.0"
+    min_angle="${radians(-45)}"
+    max_angle="${radians(225)}"
+    min_range="0.05"
+    max_range="10.0"
+    gaussian_noise="0.006"
+    max_beams="500">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:nanoscan3>
+
+</robot>

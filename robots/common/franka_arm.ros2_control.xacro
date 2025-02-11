@@ -71,7 +71,7 @@
         <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_finger_joint1" initial_position="0.0" />
       </xacro:if>
 
-
+      <!-- General purpose IO interfaces -->
       <xacro:macro name="general_purpose_io" params="prefix command_interface index">
         <gpio name="${prefix}">
           <command_interface name="${command_interface}"/>
@@ -80,25 +80,26 @@
       </xacro:macro>
 
       <!-- Cartesian velocity interfaces -->
-      <xacro:general_purpose_io prefix="vx" command_interface="cartesian_velocity" index="0"/>
-      <xacro:general_purpose_io prefix="vy" command_interface="cartesian_velocity" index="1"/>
-      <xacro:general_purpose_io prefix="vz" command_interface="cartesian_velocity" index="2"/>
-      <xacro:general_purpose_io prefix="wx" command_interface="cartesian_velocity" index="3"/>
-      <xacro:general_purpose_io prefix="wy" command_interface="cartesian_velocity" index="4"/>
-      <xacro:general_purpose_io prefix="wz" command_interface="cartesian_velocity" index="5"/>
+      <xacro:property name="gpios_suffix" value="${'' if arm_prefix == '' else arm_prefix_modified + arm_id + '_'}" />
+      <xacro:general_purpose_io prefix="${gpios_suffix}vx" command_interface="cartesian_velocity" index="0"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}vy" command_interface="cartesian_velocity" index="1"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}vz" command_interface="cartesian_velocity" index="2"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}wx" command_interface="cartesian_velocity" index="3"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}wy" command_interface="cartesian_velocity" index="4"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}wz" command_interface="cartesian_velocity" index="5"/>
 
       <!-- Cartesian pose interfaces, in total 16 interfaces -->
       <xacro:macro name="loop" params="i">
         <xacro:unless value="${i == 16}">
-          <xacro:general_purpose_io prefix="${i}" command_interface="cartesian_pose_command" index="${i}"/>
+          <xacro:general_purpose_io prefix="${gpios_suffix}${i}" command_interface="cartesian_pose_command" index="${i}"/>
           <xacro:loop i="${i+1}"/>
         </xacro:unless>
       </xacro:macro>
       <xacro:loop i="0"/>
 
       <!-- Elbow command interfaces -->
-      <xacro:general_purpose_io prefix="joint_3_position" command_interface="elbow_command" index="0"/>
-      <xacro:general_purpose_io prefix="joint_4_sign" command_interface="elbow_command" index="1"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}joint_3_position" command_interface="elbow_command" index="0"/>
+      <xacro:general_purpose_io prefix="${gpios_suffix}joint_4_sign" command_interface="elbow_command" index="1"/>
 
 
     </ros2_control>
