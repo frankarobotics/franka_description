@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="caster" xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-  <xacro:include filename="$(find franka_description)/robots/caster_wheel.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmr/caster_wheel.xacro" />
 
   <link name="world" />
 

@@ -35,6 +35,16 @@
     </inertial>
   </xacro:macro>
 
+  <xacro:macro name="inertia-torso">
+    <inertial>
+      <origin xyz="-0.374101 0.001522 0.120542" rpy="0 0 0" />
+      <mass value="75.711368" />
+      <inertia  ixx ="1.822241406454"	ixy ="0.009367998445"	ixz ="0.855091055826"
+	              iyx ="0.009367998445"	iyy ="4.242134556907"	iyz ="-0.012022054390"
+	              izx ="0.855091055826"	izy ="-0.012022054390" izz ="4.568496104964"/>
+    </inertial>
+  </xacro:macro>
+
   <xacro:macro name="inertia-default" params="mass">
     <inertial>
       <mass value="${mass}" />

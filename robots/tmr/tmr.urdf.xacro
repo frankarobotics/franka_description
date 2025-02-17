@@ -16,7 +16,7 @@
   <xacro:arg name="fake_sensor_commands" default="false" />
 
 
-  <xacro:include filename="$(find franka_description)/robots/tmr.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmr/tmr.xacro" />
   <xacro:tmr
     mobile_robot_id="$(arg mobile_robot_id)"
     robot_ip="$(arg robot_ip)"

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-  <xacro:include filename="$(find franka_description)/robots/inertia.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmr/inertia.xacro" />
 
   <xacro:macro name="wheel" params="lr mass parent radius:='0.125' wheel_width:='0.06' *origin">
     <link name="${lr[0]}_wheel_link" >
@@ -14,7 +14,7 @@
           <origin rpy="${pi} 0 0" />
         </xacro:if>
         <geometry>
-          <mesh filename="package://franka_description/meshes/visual/wheel.stl"/>
+          <mesh filename="package://franka_description/meshes/tmr/visual/wheel.stl"/>
         </geometry>
         <material name="darkgrey">
           <color rgba="0.3 0.3 0.3 1.0"/>
@@ -29,7 +29,7 @@
           <origin rpy="${pi} 0 0" />
         </xacro:if>
         <geometry>
-          <mesh filename="package://franka_description/meshes/collision/wheel_simplified.stl"/>
+          <mesh filename="package://franka_description/meshes/tmr/collision/wheel_simplified.stl"/>
         </geometry>
       </collision>
 

@@ -77,7 +77,7 @@
   </xacro:if>
 
   <!-- The multi robot setup configures 'multi_arm' by default to true s.t. it uses the async threading approach for the hardware interface -->
-  <xacro:include filename="$(find franka_description)/robots/tmr.xacro"/>
+  <xacro:include filename="$(find franka_description)/robots/tmr/tmr.xacro"/>
   <xacro:macro name="loop" params="i">
     <xacro:unless value="${i == $(arg number_of_robots)}">
       <xacro:if value = "${arm_ids_list[i] == 'tmr'}">

@@ -8,13 +8,12 @@
                   use_fake_hardware:=false
                   fake_sensor_commands:=false">
 
-    <xacro:include filename="$(find franka_description)/robots/wheel.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/caster_wheel.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/bogie.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/inertia.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/lidar.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/wheel.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/caster_wheel.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/bogie.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/inertia.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/lidar.xacro" />
     <xacro:include filename="$(find realsense2_description)/urdf/_d455.urdf.xacro" />
-    <xacro:include filename="$(find olv_module_descriptions)/urdf/olv-imu01.urdf.xacro" />
 
     <xacro:property name="caster_radius" value="0.05" />
     <xacro:property name="caster_mass" value="0.5" />
@@ -50,7 +49,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/visual/tmr_base.dae" />
+          <mesh filename="package://franka_description/meshes/tmr/visual/tmr_base.dae" />
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
@@ -59,7 +58,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/collision/tmr_base_simplified.stl" />
+          <mesh filename="package://franka_description/meshes/tmr/collision/tmr_base_simplified.stl" />
         </geometry>
       </collision>
     </link>
@@ -141,7 +140,7 @@
     </xacro:sensor_d455>
 
     <xacro:if value="${ros2_control}">
-      <xacro:include filename="$(find franka_description)/robots/tmr.ros2_control.xacro" />
+      <xacro:include filename="$(find franka_description)/robots/tmr/tmr.ros2_control.xacro" />
       <xacro:tmr_ros2_control
         mobile_robot_id="${mobile_robot_id}"
         robot_ip="${robot_ip}"
@@ -150,16 +149,5 @@
       />
     </xacro:if>
 
-   <!-- IMU -->
-   <link name="imu">
-    </link>
-    <joint name="base_to_imu" type="fixed">
-      <parent link="base_link"/>
-      <child link="imu"/>
-      <origin xyz="-0.176 0.0545 0.15" rpy="${pi/2} 0 ${-pi/2}"/>
-    </joint>
-   <xacro:olv-imu01 namespace="olv-imu01" parent_link="imu" mounting_side="bottom" mounting_rotation="0" >
-   </xacro:olv-imu01>
   </xacro:macro>
-
 </robot>
