@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <xacro:include filename="$(find franka_description)/extras/torso_duo/inertia.xacro" />
+
+  <xacro:macro name="torso" params="name parent *origin">   
+    <link name="torso_link" >
+      <visual>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/torso_duo/collision/torso_collision.stl"/>
+        </geometry>
+        <material name="white">
+          <color rgba="1.0 1.0 1.0 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/torso_duo/collision/torso_collision.stl"/>
+        </geometry>
+      </collision>
+      <xacro:inertia-torso/>
+    </link>
+
+    <joint name="torso_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child  link="torso_link" />
+    </joint>
+  </xacro:macro>
+
+</robot>
