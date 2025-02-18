@@ -72,7 +72,7 @@
     <xacro:include filename="$(find franka_description)/extras/torso_duo/torso.xacro"/>
     <xacro:arg name="torso_kinematics" default="$(find franka_description)/extras/torso_duo/kinematics.yaml"/>
     <xacro:torso name="torso" parent="base_link">
-      <origin xyz="0.20 0 0.30" rpy="0 0 0" />
+      <origin xyz="0.212 0 0.294" rpy="0 0 0" />
     </xacro:torso>
   </xacro:if>
 
