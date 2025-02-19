@@ -7,7 +7,7 @@
     <link name="torso_link" >
       <visual>
         <geometry>
-          <mesh filename="package://franka_description/meshes/torso_duo/collision/torso_collision.stl"/>
+          <mesh filename="package://franka_description/meshes/torso_duo/visual/torso_cover.dae"/>
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
@@ -15,7 +15,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://franka_description/meshes/torso_duo/collision/torso_collision.stl"/>
+          <mesh filename="package://franka_description/meshes/torso_duo/collision/torso_cover.stl"/>
         </geometry>
       </collision>
       <xacro:inertia-torso/>
