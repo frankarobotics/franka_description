@@ -11,6 +11,7 @@ def generate_launch_description():
     tmr_xacro_file = os.path.join(
         get_package_share_directory("franka_description"),
         "robots",
+        "tmr",
         "tmr.urdf.xacro",
     )
     robot_description = Command([FindExecutable(name="xacro"), " ", tmr_xacro_file])
