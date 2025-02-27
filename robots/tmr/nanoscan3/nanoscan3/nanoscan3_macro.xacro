@@ -39,7 +39,9 @@
       <link name="${name}_mount">
         <!-- Default inertial for Gazebo - copy and edit block from 'common.xacro'
             to get more realistic behavior -->
-        <xacro:default_inertial/>
+        <xacro:box_inertial x="0.1175" y="0.1006" z="0.05" mass="0.33">
+          <origin xyz="0 0 -0.025" rpy="0 0 0"/>
+        </xacro:box_inertial>
         <visual>
           <geometry>
             <mesh filename="file://$(find franka_description)/meshes/nanoscan3/MountingKit_2a.dae"/>
@@ -85,7 +87,9 @@
     <link name="${name}">
       <!-- Default inertial for Gazebo - copy and edit block from 'common.xacro'
            to get more realistic behavior -->
-      <xacro:default_inertial/>
+      <xacro:cylinder_inertial radius="0.43" length="0.03" mass="0.33">
+        <origin xyz="0 0 -0.015" rpy="0 0 0"/>
+      </xacro:cylinder_inertial>
       <visual>
         <!-- These values were determined empirically -->
         <origin xyz="0 0.07615 ${-sensor_z-0.001}" rpy="0 0 ${radians(-90)}" />
