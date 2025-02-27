@@ -24,9 +24,9 @@
     <xacro:property name="caster_bogie_offset" value="0.01" />
 
     <xacro:property name="platform_height" value="0.3" />
-    <xacro:property name="base_width" value="0.575" />
+    <xacro:property name="base_depth" value="0.575" />
     <xacro:property name="base_height" value="0.294" />
-    <xacro:property name="base_depth" value="0.80" />
+    <xacro:property name="base_width" value="0.80" />
     <xacro:property name="mass" value="75" />
 
     <xacro:property name="bogie_x" value="-0.18" />
@@ -53,7 +53,7 @@
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
-        </material>
+        </material>platform_height
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
@@ -62,10 +62,12 @@
         </geometry>
       </collision>
     </link>
-
+platform_height
     <link name="base_inertia">
       <xacro:inertia-box mass="${mass}" width="${base_width}" height="${base_height}"
-        depth="${base_depth}" />
+        depth="${base_depth}">
+        <origin xyz="0 0 ${platform_height/2} " rpy="0 0 0" />
+      </xacro:inertia-box>
     </link>
 
     <joint name="base_inertia_joint" type="fixed">

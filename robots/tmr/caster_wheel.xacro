@@ -6,14 +6,14 @@
   <xacro:macro name="caster_wheel" params="name mass parent length:='0.025' radius:='0.05' caster_joint_z:='-0.074' caster_steering_offset:='-0.035' *origin">
 
     <xacro:property name="base_width" value="0.04" />
-    <xacro:property name="base_height" value="0.03" />
-    <xacro:property name="base_depth" value="0.003" />
+    <xacro:property name="base_depth" value="0.03" />
+    <xacro:property name="base_height" value="0.003" />
 
     <link name="${name}_fixed_link" >
       <xacro:macro name="caster_base_geometry" params="xyz:='0 0 0'">
-        <origin xyz="0 0 ${-base_depth/2}" />
+        <origin xyz="0 0 ${-base_height/2}" />
         <geometry>
-          <box size="${base_width} ${base_height} ${base_depth}" />
+          <box size="${base_width} ${base_depth} ${base_height}" />
         </geometry>
         <material name="darkgrey">
           <color rgba="0.3 0.3 0.3 1.0"/>
@@ -24,7 +24,9 @@
         <xacro:caster_base_geometry/>
       </visual>
 
-      <xacro:inertia-box mass="${mass}" width="${base_width}" height="${base_height}" depth="${base_depth}" />
+      <xacro:inertia-box mass="${mass}" width="${base_width}" height="${base_height}" depth="${base_depth}">
+        <origin xyz="0 0 ${-base_height/2}" />
+      </xacro:inertia-box>
     </link>
 
     <joint name="${name}_steering_joint" type="continuous">
