@@ -14,6 +14,7 @@
     <xacro:include filename="$(find franka_description)/robots/tmr/inertia.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmr/lidar.xacro" />
     <xacro:include filename="$(find realsense2_description)/urdf/_d455.urdf.xacro" />
+    <xacro:include filename="$(find olv_module_descriptions)/urdf/olv-imu01.urdf.xacro" />
 
     <xacro:property name="caster_radius" value="0.05" />
     <xacro:property name="caster_mass" value="0.5" />
@@ -151,5 +152,15 @@ platform_height
       />
     </xacro:if>
 
+    <!-- IMU -->
+    <link name="imu">
+    </link>
+    <joint name="base_to_imu" type="fixed">
+      <parent link="base_link"/>
+      <child link="imu"/>
+      <origin xyz="-0.176 0.0545 0.15" rpy="0 ${-pi/2} 0"/>
+    </joint>
+    <xacro:olv-imu01 namespace="olv-imu01" parent_link="imu" mounting_side="bottom" mounting_rotation="0">
+    </xacro:olv-imu01>
   </xacro:macro>
 </robot>
