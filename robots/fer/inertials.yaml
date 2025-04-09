@@ -114,30 +114,3 @@ link7:
     xy: -4.2800e-04
     xz: -1.1960e-03
     yz: -7.4100e-04
-
-hand:
-  origin:
-    xyz: -0.01 0 0.03
-    rpy: 0 0 0
-  mass: 0.73
-  inertia:
-    xx: 0.001
-    yy: 0.0025
-    zz: 0.0017
-    xy: 0
-    xz: 0
-    yz: 0
-
-leftfinger: &finger
-  origin:
-    xyz: 0 0 0
-    rpy: 0 0 0
-  mass: 0.015
-  inertia:
-    xx: 2.3749999999999997e-06
-    yy: 2.3749999999999997e-06
-    zz: 7.5e-07
-    xy: 0
-    xz: 0
-    yz: 0
-rightfinger: *finger
