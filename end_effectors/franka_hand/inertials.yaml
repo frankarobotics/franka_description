@@ -1,3 +1,11 @@
+# This file does not contain official inertial properties
+# of panda robot. The values are from the identification
+# results published in: Identification of the Franka Emika
+# PandaRobot With Retrieval of Feasible Parameters Using
+# Penalty-Based Optimization
+# by: Claudio Gaz, Marco Cognetti, Alexander Oliva,
+# Paolo Robuffo Giordano, Alessandro de Luca
+
 hand:
   origin:
     xyz: -0.01 0 0.03
