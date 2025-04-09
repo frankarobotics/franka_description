@@ -1,96 +1,143 @@
+# This file has been downloaded from franka_ros on branch
+# noetic-devel on October 20, 2023, because franka_ros2,
+# at that time, did not have any inertial information about
+# the Panda robot.
+# -------------------------- ORIGINAL FILE STARTS HERE
+
+# This file does not contain official inertial properties
+# of panda robot. The values are from the identification
+# results published in: Identification of the Franka Emika
+# PandaRobot With Retrieval of Feasible Parameters Using
+# Penalty-Based Optimization
+# by: Claudio Gaz, Marco Cognetti, Alexander Oliva,
+# Paolo Robuffo Giordano, Alessandro de Luca
 link0:
   origin:
-    xyz: -0.0172 0.0004 0.0745
+    xyz: -0.041018 -0.00014 0.049974
     rpy: 0 0 0
-  mass: 2.3966
+  mass: 0.629769
   inertia:
-    xx: 0.0090
-    xy: 0.0000
-    xz: 0.0020
-    yy: 0.0115
-    yz: 0.0000
-    zz: 0.0085
+    xx: 0.00315
+    yy: 0.00388
+    zz: 0.004285
+    xy: 8.2904E-07
+    xz: 0.00015
+    yz: 8.2299E-06
+
 link1:
   origin:
-    xyz: 0.00033 -0.02204 -0.04762
+    xyz: 0.003875 0.002081 -0.04762
     rpy: 0 0 0
-  mass: 2.7907
+  mass: 4.970684
   inertia:
-    xx: 0.01564782655
-    xy: 0.00000531236
-    xz: -0.00003676721
-    yy: 0.01439883526
-    yz: -0.00248480843
-    zz: 0.00500443991
+    xx: 0.70337
+    yy: 0.70661
+    zz: 0.0091170
+    xy: -0.00013900
+    xz: 0.0067720
+    yz: 0.019169
+
 link2:
   origin:
-    xyz: 0.00038 -0.09211 0.01908
+    xyz:  -0.003141 -0.02872  0.003495
     rpy: 0 0 0
-  mass: 2.5420
+  mass: 0.646926
   inertia:
-    xx: 0.01662427728
-    xy: 0.00003086077
-    xz: 0.00000835940
-    yy: 0.00462501261
-    yz: 0.00355899830
-    zz: 0.01545124526
+    xx: 0.0079620
+    yy: 2.8110e-02
+    zz: 2.5995e-02
+    xy: -3.9250e-3
+    xz: 1.0254e-02
+    yz: 7.0400e-04
+
 link3:
   origin:
-    xyz: 0.05152 0.01696 -0.02971
+    xyz: 2.7518e-02 3.9252e-02 -6.6502e-02
     rpy: 0 0 0
-  mass: 2.2513
+  mass: 3.228604
   inertia:
-    xx: 0.00631741992
-    xy: 0.00097309955
-    xz: 0.00292525834
-    yy: 0.00866285493
-    yz: 0.00093469224
-    zz: 0.00657804051
+    xx: 3.7242e-02
+    yy: 3.6155e-02
+    zz: 1.0830e-02
+    xy: -4.7610e-03
+    xz: -1.1396e-02
+    yz: -1.2805e-02
+
 link4:
   origin:
-    xyz: -0.05113 0.05825 0.01698
+    xyz: -5.317e-02 1.04419e-01 2.7454e-02
     rpy: 0 0 0
-  mass: 2.2037
+  mass: 3.587895
   inertia:
-    xx: 0.00784585566
-    xy: -0.00339591957
-    xz: 0.00158704074
-    yy: 0.00649543136
-    yz: -0.00181477884
-    zz: 0.01003079917
+    xx: 2.5853e-02
+    yy: 1.9552e-02
+    zz: 2.8323e-02
+    xy: 7.7960e-03
+    xz: -1.3320e-03
+    yz: 8.6410e-03
+
 link5:
   origin:
-    xyz: -0.00005 0.03730 -0.09280
+    xyz: -1.1953e-02 4.1065e-02 -3.8437e-02
     rpy: 0 0 0
-  mass: 2.2855
+  mass: 1.225946
   inertia:
-    xx: 0.02297014781
-    xy: -0.00000949345
-    xz: -0.00002063156
-    yy: 0.02095060919
-    yz: 0.00382345782
-    zz: 0.00430606551
+    xx: 3.5549e-02
+    yy: 2.9474e-02
+    zz: 8.6270e-03
+    xy: -2.1170e-03
+    xz: -4.0370e-03
+    yz: 2.2900e-04
+
 link6:
   origin:
-    xyz: 0.06572 -0.00371 0.00153
+    xyz: 6.0149e-02 -1.4117e-02 -1.0517e-02
     rpy: 0 0 0
-  mass: 1.353
+  mass: 1.666555
   inertia:
-    xx: 0.00087964522
-    xy: -0.00021487814
-    xz: -0.00011911662
-    yy: 0.00277796968
-    yz: 0.00001274322
-    zz: 0.00286701969
+    xx: 1.9640e-03
+    yy: 4.3540e-03
+    zz: 5.4330e-03
+    xy: 1.0900e-04
+    xz: -1.1580e-03
+    yz: 3.4100e-04
+
 link7:
   origin:
-    xyz: 0.00089 -0.00044 0.05491
+    xyz: 1.0517e-02 -4.252e-03 6.1597e-02
     rpy: 0 0 0
-  mass: 0.35973
+  mass: 7.35522e-01
   inertia:
-    xx: 0.00019541063
-    xy: 0.00000165231
-    xz: 0.00000148826
-    yy: 0.00019210361
-    yz: -0.00000131132
-    zz: 0.00017936256
+    xx: 1.2516e-02
+    yy: 1.0027e-02
+    zz: 4.8150e-03
+    xy: -4.2800e-04
+    xz: -1.1960e-03
+    yz: -7.4100e-04
+
+hand:
+  origin:
+    xyz: -0.01 0 0.03
+    rpy: 0 0 0
+  mass: 0.73
+  inertia:
+    xx: 0.001
+    yy: 0.0025
+    zz: 0.0017
+    xy: 0
+    xz: 0
+    yz: 0
+
+leftfinger: &finger
+  origin:
+    xyz: 0 0 0
+    rpy: 0 0 0
+  mass: 0.015
+  inertia:
+    xx: 2.3749999999999997e-06
+    yy: 2.3749999999999997e-06
+    zz: 7.5e-07
+    xy: 0
+    xz: 0
+    yz: 0
+rightfinger: *finger
