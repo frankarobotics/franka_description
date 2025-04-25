@@ -13,15 +13,15 @@
                       ee_id:=none
                       gazebo:='false'
                       with_sc:='false'
-                      ros2_control:=false
+                      ros2_control:='false'
                       robot_ip:=''
-                      use_fake_hardware:=false
-                      fake_sensor_commands:=false
-                      gazebo_effort:=false
-                      no_prefix:='false'
+                      use_fake_hardware:='false'
+                      fake_sensor_commands:='false'
+                      gazebo_effort:='false'
+                      no_prefix:=''false''
                       arm_prefix:=''
                       connected_to:='base'
-                      multi_arm:=false">
+                      multi_arm:='false'">
     <xacro:include filename="$(find franka_description)/robots/common/utils.xacro" />
 
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro" />
@@ -153,13 +153,13 @@
       <xacro:franka_arm_ros2_control
           arm_id="${arm_id}"
           robot_ip="${robot_ip}"
-          use_fake_hardware="$(arg use_fake_hardware)"
-          fake_sensor_commands="$(arg fake_sensor_commands)"
-          gazebo="$(arg gazebo)"
-          hand="$(arg hand)"
-          gazebo_effort="$(arg gazebo_effort)"
+          use_fake_hardware="${use_fake_hardware}"
+          fake_sensor_commands="${fake_sensor_commands}"
+          gazebo="${gazebo}"
+          hand="${hand}"
+          gazebo_effort="${gazebo_effort}"
           arm_prefix="${arm_prefix}"
-          multi_arm="$(arg multi_arm)"
+          multi_arm="${multi_arm}"
       />
     </xacro:if>
 

@@ -4,14 +4,14 @@
 <xacro:macro name="franka_arm_ros2_control"
          params="arm_id
              robot_ip
-             use_fake_hardware:=^|false
-             fake_sensor_commands:=^|false
-             gazebo:=^|false
-             hand:=^|false
-             gazebo_effort:=^|false
+             use_fake_hardware:=false
+             fake_sensor_commands:=false
+             gazebo:=false
+             hand:=false
+             gazebo_effort:=false
              arm_prefix:=''
              multi_arm:=false">
-             
+
     <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
     <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
         <hardware>
