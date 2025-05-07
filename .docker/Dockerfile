@@ -26,6 +26,7 @@ ENV XDG_RUNTIME_DIR=/run/user/"${USER_UID}"
 
 USER $USERNAME
 
+RUN git clone https://github.com/olive-robotics/olvx_descriptions_module.git src/olvx_descriptions_module 
 RUN echo "source /ros_entrypoint.sh" >>~/.bashrc
 ARG MAX_ROS_DOMAIN_ID=232
 RUN echo "export ROS_DOMAIN_ID=100" >>~/.bashrc
