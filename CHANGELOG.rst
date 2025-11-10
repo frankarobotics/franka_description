@@ -2,7 +2,7 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-UNRELEASED
+2.2.0
 ----------
 * feat: updated kinematics, meshes, inertials, materials for fr3_duo mount and cover
 
