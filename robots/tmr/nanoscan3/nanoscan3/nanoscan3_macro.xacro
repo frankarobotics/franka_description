@@ -81,7 +81,7 @@
     <joint name="${name}_joint" type="fixed">
       <parent link="${name}_base" />
       <child link="${name}" />
-      <origin xyz="0 ${sensor_y} ${sensor_z}" rpy="0 0 ${sensor_rot_z}"/>
+      <origin xyz="0 0 0" rpy="0 0 ${sensor_rot_z}"/>
     </joint>
 
     <link name="${name}">

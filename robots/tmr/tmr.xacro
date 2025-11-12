@@ -8,40 +8,30 @@
                   use_fake_hardware:=false
                   fake_sensor_commands:=false">
 
-    <xacro:include filename="$(find franka_description)/robots/tmr/wheel.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/argo_drive.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmr/caster_wheel.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr/bogie.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr/rocker_arm.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmr/inertia.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmr/lidar.xacro" />
-    <xacro:include filename="$(find realsense2_description)/urdf/_d455.urdf.xacro" />
-    <xacro:include filename="$(find olv_module_descriptions)/urdf/olv-imu01.urdf.xacro" />
 
-    <xacro:property name="caster_radius" value="0.05" />
-    <xacro:property name="caster_mass" value="0.5" />
-    <xacro:property name="caster_joint_x" value="0.33" />
-    <xacro:property name="caster_joint_y" value="0.26" />
-    <xacro:property name="caster_vertical_offset" value="0.074" />
-    <xacro:property name="caster_steering_offset" value="0.035" />
-    <xacro:property name="caster_bogie_offset" value="0.01" />
+    <xacro:property name="caster_radius" value="0.03" />
+    <xacro:property name="caster_x" value="0.3" />
+    <xacro:property name="caster_y" value="0.2" />
+    <xacro:property name="caster_z" value="0.08" />
 
-    <xacro:property name="platform_height" value="0.3" />
-    <xacro:property name="base_depth" value="0.575" />
-    <xacro:property name="base_height" value="0.294" />
-    <xacro:property name="base_width" value="0.80" />
-    <xacro:property name="mass" value="75" />
+    <xacro:property name="rocker_arm_x" value="-0.3" />
+    <xacro:property name="rocker_arm_y" value="0.0" />
+    <xacro:property name="rocker_arm_z" value="0.0845" />
 
-    <xacro:property name="bogie_x" value="-0.18" />
-    <xacro:property name="bogie_y" value="0.25" />
-    <xacro:property name="bogie_z" value="0.075" />
-    <xacro:property name="bogie_caster_x" value="-0.13" />
+    <xacro:property name="argo_drive_radius" value="0.05" />
+    <xacro:property name="argo_drive_x" value="0.3" />
+    <xacro:property name="argo_drive_y" value="0.2" />
+    <xacro:property name="argo_drive_z" value="0.05" />
 
-    <xacro:property name="wheel_radius" value="0.12" />
-    <xacro:property name="wheel_width" value="0.08" />
-    <xacro:property name="wheel_bogie_offset_y" value="0.015" />
 
-    <xacro:property name="lidar_x" value="0.36057" />
-    <xacro:property name="lidar_y" value="0.17943" />
-    <xacro:property name="lidar_z" value="0.2215" />
+    <xacro:property name="lidar_x" value="0.3275" />
+    <xacro:property name="lidar_y" value="0.2175" />
+    <xacro:property name="lidar_z" value="0.19065" />
     <xacro:property name="lidar_pitch" value="${pi}" />
     <xacro:property name="lidar_yaw" value="${pi*3/4}" />
 
@@ -50,25 +40,26 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmr/visual/tmr_base.dae" />
+          <mesh filename="package://franka_description/meshes/tmr/visual/tmr_v02.stl" />
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
-        </material>platform_height
+        </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmr/collision/tmr_base_simplified.stl" />
+          <mesh filename="package://franka_description/meshes/tmr/collision/tmr_v02.stl" />
         </geometry>
       </collision>
     </link>
-platform_height
     <link name="base_inertia">
-      <xacro:inertia-box mass="${mass}" width="${base_width}" height="${base_height}"
-        depth="${base_depth}">
-        <origin xyz="0 0 ${platform_height/2} " rpy="0 0 0" />
-      </xacro:inertia-box>
+      <inertial>
+        <origin xyz="-0.008374 -0.002590 0.160190" rpy="0 0 0"/>
+        <mass value="117.841576"/>
+        <inertia ixx="4.231020518026" ixy="-0.919498121852" ixz="-0.058658325607"
+                iyy="7.057265973509" iyz="-0.004916844299" izz="9.251696036360"/>
+      </inertial>
     </link>
 
     <joint name="base_inertia_joint" type="fixed">
@@ -78,69 +69,40 @@ platform_height
 
     <!-- wheels and suspension -->
     <!-- front -->
-    <xacro:caster_wheel name="caster_front_left" parent="base_link" mass="${caster_mass}"
+    <xacro:caster_wheel name="caster_front_left" parent="base_link" 
       radius="${caster_radius}">
-      <origin xyz="${caster_joint_x} ${caster_joint_y} ${caster_radius + caster_vertical_offset}" />
+      <origin xyz="${caster_x} ${caster_y} ${caster_z}" />
     </xacro:caster_wheel>
+    <xacro:argo_drive name="argo_drive_front" parent="base_link" offset_wheel_sign="1"
+      radius="${argo_drive_radius}">
+      <origin xyz="${argo_drive_x} ${-argo_drive_y} ${argo_drive_z}" />
+    </xacro:argo_drive>
+   
+    <!-- rear -->
 
-    <xacro:caster_wheel name="caster_front_right" parent="base_link" mass="${caster_mass}"
-      radius="${caster_radius}">
-      <origin xyz="${caster_joint_x} ${-caster_joint_y} ${caster_radius + caster_vertical_offset}" />
-    </xacro:caster_wheel>
+    <xacro:rocker_arm name="rocker_arm" mass="3" parent="base_link">
+          <origin xyz="${rocker_arm_x} ${rocker_arm_y} ${rocker_arm_z}" />
+    </xacro:rocker_arm>
 
-    <!-- rear left -->
-    <xacro:bogie name="bogie_left" mass="3" parent="base_link">
-      <origin xyz="${bogie_x} ${bogie_y} ${bogie_z}" />
-    </xacro:bogie>
-
-    <xacro:wheel lr="left" mass="1" parent="bogie_left_link" radius="${wheel_radius}"
-      wheel_width="${wheel_width}">
-      <origin xyz="${-bogie_x} ${wheel_bogie_offset_y} ${wheel_radius -bogie_z}" />
-    </xacro:wheel>
-
-    <xacro:caster_wheel name="caster_rear_left" mass="${caster_mass}" parent="bogie_left_link"
+    <xacro:caster_wheel name="caster_rear_right" parent="rocker_arm_link"
       radius="${caster_radius}">
       <origin
-        xyz="${bogie_caster_x} ${caster_bogie_offset} ${caster_vertical_offset + caster_radius - bogie_z}" />
+        xyz="${-caster_x - rocker_arm_x} ${-caster_y - rocker_arm_y} ${caster_z - rocker_arm_z}" />
     </xacro:caster_wheel>
 
-    <!-- rear right -->
-    <xacro:bogie name="bogie_right" mass="3" parent="base_link">
-      <origin xyz="${bogie_x} ${-bogie_y} ${bogie_z}" />
-    </xacro:bogie>
-
-    <xacro:wheel lr="right" mass="1" parent="bogie_right_link" radius="${wheel_radius}"
-      wheel_width="${wheel_width}">
-      <origin xyz="${-bogie_x} ${-wheel_bogie_offset_y} ${wheel_radius -bogie_z}" />
-    </xacro:wheel>
-
-    <xacro:caster_wheel name="caster_rear_right" parent="bogie_right_link" mass="${caster_mass}"
-      radius="${caster_radius}">
+    <xacro:argo_drive name="argo_drive_rear" parent="rocker_arm_link" offset_wheel_sign="-1"
+      radius="${argo_drive_radius}">
       <origin
-        xyz="${bogie_caster_x} ${-caster_bogie_offset} ${caster_vertical_offset + caster_radius - bogie_z}" />
-    </xacro:caster_wheel>
+        xyz="${-argo_drive_x - rocker_arm_x} ${argo_drive_y - rocker_arm_y} ${argo_drive_z - rocker_arm_z}" />
+    </xacro:argo_drive>
 
     <!-- lidars -->
     <xacro:lidar name="lidar_front" parent="base_link">
-      <origin xyz="${lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw}" />
+      <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw}" />
     </xacro:lidar>
     <xacro:lidar name="lidar_rear" parent="base_link">
-      <origin xyz="${-lidar_x} ${lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw + pi}" />
+      <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw + pi}" />
     </xacro:lidar>
-
-    <!-- cameras -->
-    <xacro:sensor_d455 parent="base_link" name="camera_front_left">
-      <origin xyz="0.36299 0.09833 0.1084" rpy="${-pi/2} ${-pi/18} ${-pi/6}" />
-    </xacro:sensor_d455>
-    <xacro:sensor_d455 parent="base_link" name="camera_front_right">
-      <origin xyz="0.37749 -0.12345 0.108" rpy="${-pi/2} ${-pi/18} ${pi/6}" />
-    </xacro:sensor_d455>
-    <xacro:sensor_d455 parent="base_link" name="camera_rear_left">
-      <origin xyz="-0.37749 0.12345 0.10840" rpy="${-pi/2} ${-pi/18} ${pi/6 + pi}" />
-    </xacro:sensor_d455>
-    <xacro:sensor_d455 parent="base_link" name="camera_rear_right">
-      <origin xyz="-0.36299 -0.09833 0.1084" rpy="${-pi/2} ${-pi/18} ${-pi/6 + pi}" />
-    </xacro:sensor_d455>
 
     <xacro:if value="${ros2_control}">
       <xacro:include filename="$(find franka_description)/robots/tmr/tmr.ros2_control.xacro" />
@@ -151,16 +113,5 @@ platform_height
         fake_sensor_commands="${fake_sensor_commands}"
       />
     </xacro:if>
-
-    <!-- IMU -->
-    <link name="imu">
-    </link>
-    <joint name="base_to_imu" type="fixed">
-      <parent link="base_link"/>
-      <child link="imu"/>
-      <origin xyz="-0.176 0.0545 0.15" rpy="0 ${-pi/2} 0"/>
-    </joint>
-    <xacro:olv-imu01 namespace="olv-imu01" parent_link="imu" mounting_side="bottom" mounting_rotation="0">
-    </xacro:olv-imu01>
   </xacro:macro>
 </robot>
