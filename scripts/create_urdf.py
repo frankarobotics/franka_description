@@ -184,14 +184,14 @@ if __name__ == "__main__":
             for robot in ROBOTS:
                 description_types = ["urdf", "srdf"]
                 for description_type in description_types:
-                    if description_type == "srdf" and robot == "fr3_duo":
+                    if description_type == "srdf" and (robot == "fr3_duo" or robot == 'tmr_v02'):
                         continue
                     xacro_file = f"robots/{robot}/{robot}.{description_type}.xacro"
                     if HAND and EE != "none":
                         print(f"\n*** Creating {description_type} for {robot} and {EE} ***")
                         file_name = f"{robot}_{EE}"
                     else:
-                        if not HAND:
+                        if not HAND or robot == "tmr_v02":
                             print(
                                 "\n*** WARNING: --no-ee argument will be removed in future"
                                 " releases, introducing none as ee id***"

@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="tmr"
+  <xacro:macro name="tmr_v02"
     params="mobile_robot_id
                   robot_ip:=''
                   ros2_control:=true
                   use_fake_hardware:=false
                   fake_sensor_commands:=false">
 
-    <xacro:include filename="$(find franka_description)/robots/tmr/argo_drive.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr/caster_wheel.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr/rocker_arm.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr/inertia.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr/lidar.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr_v02/argo_drive.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr_v02/caster_wheel.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr_v02/rocker_arm.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr_v02/inertia.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmr_v02/lidar.xacro" />
 
     <xacro:property name="caster_radius" value="0.03" />
     <xacro:property name="caster_x" value="0.3" />
@@ -40,7 +40,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmr/visual/tmr_v02.stl" />
+          <mesh filename="package://franka_description/meshes/tmr_v02/visual/tmr_v02.stl" />
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
@@ -49,7 +49,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmr/collision/tmr_v02.stl" />
+          <mesh filename="package://franka_description/meshes/tmr_v02/collision/tmr_v02.stl" />
         </geometry>
       </collision>
     </link>
@@ -110,8 +110,8 @@
     </xacro:lidar>
 
     <xacro:if value="${ros2_control}">
-      <xacro:include filename="$(find franka_description)/robots/tmr/tmr.ros2_control.xacro" />
-      <xacro:tmr_ros2_control
+      <xacro:include filename="$(find franka_description)/robots/tmr_v02/tmr_v02.ros2_control.xacro" />
+      <xacro:tmr_v02_ros2_control
         mobile_robot_id="${mobile_robot_id}"
         robot_ip="${robot_ip}"
         use_fake_hardware="${use_fake_hardware}"

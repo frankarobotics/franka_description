@@ -28,7 +28,7 @@ endif()
 
 # Install launch files.
 install(DIRECTORY
-  launch robots end_effectors extras meshes rviz
+  launch robots end_effectors meshes rviz
   DESTINATION share/${PROJECT_NAME}/
 )
 
