@@ -18,9 +18,17 @@
           <color rgba="0.3 0.3 0.3 1.0"/>
         </material>
       </visual>
-      <xacro:inertia-box mass="${mass}" width="${width}" depth="${depth}" height="${height}">
-        <origin  rpy="${pi/2} 0 0"/>
-      </xacro:inertia-box>
+      <inertial>
+        <origin xyz="-0.000344 -0.021232 0.038239" rpy="0 0 0"/>
+        <mass value="5.183973"/>
+        <inertia
+          ixx="0.077004518565"
+          ixy="-0.000040505686"
+          ixz="-0.000026300402"
+          iyy="0.030693821144"
+          iyz="0.002939677599"
+          izz="0.083485865094"/>
+      </inertial>
     </link>
 
     <joint name="${name}_joint" type="revolute">

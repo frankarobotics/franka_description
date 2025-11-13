@@ -24,10 +24,17 @@
       <visual>
         <xacro:caster_base_geometry/>
       </visual>
-
-      <xacro:inertia-box mass="${mass}" width="${base_width}" height="${base_height}" depth="${base_depth}">
-        <origin xyz="0 0 ${-base_height/2}" />
-      </xacro:inertia-box>
+      <inertial>
+        <origin xyz="-0.02365 0.00005 -0.03651" rpy="0 0 0"/>
+        <mass value="0.7"/>
+        <inertia
+          ixx="0.00049538079"
+          ixy="-0.00000042663"
+          ixz="0.00020926011"
+          iyy="0.00070424109"
+          iyz="-0.00000050221"
+          izz="0.00048449394"/>
+      </inertial>
     </link>
 
     <joint name="${name}_fixed_joint" type="fixed">
@@ -64,8 +71,6 @@
       <collision>
         <xacro:caster_wheel_geometry/>
       </collision>
-
-      <xacro:inertia-cylinder mass="${mass}" radius="${radius}" h="${length}" />
 
     </link>
 
