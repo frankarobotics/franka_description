@@ -111,9 +111,47 @@
     <xacro:lidar name="lidar_front" parent="base_link">
       <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw}" />
     </xacro:lidar>
+    <link name="lidar_front_inertia">
+      <inertial>
+        <origin xyz="-0.000042 -0.000171 0.017345" rpy="0 0 0"/>
+        <mass value="0.591688"/>
+        <inertia
+          ixx="0.000710467462"
+          ixy="0.000002762520"
+          ixz="0.000001890211"
+          iyy="0.000713021983"
+          iyz="0.000001953103"
+          izz="0.000824272853"/>
+      </inertial>
+    </link>
+
+    <joint name="lidar_front_inertia_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="lidar_front_inertia" />
+      <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 0 0" />
+    </joint>
+
     <xacro:lidar name="lidar_rear" parent="base_link">
       <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw + pi}" />
     </xacro:lidar>
+    <link name="lidar_rear_inertia">
+      <inertial>
+        <origin xyz="0.000042 0.000171 0.017345" rpy="0 0 0"/>
+        <mass value="0.591688"/>
+        <inertia
+          ixx="0.000710467462"
+          ixy="0.000002766806"
+          ixz="-0.000001455643"
+          iyy="0.000713021983"
+          iyz="-0.000000197438"
+          izz="0.000824272853"/>
+      </inertial>
+    </link>
+    <joint name="lidar_rear_inertia_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="lidar_rear_inertia" />
+      <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 0 0" />
+    </joint>
 
     <xacro:if value="${ros2_control}">
       <xacro:include filename="$(find franka_description)/robots/tmr_v02/tmr_v02.ros2_control.xacro" />
