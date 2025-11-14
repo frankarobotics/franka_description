@@ -11,15 +11,6 @@
   <!-- Define arguments -->
   <xacro:arg name="arm_id" default="tmr_v02" />
 
-  <!-- Define arguments -->
-  <xacro:arg name="xyz_value" default="0 0 0" />
-
-  <!-- Define arguments -->
-  <xacro:arg name="rpy_value" default="0 0 0" />
-
-  <!-- Should self-collision be enabled? -->
-  <xacro:arg name="with_sc" default="false" />
-
   <!-- Is the robot being controlled with ros2_control?" -->
   <xacro:arg name="ros2_control" default="false" />
 
@@ -32,22 +23,24 @@
   <!-- Should fake sensors be used? -->
   <xacro:arg name="fake_sensor_commands" default="false" />
 
-  <!-- Prefixes for arm -->
-  <xacro:arg name="arm_prefix" default="platform" />
+  <!-- Should the reduced kinematic version (without caster wheels) be used? -->
+  <xacro:arg name="reduced_version" default="false" />
 
 
   <link name="base">
   </link>
 
-  <joint name="$(arg arm_prefix)_base" type="fixed">
+  <joint name="base_joint" type="fixed">
     <parent link="base"/>
     <child link="base_link"/>
-    <origin rpy="$(arg rpy_value)" xyz="$(arg xyz_value)"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
+
   <xacro:tmr_v02 mobile_robot_id="$(arg arm_id)"
               robot_ip="$(arg robot_ip)"
               ros2_control="$(arg ros2_control)"
               use_fake_hardware="$(arg use_fake_hardware)"
-              fake_sensor_commands="$(arg fake_sensor_commands)"/>
+              fake_sensor_commands="$(arg fake_sensor_commands)"
+              reduced_version="$(arg reduced_version)"/>
 
 </robot>

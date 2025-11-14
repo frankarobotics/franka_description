@@ -6,7 +6,8 @@
                   robot_ip:=''
                   ros2_control:=true
                   use_fake_hardware:=false
-                  fake_sensor_commands:=false">
+                  fake_sensor_commands:=false
+                  reduced_version:=false">
 
     <xacro:include filename="$(find franka_description)/robots/tmr_v02/argo_drive.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmr_v02/caster_wheel.xacro" />
@@ -74,10 +75,13 @@
 
     <!-- wheels and suspension -->
     <!-- front -->
-    <xacro:caster_wheel name="caster_front_left" parent="base_link" 
-      radius="${caster_radius}">
-      <origin xyz="${caster_x} ${caster_y} ${caster_z}" />
-    </xacro:caster_wheel>
+    <xacro:unless value="${reduced_version}">
+      <xacro:caster_wheel name="caster_front_left" parent="base_link" 
+        radius="${caster_radius}">
+        <origin xyz="${caster_x} ${caster_y} ${caster_z}" />
+      </xacro:caster_wheel>
+    </xacro:unless>
+
     <xacro:argo_drive name="argo_drive_front" parent="base_link" offset_wheel_sign="1"
       radius="${argo_drive_radius}">
       <origin xyz="${argo_drive_x} ${-argo_drive_y} ${argo_drive_z}" />
@@ -89,11 +93,13 @@
           <origin xyz="${rocker_arm_x} ${rocker_arm_y} ${rocker_arm_z}" />
     </xacro:rocker_arm>
 
-    <xacro:caster_wheel name="caster_rear_right" parent="rocker_arm_link"
-      radius="${caster_radius}">
-      <origin
-        xyz="${-caster_x - rocker_arm_x} ${-caster_y - rocker_arm_y} ${caster_z - rocker_arm_z}" />
-    </xacro:caster_wheel>
+    <xacro:unless value="${reduced_version}">
+      <xacro:caster_wheel name="caster_rear_right" parent="rocker_arm_link"
+        radius="${caster_radius}">
+        <origin
+          xyz="${-caster_x - rocker_arm_x} ${-caster_y - rocker_arm_y} ${caster_z - rocker_arm_z}" />
+      </xacro:caster_wheel>
+    </xacro:unless>
 
     <xacro:argo_drive name="argo_drive_rear" parent="rocker_arm_link" offset_wheel_sign="-1"
       radius="${argo_drive_radius}">
