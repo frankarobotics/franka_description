@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:include filename="$(find franka_description)/robots/tmr_v02/nanoscan3/common.xacro" />
-  <xacro:include filename="$(find franka_description)/robots/tmr_v02/nanoscan3/nanoscan3/gazebo_macro.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/nanoscan3/common.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/nanoscan3/nanoscan3/gazebo_macro.xacro" />
 
   <!-- joint offsets when mounted on frame -->
   <xacro:property name="base_x" value="0.0803"/>

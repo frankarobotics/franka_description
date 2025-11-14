@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="tmr_v02_ros2_control"
+  <xacro:macro name="tmrv0_2_ros2_control"
     params="mobile_robot_id
             robot_ip
             use_fake_hardware
@@ -10,7 +10,7 @@
       <hardware>
         <param name="version">0.1.0</param>
         <param name="mobile_robot_id">${mobile_robot_id}</param>
-        <param name="arm_id">tmr_v02</param>
+        <param name="arm_id">tmrv0_2</param>
         <xacro:if value="${use_fake_hardware}">
           <plugin>fake_components/GenericSystem</plugin>
           <param name="mock_sensor_commands">${fake_sensor_commands}</param>

@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-  <xacro:include filename="$(find franka_description)/robots/tmr_v02/inertia.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
 
-  <xacro:macro name="caster_wheel" params="name parent length:='0.015' radius:='0.03' caster_joint_z:='-0.05' caster_steering_offset:='-0.035' *origin">
+  <xacro:macro name="argo_drive" params="name parent length:='0.04' radius:='0.05' offset_wheel_sign:='1' *origin">
 
-    <xacro:property name="base_width" value="0.04" />
-    <xacro:property name="base_depth" value="0.03" />
-    <xacro:property name="base_height" value="0.003" />
+    <xacro:property name="base_width" value="0.17" />
+    <xacro:property name="base_depth" value="0.25" />
+    <xacro:property name="base_height" value="0.077" />
+    <xacro:property name="offset_wheel" value="0.085" />
     <xacro:property name="mass" value="0.5" />
 
     <link name="${name}_fixed_link" >
       <xacro:macro name="caster_base_geometry" params="xyz:='0 0 0'">
-        <origin xyz="0 0 ${-base_height/2}" />
+        <origin xyz="0 ${offset_wheel_sign*(base_depth/2 - offset_wheel)} ${base_height/2 - 0.004}" />
         <geometry>
           <box size="${base_width} ${base_depth} ${base_height}" />
         </geometry>
@@ -25,16 +26,16 @@
         <xacro:caster_base_geometry/>
       </visual>
       <inertial>
-        <origin xyz="-0.02365 0.00005 -0.03651" rpy="0 0 0"/>
-        <mass value="0.7"/>
+        <origin xyz="-0.00019 ${offset_wheel_sign*0.04522} 0.02947" rpy="0 0 0"/>
+        <mass value="11.5"/>
         <inertia
-          ixx="0.00049538079"
-          ixy="-0.00000042663"
-          ixz="0.00020926011"
-          iyy="0.00070424109"
-          iyz="-0.00000050221"
-          izz="0.00048449394"/>
-      </inertial>
+          ixx="0.07060497424"
+          ixy="-0.00025482709"
+          ixz="${offset_wheel_sign* (-0.00006283102)}"
+          iyy="0.03433835031"
+          iyz="${offset_wheel_sign*0.00249596715}"
+          izz="0.08926325955"/>
+      </inertial> 
     </link>
 
     <joint name="${name}_fixed_joint" type="fixed">
@@ -55,27 +56,29 @@
     </joint>
 
     <link name="${name}_link" >
-      <xacro:macro name="caster_wheel_geometry">
+      <xacro:macro name="argo_drive_geometry">
         <origin rpy="${pi/2} 0 0" />
         <geometry>
            <cylinder length="${length}" radius="${radius}" />
         </geometry>
-        <material name="orange">
-          <color rgba="1.0 0.5 0.0 1.0"/>
+        <material name="yellowish_brown">
+          <color rgba="0.8 0.6 0.2 1.0"/>
         </material>
       </xacro:macro>
 
       <visual>
-        <xacro:caster_wheel_geometry/>
+        <xacro:argo_drive_geometry/>
       </visual>
       <collision>
-        <xacro:caster_wheel_geometry/>
+        <xacro:argo_drive_geometry/>
       </collision>
+
+      <xacro:inertia-cylinder mass="${mass}" radius="${radius}" h="${length}" />
 
     </link>
 
     <joint name="${name}_joint" type="continuous">
-      <origin xyz ="${caster_steering_offset} 0 ${caster_joint_z}" rpy="0 0 0" />
+      <origin xyz ="0 0 0" rpy="0 0 0" />
       <parent link="${name}_steering_link" />
       <child  link="${name}_link" />
       <axis   xyz="0 1 0" />

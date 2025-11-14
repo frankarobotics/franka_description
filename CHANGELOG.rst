@@ -13,7 +13,7 @@ Changelog for package franka_description
 1.3.0 (2025-10-31)
 ------------------
 * fix: group definition in SRDF file checking for right TCP
-* feat: add fr3v2.1 robot variant
+* feat: add fr3v2_1 robot variant
 
 1.2.0 (2025-10-24)
 ------------------

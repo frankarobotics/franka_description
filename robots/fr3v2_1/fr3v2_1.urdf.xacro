@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="fr3v2.1">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="fr3v2_1">
 
   <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
 
@@ -8,7 +8,7 @@
     argument arm_id is no longer supported and will be removed in the future.
     This argument is ignored.
   -->
-  <xacro:arg name="arm_id" default="fr3v2.1" />
+  <xacro:arg name="arm_id" default="fr3v2_1" />
 
   <!-- The prefix of the robot -->
   <xacro:arg name="arm_prefix" default="" />
@@ -68,12 +68,12 @@
   <xacro:property name="prefix" value="$(arg arm_prefix)"/>
   <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
 
-  <xacro:franka_robot arm_id="fr3v2.1"
-                      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3v2.1/joint_limits.yaml')}"
-                      inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3v2.1/inertials.yaml')}"
-                      kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2.1/kinematics.yaml')}"
-                      dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2.1/dynamics.yaml')}"
-                      accelerometer_config="${xacro.load_yaml('$(find franka_description)/robots/fr3v2.1/accelerometers.yaml')}"
+  <xacro:franka_robot arm_id="fr3v2_1"
+                      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/joint_limits.yaml')}"
+                      inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/inertials.yaml')}"
+                      kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/kinematics.yaml')}"
+                      dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/dynamics.yaml')}"
+                      accelerometer_config="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/accelerometers.yaml')}"
                       gazebo="$(arg gazebo)"
                       hand="$(arg hand)"
                       ee_id="$(arg ee_id)"

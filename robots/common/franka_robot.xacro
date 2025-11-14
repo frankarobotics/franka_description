@@ -57,7 +57,7 @@
       <xacro:if value="${arm_id == 'fp3'}">
         <xacro:property name="ee_color" value="black" />
       </xacro:if>
-      <xacro:if value="${arm_id == 'fr3' or arm_id == 'fer' or arm_id == 'fr3v2' or arm_id == 'fr3v2.1'}">
+      <xacro:if value="${arm_id == 'fr3' or arm_id == 'fer' or arm_id == 'fr3v2' or arm_id == 'fr3v2_1'}">
         <xacro:property name="ee_color" value="white" />
       </xacro:if>
       <xacro:property name="connection" value="${special_connection if special_connection != '' else arm_id + '_link8'}" />

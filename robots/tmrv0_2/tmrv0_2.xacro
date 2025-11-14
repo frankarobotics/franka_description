@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="tmr_v02"
+  <xacro:macro name="tmrv0_2"
     params="mobile_robot_id
                   robot_ip:=''
                   ros2_control:=true
@@ -9,11 +9,11 @@
                   fake_sensor_commands:=false
                   reduced_version:=false">
 
-    <xacro:include filename="$(find franka_description)/robots/tmr_v02/argo_drive.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr_v02/caster_wheel.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr_v02/rocker_arm.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr_v02/inertia.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmr_v02/lidar.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/argo_drive.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/caster_wheel.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/rocker_arm.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/lidar.xacro" />
 
     <xacro:property name="caster_radius" value="0.03" />
     <xacro:property name="caster_x" value="0.3" />
@@ -41,7 +41,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmr_v02/visual/tmr_v02.stl" />
+          <mesh filename="package://franka_description/meshes/tmrv0_2/visual/tmrv0_2.stl" />
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
@@ -50,7 +50,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmr_v02/collision/tmr_v02.stl" />
+          <mesh filename="package://franka_description/meshes/tmrv0_2/collision/tmrv0_2.stl" />
         </geometry>
       </collision>
     </link>
@@ -154,8 +154,8 @@
     </joint>
 
     <xacro:if value="${ros2_control}">
-      <xacro:include filename="$(find franka_description)/robots/tmr_v02/tmr_v02.ros2_control.xacro" />
-      <xacro:tmr_v02_ros2_control
+      <xacro:include filename="$(find franka_description)/robots/tmrv0_2/tmrv0_2.ros2_control.xacro" />
+      <xacro:tmrv0_2_ros2_control
         mobile_robot_id="${mobile_robot_id}"
         robot_ip="${robot_ip}"
         use_fake_hardware="${use_fake_hardware}"

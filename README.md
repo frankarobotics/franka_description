@@ -31,7 +31,7 @@ usage: create_urdf.py [-h] [--robot-ee] [--no-ee] [--with-sc] [--abs-path] [--ho
 Generate franka robots urdf models. Script to be executed from franka_description root folder!
 
 positional arguments:
-  robot_model          id of the robot model (accepted values are: fr3v2.1, fr3v2, fr3, fp3, fer, fr3_duo, tmr_v02, none)
+  robot_model          id of the robot model (accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2, none)
 
 optional arguments:
   -h, --help           show this help message and exit
@@ -53,7 +53,7 @@ The urdf file can be visualized via RViz with the following command:
 # visualize_franka.sh launches the visualize_franka.launch.py in a ros2 instance running in the docker container
 # The arguments given to the .sh script are forwarded as launch arguments
 # Accepted launch arguments are:
-#     arm_id - accepted values are: fr3v2.1, fr3v2, fr3, fp3, fer, fr3_duo, tmr_v02
+#     arm_id - accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2
 #     load_gripper - accepted values are: true (default ee_id is franka_hand), false (ee_id will be ignored) [WARNING: this argument will be removed in future releases, introducing "none" as ee id]
 #     ee_id - accepted values are: franka_hand, cobot_pump
 
@@ -70,14 +70,14 @@ If you want to visualize the fr3 duo designed for multiple controller managers, 
 
 ### Figuring out your arm type
 
-Identifying which arm type you have purchased is not always obvious, espcially for fr3, fr3v2 and fr3v2.1, as the differences are subtle. The easiest way is to check the arm type in Desk->Settings->Dashboard:
+Identifying which arm type you have purchased is not always obvious, espcially for fr3, fr3v2 and fr3v2_1, as the differences are subtle. The easiest way is to check the arm type in Desk->Settings->Dashboard:
 
 | franka_description | Desk      |
 |--------------------|-----------|
 | fp3                | Arm3P     |
 | fr3                | Arm3R     |
 | fr3v2              | Arm3Rv2   |
-| fr3v2.1            | Arm3Rv2.1 |
+| fr3v2_1            | Arm3Rv2.1 |
 
 If you have an fer or a system image older than 5.9.1 installed, the arm type my not be correctly displayed in Desk.
 

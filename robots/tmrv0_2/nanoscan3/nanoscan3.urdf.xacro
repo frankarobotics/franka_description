@@ -10,7 +10,7 @@
 
   <!-- Load robot's macro with parameters -->
   <!-- set prefix if multiple robots are used -->
-  <xacro:include filename="$(find sick_safetyscanners2)/description/robots/tmr_v02/nanoscan3/nanoscan3_macro.xacro"/>
+  <xacro:include filename="$(find sick_safetyscanners2)/description/robots/tmrv0_2/nanoscan3/nanoscan3_macro.xacro"/>
   <xacro:property name="mounting_kit" value="$(arg mounting_kit)"/>
   <xacro:nanoscan3 
     name="nanoscan3"
