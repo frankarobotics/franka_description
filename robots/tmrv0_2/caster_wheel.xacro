@@ -24,6 +24,9 @@
       <visual>
         <xacro:caster_base_geometry/>
       </visual>
+      <collision>
+        <xacro:caster_base_geometry/>
+      </collision>
       <inertial>
         <origin xyz="-0.02365 0.00005 -0.03651" rpy="0 0 0"/>
         <mass value="0.7"/>

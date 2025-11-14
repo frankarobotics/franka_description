@@ -12,7 +12,7 @@
     <xacro:property name="mass" value="0.5" />
 
     <link name="${name}_fixed_link" >
-      <xacro:macro name="caster_base_geometry" params="xyz:='0 0 0'">
+      <xacro:macro name="argo_drive_base_geometry" params="xyz:='0 0 0'">
         <origin xyz="0 ${offset_wheel_sign*(base_depth/2 - offset_wheel)} ${base_height/2 - 0.004}" />
         <geometry>
           <box size="${base_width} ${base_depth} ${base_height}" />
@@ -23,8 +23,11 @@
       </xacro:macro>
 
       <visual>
-        <xacro:caster_base_geometry/>
+        <xacro:argo_drive_base_geometry/>
       </visual>
+      <collision>
+        <xacro:argo_drive_base_geometry/>
+      </collision>
       <inertial>
         <origin xyz="-0.00019 ${offset_wheel_sign*0.04522} 0.02947" rpy="0 0 0"/>
         <mass value="11.5"/>
