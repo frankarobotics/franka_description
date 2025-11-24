@@ -3,13 +3,22 @@
 
   <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
 
-  <xacro:macro name="argo_drive" params="name parent length:='0.04' radius:='0.05' offset_wheel_sign:='1' *origin">
+  <xacro:macro name="argo_drive" params="name mobile_robot_id parent length:='0.04' radius:='0.05' offset_wheel_sign:='1' *origin">
 
     <xacro:property name="base_width" value="0.17" />
     <xacro:property name="base_depth" value="0.25" />
     <xacro:property name="base_height" value="0.077" />
     <xacro:property name="offset_wheel" value="0.085" />
     <xacro:property name="mass" value="0.5" />
+
+    <xacro:if value="${name == 'argo_drive_front'}">
+      <xacro:property name="steering_joint" value="0" />
+      <xacro:property name="driving_joint" value="1" />
+    </xacro:if>
+    <xacro:if value="${name == 'argo_drive_rear'}">
+      <xacro:property name="steering_joint" value="2" />
+      <xacro:property name="driving_joint" value="3" />
+    </xacro:if>
 
     <link name="${name}_fixed_link" >
       <xacro:macro name="argo_drive_base_geometry" params="xyz:='0 0 0'">
@@ -49,7 +58,7 @@
 
     <link name="${name}_steering_link" />
 
-    <joint name="${name}_steering_joint" type="continuous">
+    <joint name="${mobile_robot_id}_joint_${steering_joint}" type="continuous">
       <origin xyz="0 0 0"/>
       <parent link="${name}_fixed_link" />
       <child  link="${name}_steering_link" />
@@ -80,7 +89,7 @@
 
     </link>
 
-    <joint name="${name}_joint" type="continuous">
+    <joint name="${mobile_robot_id}_joint_${driving_joint}" type="continuous">
       <origin xyz ="0 0 0" rpy="0 0 0" />
       <parent link="${name}_steering_link" />
       <child  link="${name}_link" />

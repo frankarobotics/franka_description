@@ -23,25 +23,43 @@
         </xacro:if>
       </hardware>
 
-      <xacro:macro name="configure_steering_joint" params="joint_name initial_position">
+      <xacro:macro name="configure_steering_joint" params="joint_name">
         <joint name="${joint_name}">
+          <command_interface name="position"/>
           <state_interface name="position">
             <param name="initial_value">0.0</param>
           </state_interface>
         </joint>
       </xacro:macro>
 
-      <xacro:macro name="configure_driving_joint" params="joint_name initial_position">
+      <xacro:macro name="configure_driving_joint" params="joint_name">
         <joint name="${joint_name}">
+          <command_interface name="velocity"/>
           <state_interface name="velocity">
             <param name="initial_value">0.0</param>
           </state_interface>
         </joint>
+      </xacro:macro>
 
-      <xacro:configure_steering_joint joint_name="argo_drive_front_steering_joint" initial_position="0.0" />
-      <xacro:configure_driving_joint joint_name="argo_drive_front_joint" initial_position="0.0" />
-      <xacro:configure_steering_joint joint_name="argo_drive_rear_steering_joint" initial_position="0.0" />
-      <xacro:configure_driving_joint joint_name="argo_drive_rear_joint" initial_position="0.0" />
+      <xacro:configure_steering_joint joint_name="${mobile_robot_id}_joint_0"/>
+      <xacro:configure_driving_joint joint_name="${mobile_robot_id}_joint_1"/>
+      <xacro:configure_steering_joint joint_name="${mobile_robot_id}_joint_2"/>
+      <xacro:configure_driving_joint joint_name="${mobile_robot_id}_joint_3"/>
+
+      <xacro:macro name="general_purpose_io" params="prefix command_interface index">
+        <gpio name="${prefix}">
+          <command_interface name="${command_interface}"/>
+          <param name="index">${index}</param>
+        </gpio>
+      </xacro:macro>
+
+      <!-- Cartesian velocity interfaces -->
+      <xacro:general_purpose_io prefix="vx" command_interface="cartesian_velocity" index="0"/>
+      <xacro:general_purpose_io prefix="vy" command_interface="cartesian_velocity" index="1"/>
+      <xacro:general_purpose_io prefix="vz" command_interface="cartesian_velocity" index="2"/>
+      <xacro:general_purpose_io prefix="wx" command_interface="cartesian_velocity" index="3"/>
+      <xacro:general_purpose_io prefix="wy" command_interface="cartesian_velocity" index="4"/>
+      <xacro:general_purpose_io prefix="wz" command_interface="cartesian_velocity" index="5"/>
 
     </ros2_control>
   </xacro:macro>

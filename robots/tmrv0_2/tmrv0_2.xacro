@@ -82,7 +82,7 @@
       </xacro:caster_wheel>
     </xacro:unless>
 
-    <xacro:argo_drive name="argo_drive_front" parent="base_link" offset_wheel_sign="1"
+    <xacro:argo_drive name="argo_drive_front" mobile_robot_id="${mobile_robot_id}" parent="base_link" offset_wheel_sign="1"
       radius="${argo_drive_radius}">
       <origin xyz="${argo_drive_x} ${-argo_drive_y} ${argo_drive_z}" />
     </xacro:argo_drive>
@@ -101,7 +101,7 @@
       </xacro:caster_wheel>
     </xacro:unless>
 
-    <xacro:argo_drive name="argo_drive_rear" parent="rocker_arm_link" offset_wheel_sign="-1"
+    <xacro:argo_drive name="argo_drive_rear" mobile_robot_id="${mobile_robot_id}" parent="rocker_arm_link" offset_wheel_sign="-1"
       radius="${argo_drive_radius}">
       <origin
         xyz="${-argo_drive_x - rocker_arm_x} ${argo_drive_y - rocker_arm_y} ${argo_drive_z - rocker_arm_z}" />
