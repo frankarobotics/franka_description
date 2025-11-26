@@ -28,7 +28,8 @@
                       no_prefix:='false'
                       arm_prefix:=''
                       description_pkg:='franka_description'
-                      connected_to:='base'">
+                      connected_to:='base'
+                      use_default_controller_yaml:=true">
                       
     <xacro:include filename="$(find franka_description)/robots/common/utils.xacro" />
 
@@ -158,12 +159,13 @@
       <xacro:franka_arm_ros2_control
           arm_id="${arm_id}"
           robot_ip="${robot_ip}"
-          use_fake_hardware="${use_fake_hardware}"
+          use_fake_hardware="${use_fake_hardware}" 
           fake_sensor_commands="${fake_sensor_commands}"
           gazebo="${gazebo}"
           hand="${hand}"
           gazebo_effort="${gazebo_effort}"
           arm_prefix="${arm_prefix}"
+          use_default_controller_yaml="${use_default_controller_yaml}"
       />
     </xacro:if>
 
