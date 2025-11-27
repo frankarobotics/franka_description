@@ -10,7 +10,7 @@
                  hand:=false
                  gazebo_effort:=false
                  arm_prefix:=''
-                 use_default_controller_yaml:=true">
+                 controller_yaml:='' ">
 
     <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
     <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
@@ -106,12 +106,12 @@
       <gazebo>
         <plugin filename="franka_gz_ros2_control-system" name="gz_ros2_control::GZROS2ControlPlugin">
           
-          <xacro:if value="${use_default_controller_yaml}">
-          <parameters>$(find franka_gazebo_bringup)/config/franka_gazebo_controllers.yaml</parameters>
+          <xacro:if value="${controller_yaml != ''}">
+            <parameters>${controller_yaml}</parameters>
           </xacro:if>
 
-          <xacro:unless value="${use_default_controller_yaml}">
-            <parameters>$(find rox_bringup)/configs/franka/simulation_controllers.yaml</parameters>
+          <xacro:unless value="${controller_yaml != ''}">
+            <parameters>$(find franka_gazebo_bringup)/config/franka_gazebo_controllers.yaml</parameters>
           </xacro:unless>
 
         </plugin>
