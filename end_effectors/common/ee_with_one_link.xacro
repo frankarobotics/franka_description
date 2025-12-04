@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ee_with_one_link">
   <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
-  <xacro:macro name="ee_with_one_link" params="connected_to:='' arm_id arm_prefix:='' ee_id ee_inertials rpy_ee:='0 0 0' xyz_ee:='0 0 0' tcp_xyz:='0 0 0' tcp_rpy:='0 0 0' safety_distance:=0 gazebo:=false description_pkg:=franka_description with_sc:=false">
+  <xacro:macro name="ee_with_one_link" params="connected_to:='' robot_id arm_prefix:='' ee_id ee_inertials rpy_ee:='0 0 0' xyz_ee:='0 0 0' tcp_xyz:='0 0 0' tcp_rpy:='0 0 0' safety_distance:=0 gazebo:=false description_pkg:=franka_description with_sc:=false">
     <xacro:property name="ee_prefix" default="robot_"/>
-    <xacro:unless value="${arm_id == ''}">
-      <xacro:property name="ee_prefix" value="${arm_prefix}${arm_id}_" />
+    <xacro:unless value="${robot_id == ''}">
+      <xacro:property name="ee_prefix" value="${arm_prefix}${robot_id}_" />
     </xacro:unless>
     <xacro:unless value="${connected_to == ''}">
       <joint name="${ee_prefix}${ee_id}_joint" type="fixed">

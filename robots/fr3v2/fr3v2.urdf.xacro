@@ -3,12 +3,9 @@
 
   <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
 
-  <!--
-    DEPRECATION NOTICE
-    argument arm_id is no longer supported and will be removed in the future.
-    This argument is ignored.
-  -->
-  <xacro:arg name="arm_id" default="fr3v2" />
+  <!-- Define arguments -->
+  <!-- The ID of the robot model to be used -->
+  <xacro:arg name="robot_id" default="fr3v2" />
 
   <!-- The prefix of the robot -->
   <xacro:arg name="arm_prefix" default="" />
@@ -68,7 +65,7 @@
   <xacro:property name="prefix" value="$(arg arm_prefix)"/>
   <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
 
-  <xacro:franka_robot arm_id="fr3v2"
+  <xacro:franka_robot robot_id="fr3v2"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3v2/joint_limits.yaml')}"
                       inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3v2/inertials.yaml')}"
                       kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2/kinematics.yaml')}"

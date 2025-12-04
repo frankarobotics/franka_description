@@ -25,11 +25,11 @@ def str_to_bool(s):
 def convert_xacro_to_urdf(xacro_file, only_ee, with_sc, ee_id, hand, no_prefix, robot):
     """Convert xacro file into a URDF file."""
     mappings = {
-        "with_sc": str(with_sc),
-        "ee_id": str(ee_id),
-        "hand": str(hand),
-        "no_prefix": str(no_prefix),
-        "arm_id": str(robot),
+        'with_sc': str(with_sc),
+        'ee_id': str(ee_id),
+        'hand': str(hand),
+        'no_prefix': str(no_prefix),
+        'robot_id': str(robot),
     }
 
     if only_ee and robot == "":

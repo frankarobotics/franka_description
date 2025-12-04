@@ -3,7 +3,7 @@
   <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
   <xacro:macro name="franka_hand"
                params="connected_to:=''
-                       arm_id arm_prefix:=''
+                       robot_id arm_prefix:=''
                        ee_id ee_inertials
                        rpy_ee:='0 0 0'
                        xyz_ee:='0 0 0'
@@ -15,8 +15,8 @@
                        with_sc:=false
                        no_prefix:=false">
     <xacro:property name="ee_prefix" default="robot_"/>
-    <xacro:unless value="${arm_id == ''}">
-      <xacro:property name="ee_prefix" value="${arm_prefix}${arm_id}_" />
+    <xacro:unless value="${robot_id == ''}">
+      <xacro:property name="ee_prefix" value="${arm_prefix}${robot_id}_" />
     </xacro:unless>
     <xacro:unless value="${connected_to == ''}">
       <joint name="${ee_prefix}hand_joint" type="fixed">

@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:macro name="franka_arm_ros2_control"
-         params="arm_id
+         params="robot_id
                  robot_ip
                  use_fake_hardware:=false
                  fake_sensor_commands:=false
@@ -15,7 +15,7 @@
     <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
         <hardware>
           <param name="version">0.1.0</param>
-          <param name="arm_id">${arm_id}</param>
+          <param name="robot_id">${robot_id}</param>
           <param name="prefix">${arm_prefix}</param>
           <xacro:if value="${use_fake_hardware}">
             <plugin>fake_components/GenericSystem</plugin>
@@ -59,15 +59,15 @@
       </xacro:macro>
 
 
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint1" initial_position="0.0"/>
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint2" initial_position="${-pi/4}"/>
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint3" initial_position="0.0"/>
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint4" initial_position="${-3*pi/4}"/>
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint5" initial_position="0.0"/>
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint6" initial_position="${pi/2}"/>
-      <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_joint7" initial_position="${pi/4}"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint1" initial_position="0.0"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint2" initial_position="${-pi/4}"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint3" initial_position="0.0"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint4" initial_position="${-3*pi/4}"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint5" initial_position="0.0"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint6" initial_position="${pi/2}"/>
+      <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_joint7" initial_position="${pi/4}"/>
       <xacro:if value="${gazebo and hand}">
-        <xacro:configure_joint joint_name="${arm_prefix}${arm_id}_finger_joint1" initial_position="0.0" />
+        <xacro:configure_joint joint_name="${arm_prefix}${robot_id}_finger_joint1" initial_position="0.0" />
       </xacro:if>
 
 

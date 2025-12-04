@@ -17,13 +17,13 @@ from os import path
 import xacro
 from ament_index_python.packages import get_package_share_directory
 
-arm_id_ = "fer"
+robot_id_ = 'fer'
 
 xacro_file_name = path.join(
-    get_package_share_directory("franka_description"),
-    "robots",
-    arm_id_,
-    arm_id_ + ".urdf.xacro",
+    get_package_share_directory('franka_description'),
+    'robots',
+    robot_id_,
+    robot_id_ + '.urdf.xacro',
 )
 
 
@@ -32,8 +32,8 @@ def test_load():
     urdf = xacro.process_file(
         xacro_file_name,
         mappings={
-            "arm_id": "fer",
-            "ee_id": "none",
+            'robot_id': 'fer',
+            'ee_id': 'none',
         },
     ).toxml()
     assert urdf.find("fer_finger_joint1") == -1
@@ -42,7 +42,7 @@ def test_load():
 def test_load_with_gripper():
     """Test of hand parameter equal to a value."""
     urdf = xacro.process_file(
-        xacro_file_name, mappings={"arm_id": "fer", "ee_id": "franka_hand"}
+        xacro_file_name, mappings={'robot_id': 'fer', 'ee_id': 'franka_hand'}
     ).toxml()
     assert urdf.find("fer_finger_joint") != -1
 
