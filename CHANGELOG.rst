@@ -2,6 +2,11 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+UNRELEASED
+----------
+* feat: tmrv0_2 added to franka description
+* feat: arm_id replaced by robot_id
+
 1.4.0 (2025-11-10)
 ----------
 * feat: updated kinematics, meshes, inertials, materials for fr3_duo mount and cover
