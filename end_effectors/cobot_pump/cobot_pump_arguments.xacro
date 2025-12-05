@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Name for the robot -->
-  <xacro:arg name="robot_id" default="fp3" />
+  <xacro:arg name="robot_type" default="fp3" />
 
   <!-- End-effector id" -->
   <xacro:arg name="ee_id" default="cobot_pump" />

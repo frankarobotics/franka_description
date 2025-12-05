@@ -5,7 +5,7 @@
 
   <!-- Define arguments -->
   <!-- The ID of the robot model to be used -->
-  <xacro:arg name="robot_id" default="tmrv0_2" />
+  <xacro:arg name="robot_type" default="tmrv0_2" />
 
   <!-- Is the robot being controlled with ros2_control?" -->
   <xacro:arg name="ros2_control" default="false" />
@@ -32,7 +32,7 @@
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
 
-  <xacro:tmrv0_2 mobile_robot_id="$(arg robot_id)"
+  <xacro:tmrv0_2 mobile_robot_type="$(arg robot_type)"
               robot_ip="$(arg robot_ip)"
               ros2_control="$(arg ros2_control)"
               use_fake_hardware="$(arg use_fake_hardware)"

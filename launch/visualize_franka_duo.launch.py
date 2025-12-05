@@ -23,8 +23,8 @@ from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 
 
-def robot_state_publisher_spawner(context: LaunchContext, robot_id, arm_prefix, load_gripper, ee_id):
-    robot_id_str = robot_id
+def robot_state_publisher_spawner(context: LaunchContext, robot_type, arm_prefix, load_gripper, ee_id):
+    robot_type_str = robot_type
     arm_prefix_str = arm_prefix
     load_gripper_str = context.perform_substitution(load_gripper)
     ee_id_str = context.perform_substitution(ee_id)
@@ -32,10 +32,10 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_id, arm_prefix, 
         get_package_share_directory('franka_description'),
         'robots',
         'fr3_duo',
-        'fr3_duo_' + robot_id_str + '.urdf.xacro',
+        'fr3_duo_' + robot_type_str + '.urdf.xacro',
     )
 
-    if robot_id_str == 'fixed_structure':
+    if robot_type_str == 'fixed_structure':
         robot_description = xacro.process_file(franka_xacro_filepath).toprettyxml(indent='  ')
     else:
         robot_description = xacro.process_file(
@@ -51,8 +51,8 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_id, arm_prefix, 
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
-            name='robot_state_publisher_' + robot_id_str + '_' + arm_prefix_str,
-            namespace=robot_id_str + '_' + arm_prefix_str,
+            name='robot_state_publisher_' + robot_type_str + '_' + arm_prefix_str,
+            namespace=robot_type_str + '_' + arm_prefix_str,
             output='screen',
             parameters=[{'robot_description': robot_description}],
         ),
@@ -60,7 +60,7 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_id, arm_prefix, 
                 package='joint_state_publisher_gui',
                 executable='joint_state_publisher_gui',
                 name='joint_state_publisher_gui',
-                namespace=robot_id_str + '_' + arm_prefix_str,
+                namespace=robot_type_str + '_' + arm_prefix_str,
             ),
     ]
 
@@ -72,8 +72,8 @@ def generate_launch_description():
     ee_id_parameter_name = "ee_id"
     ee_id = LaunchConfiguration(ee_id_parameter_name)
 
-    robot_id_parameter_name = 'robot_id'
-    robot_id = LaunchConfiguration(robot_id_parameter_name)
+    robot_type_parameter_name = 'robot_type'
+    robot_type = LaunchConfiguration(robot_type_parameter_name)
 
     rviz_file = os.path.join(
         get_package_share_directory("franka_description"),
@@ -91,11 +91,11 @@ def generate_launch_description():
             ))
         else:
             print('Spawning arm')
-            robot_id = component.split('_')[0]
+            robot_type = component.split('_')[0]
             arm_prefix = component.split('_')[1]
             robot_state_publisher_spawner_opaque_function.append(OpaqueFunction(
                 function=robot_state_publisher_spawner,
-                args=[robot_id, arm_prefix, load_gripper, ee_id]
+                args=[robot_type, arm_prefix, load_gripper, ee_id]
             ))
 
     return LaunchDescription(
@@ -113,7 +113,7 @@ def generate_launch_description():
                 "none, franka_hand, cobot_pump",
             ),
             DeclareLaunchArgument(
-                robot_id_parameter_name,
+                robot_type_parameter_name,
                 description='ID of the type of arm used. Supporter values: '
                 'fr3_duo',
             ),

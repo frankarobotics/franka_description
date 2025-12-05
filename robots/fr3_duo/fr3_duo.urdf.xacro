@@ -6,8 +6,8 @@
 
   <!-- Define arguments -->
   <!-- The IDs of the robot models to be used -->
-  <xacro:arg name="robot_ids" default="['fr3v2','fr3v2']" />
-  <xacro:property name="robot_ids_list" value="${$(arg robot_ids)}" />
+  <xacro:arg name="robot_types" default="['fr3v2','fr3v2']" />
+  <xacro:property name="robot_types_list" value="${$(arg robot_types)}" />
   
   <!-- Don't print a prefix for joints, visuals, and links? -->
   <xacro:arg name="no_prefix" default="false"/>
@@ -89,13 +89,13 @@
         <origin rpy="${mount_corner.kinematic.roll} ${mount_corner.kinematic.pitch} ${mount_corner.kinematic.yaw}" xyz="${mount_corner.kinematic.x} ${mount_corner.kinematic.y} ${mount_corner.kinematic.z}"/>
       </joint>
 
-      <xacro:property name="robot_id_i" value="${robot_ids_list[i]}"/>
-      <xacro:arg name="inertials_path" default="$(find franka_description)/robots/${robot_id_i}/inertials.yaml"/>
-      <xacro:arg name="kinematics_path" default="$(find franka_description)/robots/${robot_id_i}/kinematics.yaml"/>
-      <xacro:arg name="dynamics_path" default="$(find franka_description)/robots/${robot_id_i}/dynamics.yaml"/>
-      <xacro:arg name="joint_limits_path" default="$(find franka_description)/robots/${robot_id_i}/joint_limits.yaml"/>
-      <xacro:arg name="accelerometers_path" default="$(find franka_description)/robots/${robot_id_i}/accelerometers.yaml"/>
-      <xacro:franka_robot robot_id="${robot_id_i}"
+      <xacro:property name="robot_type_i" value="${robot_types_list[i]}"/>
+      <xacro:arg name="inertials_path" default="$(find franka_description)/robots/${robot_type_i}/inertials.yaml"/>
+      <xacro:arg name="kinematics_path" default="$(find franka_description)/robots/${robot_type_i}/kinematics.yaml"/>
+      <xacro:arg name="dynamics_path" default="$(find franka_description)/robots/${robot_type_i}/dynamics.yaml"/>
+      <xacro:arg name="joint_limits_path" default="$(find franka_description)/robots/${robot_type_i}/joint_limits.yaml"/>
+      <xacro:arg name="accelerometers_path" default="$(find franka_description)/robots/${robot_type_i}/accelerometers.yaml"/>
+      <xacro:franka_robot robot_type="${robot_type_i}"
                           joint_limits="${xacro.load_yaml('$(arg joint_limits_path)')}"
                           inertials="${xacro.load_yaml('$(arg inertials_path)')}"
                           kinematics="${xacro.load_yaml('$(arg kinematics_path)')}"

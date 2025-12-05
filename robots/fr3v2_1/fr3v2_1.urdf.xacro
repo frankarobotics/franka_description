@@ -5,7 +5,7 @@
 
   <!-- Define arguments -->
   <!-- The ID of the robot model to be used -->
-  <xacro:arg name="robot_id" default="fr3v2_1" />
+  <xacro:arg name="robot_type" default="fr3v2_1" />
 
   <!-- The prefix of the robot -->
   <xacro:arg name="arm_prefix" default="" />
@@ -65,7 +65,7 @@
   <xacro:property name="prefix" value="$(arg arm_prefix)"/>
   <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
 
-  <xacro:franka_robot robot_id="fr3v2_1"
+  <xacro:franka_robot robot_type="fr3v2_1"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/joint_limits.yaml')}"
                       inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/inertials.yaml')}"
                       kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/kinematics.yaml')}"

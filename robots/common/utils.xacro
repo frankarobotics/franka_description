@@ -34,17 +34,17 @@
   <!-- self_collision_geometries:  self <collision> models        -->
   <!-- ========================================================== -->
   <xacro:macro name="link_with_sc" params="name no_prefix:='false' rpy:='0 0 0' **self_collision_geometries gazebo:=false with_sc:=false with_accelerometers:=false">
-    <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + robot_id + '_'}" />
+    <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + robot_type + '_'}" />
     <!-- sub-link defining detailed meshes for collision with environment -->
     <link name="${prefix}${name}">
       <visual name="${prefix}${name}_visual">
         <geometry>
-          <mesh filename="package://${description_pkg}/meshes/robot_arms/${robot_id}/visual/${name}.dae" />
+          <mesh filename="package://${description_pkg}/meshes/robot_arms/${robot_type}/visual/${name}.dae" />
         </geometry>
       </visual>
       <collision name="${prefix}${name}_collision">
         <geometry>
-          <mesh filename="package://franka_description/meshes/robot_arms/${robot_id}/collision/${name}.stl" />
+          <mesh filename="package://franka_description/meshes/robot_arms/${robot_type}/collision/${name}.stl" />
         </geometry>
       </collision>
       <xacro:franka-inertials name="${name}" />
@@ -168,26 +168,26 @@
   <!-- Adds the required tags to provide a `FrankaStateInterface` -->
   <!-- when simulating with franka_hw_sim plugin                  -->
   <!--                                                            -->
-  <!-- robot_id - Arm ID of the fer to simulate (default 'fer')     -->
+  <!-- robot_type - Arm ID of the fer to simulate (default 'fer')     -->
   <!-- ========================================================== -->
-  <xacro:macro name="transmission-franka-state" params="robot_id:=fer">
-    <transmission name="${arm_prefix}${robot_id}_franka_state">
+  <xacro:macro name="transmission-franka-state" params="robot_type:=fer">
+    <transmission name="${arm_prefix}${robot_type}_franka_state">
       <type>franka_hw/FrankaStateInterface</type>
-      <joint name="${arm_prefix}${robot_id}_joint1"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_id}_joint2"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_id}_joint3"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_id}_joint4"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_id}_joint5"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_id}_joint6"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_id}_joint7"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint1"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint2"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint3"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint4"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint5"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint6"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
+      <joint name="${arm_prefix}${robot_type}_joint7"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
 
-      <actuator name="${arm_prefix}${robot_id}_motor1"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_id}_motor2"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_id}_motor3"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_id}_motor4"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_id}_motor5"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_id}_motor6"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_id}_motor7"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor1"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor2"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor3"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor4"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor5"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor6"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
+      <actuator name="${arm_prefix}${robot_type}_motor7"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
     </transmission>
   </xacro:macro>
 
@@ -195,12 +195,12 @@
   <!-- Adds the required tags to provide a `FrankaModelInterface`   -->
   <!-- when simulating with franka_hw_sim plugin                    -->
   <!--                                                              -->
-  <!-- robot_id - Arm ID of the fer to simulate (default 'fer')       -->
+  <!-- robot_type - Arm ID of the fer to simulate (default 'fer')       -->
   <!-- root   - Joint name of the base of the robot                 -->
   <!-- tip    - Joint name of the tip of the robot (flange or hand) -->
   <!-- ============================================================ -->
-  <xacro:macro name="transmission-franka-model" params="robot_id:=fer root:=fer_joint1 tip:=fer_joint7">
-    <transmission name="${arm_prefix}${robot_id}_franka_model">
+  <xacro:macro name="transmission-franka-model" params="robot_type:=fer root:=fer_joint1 tip:=fer_joint7">
+    <transmission name="${arm_prefix}${robot_type}_franka_model">
       <type>franka_hw/FrankaModelInterface</type>
       <joint name="${root}">
         <role>root</role>

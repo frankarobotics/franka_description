@@ -2,15 +2,15 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:macro name="tmrv0_2_ros2_control"
-    params="mobile_robot_id
+    params="mobile_robot_type
             robot_ip
             use_fake_hardware
             fake_sensor_commands">
     <ros2_control name="TmrHardware" type="system">
       <hardware>
         <param name="version">0.1.0</param>
-        <param name="mobile_robot_id">${mobile_robot_id}</param>
-        <param name="robot_id">tmrv0_2</param>
+        <param name="mobile_robot_type">${mobile_robot_type}</param>
+        <param name="robot_type">tmrv0_2</param>
         <xacro:if value="${use_fake_hardware}">
           <plugin>fake_components/GenericSystem</plugin>
           <param name="mock_sensor_commands">${fake_sensor_commands}</param>
@@ -41,10 +41,10 @@
         </joint>
       </xacro:macro>
 
-      <xacro:configure_steering_joint joint_name="${mobile_robot_id}_joint_0"/>
-      <xacro:configure_driving_joint joint_name="${mobile_robot_id}_joint_1"/>
-      <xacro:configure_steering_joint joint_name="${mobile_robot_id}_joint_2"/>
-      <xacro:configure_driving_joint joint_name="${mobile_robot_id}_joint_3"/>
+      <xacro:configure_steering_joint joint_name="${mobile_robot_type}_joint_0"/>
+      <xacro:configure_driving_joint joint_name="${mobile_robot_type}_joint_1"/>
+      <xacro:configure_steering_joint joint_name="${mobile_robot_type}_joint_2"/>
+      <xacro:configure_driving_joint joint_name="${mobile_robot_type}_joint_3"/>
 
       <xacro:macro name="general_purpose_io" params="prefix command_interface index">
         <gpio name="${prefix}">

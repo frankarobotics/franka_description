@@ -5,7 +5,7 @@
   <xacro:include filename="$(find franka_description)/end_effectors/franka_hand/franka_hand_arguments.xacro"/>
 
   <xacro:franka_hand connected_to="$(arg special_connection)"
-                     robot_id="$(arg robot_id)"
+                     robot_type="$(arg robot_type)"
                      ee_id="$(arg ee_id)_$(arg ee_color)"
                      ee_inertials="${xacro.load_yaml('$(find franka_description)/end_effectors/$(arg ee_id)/inertials.yaml')}"
                      rpy_ee="$(arg rpy_ee)"

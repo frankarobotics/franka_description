@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:macro name="tmrv0_2"
-    params="mobile_robot_id
+    params="mobile_robot_type
                   robot_ip:=''
                   ros2_control:=true
                   use_fake_hardware:=false
@@ -82,7 +82,7 @@
       </xacro:caster_wheel>
     </xacro:unless>
 
-    <xacro:argo_drive name="argo_drive_front" mobile_robot_id="${mobile_robot_id}" parent="base_link" offset_wheel_sign="1"
+    <xacro:argo_drive name="argo_drive_front" mobile_robot_type="${mobile_robot_type}" parent="base_link" offset_wheel_sign="1"
       radius="${argo_drive_radius}">
       <origin xyz="${argo_drive_x} ${-argo_drive_y} ${argo_drive_z}" />
     </xacro:argo_drive>
@@ -101,7 +101,7 @@
       </xacro:caster_wheel>
     </xacro:unless>
 
-    <xacro:argo_drive name="argo_drive_rear" mobile_robot_id="${mobile_robot_id}" parent="rocker_arm_link" offset_wheel_sign="-1"
+    <xacro:argo_drive name="argo_drive_rear" mobile_robot_type="${mobile_robot_type}" parent="rocker_arm_link" offset_wheel_sign="-1"
       radius="${argo_drive_radius}">
       <origin
         xyz="${-argo_drive_x - rocker_arm_x} ${argo_drive_y - rocker_arm_y} ${argo_drive_z - rocker_arm_z}" />
@@ -156,7 +156,7 @@
     <xacro:if value="${ros2_control}">
       <xacro:include filename="$(find franka_description)/robots/tmrv0_2/tmrv0_2.ros2_control.xacro" />
       <xacro:tmrv0_2_ros2_control
-        mobile_robot_id="${mobile_robot_id}"
+        mobile_robot_type="${mobile_robot_type}"
         robot_ip="${robot_ip}"
         use_fake_hardware="${use_fake_hardware}"
         fake_sensor_commands="${fake_sensor_commands}"

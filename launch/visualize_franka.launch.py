@@ -23,15 +23,15 @@ from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 
 
-def robot_state_publisher_spawner(context: LaunchContext, robot_id, load_gripper, ee_id):
-    robot_id_str = context.perform_substitution(robot_id)
+def robot_state_publisher_spawner(context: LaunchContext, robot_type, load_gripper, ee_id):
+    robot_type_str = context.perform_substitution(robot_type)
     load_gripper_str = context.perform_substitution(load_gripper)
     ee_id_str = context.perform_substitution(ee_id)
     franka_xacro_filepath = os.path.join(
         get_package_share_directory('franka_description'),
         'robots',
-        robot_id_str,
-        robot_id_str + '.urdf.xacro',
+        robot_type_str,
+        robot_type_str + '.urdf.xacro',
     )
     robot_description = xacro.process_file(
         franka_xacro_filepath, mappings={"hand": load_gripper_str, "ee_id": ee_id_str}
@@ -55,8 +55,8 @@ def generate_launch_description():
     ee_id_parameter_name = "ee_id"
     ee_id = LaunchConfiguration(ee_id_parameter_name)
 
-    robot_id_parameter_name = 'robot_id'
-    robot_id = LaunchConfiguration(robot_id_parameter_name)
+    robot_type_parameter_name = 'robot_type'
+    robot_type = LaunchConfiguration(robot_type_parameter_name)
 
     rviz_file = os.path.join(
         get_package_share_directory("franka_description"),
@@ -65,7 +65,7 @@ def generate_launch_description():
     )
 
     robot_state_publisher_spawner_opaque_function = OpaqueFunction(
-        function=robot_state_publisher_spawner, args=[robot_id, load_gripper, ee_id]
+        function=robot_state_publisher_spawner, args=[robot_type, load_gripper, ee_id]
     )
 
     return LaunchDescription(
@@ -83,7 +83,7 @@ def generate_launch_description():
                 "none, franka_hand, cobot_pump",
             ),
             DeclareLaunchArgument(
-                robot_id_parameter_name,
+                robot_type_parameter_name,
                 description='ID of the type of arm used. Supporter values: '
                 'fer, fr3, fp3, fr3v2, tmrv0_2',
             ),

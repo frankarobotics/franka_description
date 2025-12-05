@@ -20,7 +20,7 @@ To start the generation, execute the start.sh script. The arguments passed to th
 
 ```
 # Start the generation of the urdf model
-./scripts/create_urdf.sh <robot_id> 
+./scripts/create_urdf.sh <robot_type> 
 ```
 
 The urdf generation is performed by the create_urdf.py script which offers several parameters to customize the output urdf model:
@@ -53,17 +53,17 @@ The urdf file can be visualized via RViz with the following command:
 # visualize_franka.sh launches the visualize_franka.launch.py in a ros2 instance running in the docker container
 # The arguments given to the .sh script are forwarded as launch arguments
 # Accepted launch arguments are:
-#     robot_id - accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2
+#     robot_type - accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2
 #     load_gripper - accepted values are: true (default ee_id is franka_hand), false (ee_id will be ignored) [WARNING: this argument will be removed in future releases, introducing "none" as ee id]
 #     ee_id - accepted values are: franka_hand, cobot_pump
 
-./scripts/visualize_franka.sh robot_id:=<robot_id> 
+./scripts/visualize_franka.sh robot_type:=<robot_type> 
 
 ```
 If you want to visualize the fr3 duo designed for multiple controller managers, the following command must be used:
 
 ```
-./scripts/visualize_franka_duo.sh robot_id:=<robot_id> 
+./scripts/visualize_franka_duo.sh robot_type:=<robot_type> 
 ```
 
 ## Troubleshooting
