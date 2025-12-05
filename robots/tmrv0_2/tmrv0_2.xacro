@@ -41,7 +41,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <mesh filename="package://franka_description/meshes/tmrv0_2/visual/tmrv0_2.stl" />
+          <mesh filename="package://franka_description/meshes/tmrv0_2/visual/tmrv0_2.dae" />
         </geometry>
         <material name="white">
           <color rgba="1.0 1.0 1.0 1.0" />
