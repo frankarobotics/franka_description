@@ -9,7 +9,7 @@
   <xacro:property name="base_y" value="-0.053"/>
 
   <xacro:property name="sensor_y" value="${-base_y}"/>
-  <xacro:property name="sensor_z" value="0.0315"/>
+  <xacro:property name="sensor_z" value="0.015"/>
   <xacro:property name="sensor_rot_z" value="0"/>
 
   <xacro:macro name="nanoscan3"
@@ -82,7 +82,7 @@
     <link name="${name}">
       <visual>
         <!-- These values were determined empirically -->
-        <origin xyz="0 0.07615 ${-sensor_z-0.001}" rpy="0 0 ${radians(-90)}" />
+        <origin xyz="0 0 ${-sensor_z}" rpy="0 0 ${radians(135)}" />
         <geometry>
           <mesh filename="file://$(find franka_description)/meshes/nanoscan3/NANS3.dae"/>
         </geometry>
