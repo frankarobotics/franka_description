@@ -153,6 +153,32 @@
       <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 0 0" />
     </joint>
 
+    <!-- Mounting Points -->
+    <link name="front_mointing_point"/>
+    <joint name="front_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="front_mointing_point" />
+      <origin xyz="0.380705 0.0 0.2345" rpy="${pi} 0 0" />
+    </joint>
+    <link name="rear_mointing_point"/>
+    <joint name="rear_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="rear_mointing_point" />
+      <origin xyz="-0.380705 0.0 0.2345" rpy="${pi} 0 ${pi}" />
+    </joint>
+    <link name="right_mointing_point"/>
+    <joint name="right_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="right_mointing_point" />
+      <origin xyz="0.0 0.272712 0.1145" rpy="${pi} 0 ${pi/2}" />
+    </joint>
+    <link name="left_mointing_point"/>
+    <joint name="left_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="left_mointing_point" />
+      <origin xyz="0.0 -0.272712 0.1145" rpy="${pi} 0 -${pi/2}" />
+    </joint>
+    
     <xacro:if value="${ros2_control}">
       <xacro:include filename="$(find franka_description)/robots/tmrv0_2/tmrv0_2.ros2_control.xacro" />
       <xacro:tmrv0_2_ros2_control
