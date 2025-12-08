@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
+
+  <xacro:macro name="caster_wheel" params="name parent length:='0.015' radius:='0.03' caster_joint_z:='-0.05' caster_steering_offset:='-0.035' *origin">
+
+    <xacro:property name="base_width" value="0.04" />
+    <xacro:property name="base_depth" value="0.03" />
+    <xacro:property name="base_height" value="0.003" />
+    <xacro:property name="mass" value="0.5" />
+
+    <link name="${name}_fixed_link" >
+      <xacro:macro name="caster_base_geometry" params="xyz:='0 0 0'">
+        <origin xyz="0 0 ${-base_height/2}" />
+        <geometry>
+          <box size="${base_width} ${base_depth} ${base_height}" />
+        </geometry>
+        <material name="darkgrey">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </xacro:macro>
+
+      <visual>
+        <xacro:caster_base_geometry/>
+      </visual>
+      <collision>
+        <xacro:caster_base_geometry/>
+      </collision>
+      <inertial>
+        <origin xyz="-0.02365 0.00005 -0.03651" rpy="0 0 0"/>
+        <mass value="0.7"/>
+        <inertia
+          ixx="0.00049538079"
+          ixy="-0.00000042663"
+          ixz="0.00020926011"
+          iyy="0.00070424109"
+          iyz="-0.00000050221"
+          izz="0.00048449394"/>
+      </inertial>
+    </link>
+
+    <joint name="${name}_fixed_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child  link="${name}_fixed_link" />
+    </joint>
+
+    <link name="${name}_steering_link" />
+
+    <joint name="${name}_steering_joint" type="continuous">
+      <origin xyz="0 0 0"/>
+      <parent link="${name}_fixed_link" />
+      <child  link="${name}_steering_link" />
+      <axis   xyz="0 0 1" />
+      <limit  effort="500" velocity="20" />
+      <dynamics damping="0.003" friction="0.0"/>
+    </joint>
+
+    <link name="${name}_link" >
+      <xacro:macro name="caster_wheel_geometry">
+        <origin rpy="${pi/2} 0 0" />
+        <geometry>
+           <cylinder length="${length}" radius="${radius}" />
+        </geometry>
+        <material name="orange">
+          <color rgba="1.0 0.5 0.0 1.0"/>
+        </material>
+      </xacro:macro>
+
+      <visual>
+        <xacro:caster_wheel_geometry/>
+      </visual>
+      <collision>
+        <xacro:caster_wheel_geometry/>
+      </collision>
+
+    </link>
+
+    <joint name="${name}_joint" type="continuous">
+      <origin xyz ="${caster_steering_offset} 0 ${caster_joint_z}" rpy="0 0 0" />
+      <parent link="${name}_steering_link" />
+      <child  link="${name}_link" />
+      <axis   xyz="0 1 0" />
+      <limit  effort="500" velocity="20" />
+      <dynamics damping="0.003" friction="0.0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

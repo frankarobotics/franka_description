@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ========================================= -->
+  <!-- ||         Inertia Utilities           || -->
+  <!-- ========================================= -->
+
+  <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors -->
+  <xacro:macro name="inertia-cylinder" params="mass radius h">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${1./12 * mass * (3 * radius**2 + h**2)}" ixy = "0" ixz = "0"
+               iyy="${1./12 * mass * (3 * radius**2 + h**2)}" iyz = "0"
+               izz="${1./2  * mass * radius**2}" />
+    </inertial>
+  </xacro:macro>
+
+  <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors -->
+  <xacro:macro name="inertia-sphere" params="mass radius">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${2./5 * mass * radius**2}" ixy="0" ixz="0"
+               iyy="${2./5 * mass * radius**2}" iyz="0"
+               izz="${2./5 * mass * radius**2}" />
+    </inertial>
+  </xacro:macro>
+
+  <!-- According to https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors -->
+  <xacro:macro name="inertia-box" params="mass width depth height *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${1./12 * mass * (height**2 + depth**2)}" ixy="0" ixz="0"
+               iyy="${1./12 * mass * (width**2  + height**2)}" iyz="0"
+               izz="${1./12 * mass * (width**2  + depth**2)}" />
+      <xacro:insert_block name="origin" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="inertia-torso">
+    <inertial>
+      <origin xyz="-0.374101 0.001522 0.120542" rpy="0 0 0" />
+      <mass value="75.711368" />
+      <inertia  ixx ="1.822241406454"	ixy ="0.009367998445"	ixz ="0.855091055826"
+	              iyx ="0.009367998445"	iyy ="4.242134556907"	iyz ="-0.012022054390"
+	              izx ="0.855091055826"	izy ="-0.012022054390" izz ="4.568496104964"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="inertia-default" params="mass">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="0.1" iyy="0.1" izz="0.1"
+               ixy="0"   ixz="0"   iyz="0" />
+    </inertial>
+  </xacro:macro>
+
+</robot>

@@ -19,13 +19,18 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ros-humble-xacro \
+    ros-humble-realsense2-description \
     ros-humble-joint-state-publisher-gui \
+    ros-humble-realsense2-camera \
+    ros-humble-sick-safetyscanners2 \
+    ros-humble-robot-localization \
     && rm -rf /var/lib/apt/lists/*
 
 ENV XDG_RUNTIME_DIR=/run/user/"${USER_UID}"
 
 USER $USERNAME
 
+RUN git clone https://github.com/olive-robotics/olvx_descriptions_module.git src/olvx_descriptions_module 
 RUN echo "source /ros_entrypoint.sh" >>~/.bashrc
 ARG MAX_ROS_DOMAIN_ID=232
 RUN echo "export ROS_DOMAIN_ID=100" >>~/.bashrc

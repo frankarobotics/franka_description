@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="tmrv0_2"
+    params="mobile_robot_type
+                  robot_ip:=''
+                  ros2_control:=true
+                  use_fake_hardware:=false
+                  fake_sensor_commands:=false
+                  reduced_version:=false">
+
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/argo_drive.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/caster_wheel.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/rocker_arm.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
+    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/lidar.xacro" />
+
+    <xacro:property name="caster_radius" value="0.03" />
+    <xacro:property name="caster_x" value="0.3" />
+    <xacro:property name="caster_y" value="0.2" />
+    <xacro:property name="caster_z" value="0.08" />
+
+    <xacro:property name="rocker_arm_x" value="-0.3" />
+    <xacro:property name="rocker_arm_y" value="0.0" />
+    <xacro:property name="rocker_arm_z" value="0.0845" />
+
+    <xacro:property name="argo_drive_radius" value="0.05" />
+    <xacro:property name="argo_drive_x" value="0.3" />
+    <xacro:property name="argo_drive_y" value="0.2" />
+    <xacro:property name="argo_drive_z" value="0.05" />
+
+
+    <xacro:property name="lidar_x" value="0.3275" />
+    <xacro:property name="lidar_y" value="0.2175" />
+    <xacro:property name="lidar_z" value="0.19065" />
+    <xacro:property name="lidar_pitch" value="${pi}" />
+    <xacro:property name="lidar_yaw" value="${pi*3/4}" />
+
+    <!-- Main Platform Chassis -->
+    <link name="base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+        <geometry>
+          <mesh filename="package://franka_description/meshes/tmrv0_2/visual/tmrv0_2.dae" />
+        </geometry>
+        <material name="white">
+          <color rgba="1.0 1.0 1.0 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+        <geometry>
+          <mesh filename="package://franka_description/meshes/tmrv0_2/collision/tmrv0_2.stl" />
+        </geometry>
+      </collision>
+    </link>
+    <link name="base_inertia">
+      <inertial>
+        <origin xyz="0.006619 -0.002210 0.184355" rpy="0 0 0"/>
+        <mass value="88.954183"/>
+        <inertia
+          ixx="3.245524271774"
+          ixy="0.007060314402"
+          ixz="-0.134604220439"
+          iyy="4.162370636125"
+          iyz="-0.010770547630"
+          izz="5.841473351812"/>
+      </inertial>
+    </link>
+
+    <joint name="base_inertia_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="base_inertia" />
+    </joint>
+
+    <!-- wheels and suspension -->
+    <!-- front -->
+    <xacro:unless value="${reduced_version}">
+      <xacro:caster_wheel name="caster_front_left" parent="base_link" 
+        radius="${caster_radius}">
+        <origin xyz="${caster_x} ${caster_y} ${caster_z}" />
+      </xacro:caster_wheel>
+    </xacro:unless>
+
+    <xacro:argo_drive name="argo_drive_front" mobile_robot_type="${mobile_robot_type}" parent="base_link" offset_wheel_sign="1"
+      radius="${argo_drive_radius}">
+      <origin xyz="${argo_drive_x} ${-argo_drive_y} ${argo_drive_z}" />
+    </xacro:argo_drive>
+   
+    <!-- rear -->
+
+    <xacro:rocker_arm name="rocker_arm" mass="3" parent="base_link">
+          <origin xyz="${rocker_arm_x} ${rocker_arm_y} ${rocker_arm_z}" />
+    </xacro:rocker_arm>
+
+    <xacro:unless value="${reduced_version}">
+      <xacro:caster_wheel name="caster_rear_right" parent="rocker_arm_link"
+        radius="${caster_radius}">
+        <origin
+          xyz="${-caster_x - rocker_arm_x} ${-caster_y - rocker_arm_y} ${caster_z - rocker_arm_z}" />
+      </xacro:caster_wheel>
+    </xacro:unless>
+
+    <xacro:argo_drive name="argo_drive_rear" mobile_robot_type="${mobile_robot_type}" parent="rocker_arm_link" offset_wheel_sign="-1"
+      radius="${argo_drive_radius}">
+      <origin
+        xyz="${-argo_drive_x - rocker_arm_x} ${argo_drive_y - rocker_arm_y} ${argo_drive_z - rocker_arm_z}" />
+    </xacro:argo_drive>
+
+    <!-- lidars -->
+    <xacro:lidar name="lidar_front" parent="base_link">
+      <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw}" />
+    </xacro:lidar>
+    <link name="lidar_front_inertia">
+      <inertial>
+        <origin xyz="-0.000042 -0.000171 0.017345" rpy="0 0 0"/>
+        <mass value="0.591688"/>
+        <inertia
+          ixx="0.000710467462"
+          ixy="0.000002762520"
+          ixz="0.000001890211"
+          iyy="0.000713021983"
+          iyz="0.000001953103"
+          izz="0.000824272853"/>
+      </inertial>
+    </link>
+
+    <joint name="lidar_front_inertia_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="lidar_front_inertia" />
+      <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 0 0" />
+    </joint>
+
+    <xacro:lidar name="lidar_rear" parent="base_link">
+      <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw + pi}" />
+    </xacro:lidar>
+    <link name="lidar_rear_inertia">
+      <inertial>
+        <origin xyz="0.000042 0.000171 0.017345" rpy="0 0 0"/>
+        <mass value="0.591688"/>
+        <inertia
+          ixx="0.000710467462"
+          ixy="0.000002766806"
+          ixz="-0.000001455643"
+          iyy="0.000713021983"
+          iyz="-0.000000197438"
+          izz="0.000824272853"/>
+      </inertial>
+    </link>
+    <joint name="lidar_rear_inertia_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="lidar_rear_inertia" />
+      <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 0 0" />
+    </joint>
+
+    <!-- Mounting Points -->
+    <link name="front_mointing_point"/>
+    <joint name="front_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="front_mointing_point" />
+      <origin xyz="0.380705 0.0 0.2345" rpy="${pi} 0 0" />
+    </joint>
+    <link name="rear_mointing_point"/>
+    <joint name="rear_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="rear_mointing_point" />
+      <origin xyz="-0.380705 0.0 0.2345" rpy="${pi} 0 ${pi}" />
+    </joint>
+    <link name="right_mointing_point"/>
+    <joint name="right_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="right_mointing_point" />
+      <origin xyz="0.0 0.272712 0.1145" rpy="${pi} 0 ${pi/2}" />
+    </joint>
+    <link name="left_mointing_point"/>
+    <joint name="left_mointing_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="left_mointing_point" />
+      <origin xyz="0.0 -0.272712 0.1145" rpy="${pi} 0 -${pi/2}" />
+    </joint>
+    
+    <xacro:if value="${ros2_control}">
+      <xacro:include filename="$(find franka_description)/robots/tmrv0_2/tmrv0_2.ros2_control.xacro" />
+      <xacro:tmrv0_2_ros2_control
+        mobile_robot_type="${mobile_robot_type}"
+        robot_ip="${robot_ip}"
+        use_fake_hardware="${use_fake_hardware}"
+        fake_sensor_commands="${fake_sensor_commands}"
+      />
+    </xacro:if>
+  </xacro:macro>
+</robot>

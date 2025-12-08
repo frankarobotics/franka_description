@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
+
+  <xacro:macro name="rocker_arm" params="name mass parent *origin">
+    <xacro:property name="depth" value="0.32"/>
+    <xacro:property name="width" value="0.02"/>
+    <xacro:property name="height" value="0.015"/>
+
+    <link name="${name}_link" >
+      <visual>
+        <origin rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+          <cylinder radius="${height}" length="${height*1.5}" />
+        </geometry>
+        <material name="darkgrey">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <origin xyz="-0.000344 -0.021232 0.038239" rpy="0 0 0"/>
+        <mass value="5.183973"/>
+        <inertia
+          ixx="0.077004518565"
+          ixy="-0.000040505686"
+          ixz="-0.000026300402"
+          iyy="0.030693821144"
+          iyz="0.002939677599"
+          izz="0.083485865094"/>
+      </inertial>
+    </link>
+
+    <joint name="${name}_joint" type="revolute">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child  link="${name}_link" />
+      <axis   xyz="1 0 0" />
+      <limit  effort="500" velocity="20" upper="0.18" lower="-0.16"/>
+      <dynamics damping="0.003" friction="0.0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

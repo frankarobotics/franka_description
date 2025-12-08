@@ -2,6 +2,11 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+UNRELEASED
+----------
+* feat: tmrv0_2 added to franka description
+* feat: arm_id replaced by robot_type
+
 1.4.0 (2025-11-10)
 ----------
 * feat: updated kinematics, meshes, inertials, materials for fr3_duo mount and cover
@@ -9,7 +14,7 @@ Changelog for package franka_description
 1.3.0 (2025-10-31)
 ------------------
 * fix: group definition in SRDF file checking for right TCP
-* feat: add fr3v2.1 robot variant
+* feat: add fr3v2_1 robot variant
 
 1.2.0 (2025-10-24)
 ------------------

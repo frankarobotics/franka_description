@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="fr3v2_1">
+
+  <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
+
+  <!-- Define arguments -->
+  <!-- The ID of the robot model to be used -->
+  <xacro:arg name="robot_type" default="fr3v2_1" />
+
+  <!-- The prefix of the robot -->
+  <xacro:arg name="arm_prefix" default="" />
+
+  <!-- Don't print a prefix for joints, visuals, and links? -->
+  <xacro:arg name="no_prefix" default="false"/>
+
+  <!-- Should an end-effector be mounted at the flange?" -->
+  <xacro:arg name="hand" default="true" />
+
+  <!-- Which end-effector would be mounted at the flange?" -->
+  <xacro:arg name="ee_id" default="franka_hand" />
+
+  <!-- Where is the end-effector connected to, if different from the robot flange?  -->
+  <xacro:arg name="special_connection" default="" />
+
+  <!-- Position offset between ee and parent frame -->
+  <xacro:arg name="xyz_ee" default="0 0 0" />
+
+  <!-- Rotation offset between ee and parent frame -->
+  <xacro:arg name="rpy_ee" default= "0 0 ${-pi/4}" />
+
+  <!-- Position offset between ee frame and tcp frame -->
+  <xacro:arg name="tcp_xyz" default="0 0 0.1034" />
+
+  <!-- Rotation offset between ee frame and tcp frame -->
+  <xacro:arg name="tcp_rpy" default="0 0 0" />
+
+  <!-- Safety distance for the collision capsules -->
+  <xacro:arg name="safety_distance" default="0.03" />
+
+  <!-- Should self-collision be enabled? -->
+  <xacro:arg name="with_sc" default="false" />
+
+  <!-- Is the robot being controlled with ros2_control?" -->
+  <xacro:arg name="ros2_control" default="false" />
+
+  <!-- IP address or hostname of the robot" -->
+  <xacro:arg name="robot_ip" default="" />
+
+  <!-- Should a fake hardware be used? -->
+  <xacro:arg name="use_fake_hardware" default="false" />
+
+  <!-- Should fake sensors be used? -->
+  <xacro:arg name="fake_sensor_commands" default="false" />
+
+  <!-- Should the robot be spawned in Gazebo?" -->
+  <xacro:arg name="gazebo" default="false" />
+
+  <!-- Should the robot be spawned in Gazebo with effort interfaces?" -->
+  <xacro:arg name="gazebo_effort" default="false" />
+
+  <!-- Name of the description package -->
+  <xacro:arg name="description_pkg" default="franka_description" />
+  
+  <!-- Append an underscore to the user-provided prefix, if non-empty. -->
+  <xacro:property name="prefix" value="$(arg arm_prefix)"/>
+  <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
+
+  <xacro:franka_robot robot_type="fr3v2_1"
+                      joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/joint_limits.yaml')}"
+                      inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/inertials.yaml')}"
+                      kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/kinematics.yaml')}"
+                      dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/dynamics.yaml')}"
+                      accelerometer_config="${xacro.load_yaml('$(find franka_description)/robots/fr3v2_1/accelerometers.yaml')}"
+                      gazebo="$(arg gazebo)"
+                      hand="$(arg hand)"
+                      ee_id="$(arg ee_id)"
+                      special_connection="$(arg special_connection)"
+                      xyz_ee="$(arg xyz_ee)"
+                      rpy_ee="$(arg rpy_ee)"
+                      tcp_xyz="$(arg tcp_xyz)"
+                      tcp_rpy="$(arg tcp_rpy)"
+                      safety_distance="$(arg safety_distance)"
+                      with_sc="$(arg with_sc)"
+                      ros2_control="$(arg ros2_control)"
+                      robot_ip="$(arg robot_ip)"
+                      use_fake_hardware="$(arg use_fake_hardware)"
+                      fake_sensor_commands="$(arg fake_sensor_commands)"
+                      gazebo_effort="$(arg gazebo_effort)"
+                      no_prefix="$(arg no_prefix)"
+                      arm_prefix="${modified_prefix}"
+                      description_pkg="$(arg description_pkg)"
+                      connected_to= "base">
+  </xacro:franka_robot>
+
+</robot>

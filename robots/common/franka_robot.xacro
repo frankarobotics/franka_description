@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="franka_robot"
-              params="arm_id
+              params="robot_type
                       joint_limits
                       kinematics
                       accelerometer_config:=none
@@ -35,7 +35,7 @@
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro" />
 
     <xacro:franka_arm
-      arm_id="${arm_id}"
+      robot_type="${robot_type}"
       arm_prefix="${arm_prefix}"
       no_prefix="${no_prefix}"
       xyz="${xyz}"
@@ -54,16 +54,16 @@
     <xacro:if value="${hand and ee_id == 'franka_hand'}">
       <xacro:include filename="$(find franka_description)/end_effectors/common/franka_hand.xacro"/>
       <xacro:include filename="$(find franka_description)/end_effectors/common/utils.xacro" />
-      <xacro:if value="${arm_id == 'fp3'}">
+      <xacro:if value="${robot_type == 'fp3'}">
         <xacro:property name="ee_color" value="black" />
       </xacro:if>
-      <xacro:if value="${arm_id == 'fr3' or arm_id == 'fer' or arm_id == 'fr3v2' or arm_id == 'fr3v2.1'}">
+      <xacro:if value="${robot_type == 'fr3' or robot_type == 'fer' or robot_type == 'fr3v2' or robot_type == 'fr3v2_1'}">
         <xacro:property name="ee_color" value="white" />
       </xacro:if>
-      <xacro:property name="connection" value="${special_connection if special_connection != '' else arm_id + '_link8'}" />
+      <xacro:property name="connection" value="${special_connection if special_connection != '' else robot_type + '_link8'}" />
       <xacro:franka_hand
         connected_to="${arm_prefix}${connection}"
-        arm_id="${arm_id}"
+        robot_type="${robot_type}"
         arm_prefix="${arm_prefix}"
         ee_id="${ee_id}_${ee_color}"
         ee_inertials="${xacro.load_yaml('$(find franka_description)/end_effectors/' + ee_id + '/inertials.yaml')}"
@@ -81,10 +81,10 @@
     <xacro:if value="${hand and ee_id != 'none' and ee_id != 'franka_hand'}">
       <xacro:include filename="$(find franka_description)/end_effectors/common/ee_with_one_link.xacro"/>
       <xacro:include filename="$(find franka_description)/end_effectors/common/utils.xacro" />
-      <xacro:property name="connection" value="${special_connection if special_connection != '' else arm_id + '_link8'}" />
+      <xacro:property name="connection" value="${special_connection if special_connection != '' else robot_type + '_link8'}" />
       <xacro:ee_with_one_link
         connected_to="${arm_prefix}${connection}"
-        arm_id="${arm_id}"
+        robot_type="${robot_type}"
         arm_prefix="${arm_prefix}"
         ee_id="${ee_id}"
         ee_inertials="${xacro.load_yaml('$(find franka_description)/end_effectors/' + ee_id + '/inertials.yaml')}"
@@ -110,53 +110,53 @@
         <joint name="${parent}_joint" type="fixed">
           <origin xyz="${xyz}" rpy="${rpy}" />
           <parent link="${parent}" />
-          <child  link="${arm_prefix}${arm_id}_link0" />
+          <child  link="${arm_prefix}${robot_type}_link0" />
         </joint>
       </xacro:if>
 
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint1" transmission="hardware_interface/PositionJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint2" transmission="hardware_interface/PositionJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint3" transmission="hardware_interface/PositionJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint4" transmission="hardware_interface/PositionJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint5" transmission="hardware_interface/PositionJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint6" transmission="hardware_interface/PositionJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint7" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint1" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint2" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint3" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint4" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint5" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint6" transmission="hardware_interface/PositionJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint7" transmission="hardware_interface/PositionJointInterface" />
 
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint1" transmission="hardware_interface/VelocityJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint2" transmission="hardware_interface/VelocityJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint3" transmission="hardware_interface/VelocityJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint4" transmission="hardware_interface/VelocityJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint5" transmission="hardware_interface/VelocityJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint6" transmission="hardware_interface/VelocityJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint7" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint1" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint2" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint3" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint4" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint5" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint6" transmission="hardware_interface/VelocityJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint7" transmission="hardware_interface/VelocityJointInterface" />
 
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint1" transmission="hardware_interface/EffortJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint2" transmission="hardware_interface/EffortJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint3" transmission="hardware_interface/EffortJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint4" transmission="hardware_interface/EffortJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint5" transmission="hardware_interface/EffortJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint6" transmission="hardware_interface/EffortJointInterface" />
-      <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_joint7" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint1" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint2" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint3" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint4" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint5" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint6" transmission="hardware_interface/EffortJointInterface" />
+      <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint7" transmission="hardware_interface/EffortJointInterface" />
 
-      <xacro:transmission-franka-state arm_id="${arm_id}" />
-      <xacro:transmission-franka-model arm_id="${arm_id}"
-         root="${arm_prefix}${arm_id}_joint1"
-         tip="${arm_prefix}${arm_id}_joint8"
+      <xacro:transmission-franka-state robot_type="${robot_type}" />
+      <xacro:transmission-franka-model robot_type="${robot_type}"
+         root="${arm_prefix}${robot_type}_joint1"
+         tip="${arm_prefix}${robot_type}_joint8"
        />
 
       <xacro:if value="${ee_id == 'franka_hand'}">
-        <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_finger_joint1" transmission="hardware_interface/EffortJointInterface" />
-        <xacro:gazebo-joint joint="${arm_prefix}${arm_id}_finger_joint2" transmission="hardware_interface/EffortJointInterface" />
+        <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_finger_joint1" transmission="hardware_interface/EffortJointInterface" />
+        <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_finger_joint2" transmission="hardware_interface/EffortJointInterface" />
         <!-- Friction specific material for Rubber/Rubber contact -->
-        <xacro:gazebo-friction link="${arm_prefix}${arm_id}_leftfinger" mu="1.13" />
-        <xacro:gazebo-friction link="${arm_prefix}${arm_id}_rightfinger" mu="1.13" />
+        <xacro:gazebo-friction link="${arm_prefix}${robot_type}_leftfinger" mu="1.13" />
+        <xacro:gazebo-friction link="${arm_prefix}${robot_type}_rightfinger" mu="1.13" />
       </xacro:if>
     </xacro:if>
 
     <xacro:if value="${ros2_control}">
       <xacro:include filename="$(find franka_description)/robots/common/franka_arm.ros2_control.xacro"/>
       <xacro:franka_arm_ros2_control
-          arm_id="${arm_id}"
+          robot_type="${robot_type}"
           robot_ip="${robot_ip}"
           use_fake_hardware="${use_fake_hardware}"
           fake_sensor_commands="${fake_sensor_commands}"

@@ -1,0 +1,69 @@
+joint1:
+  limit:
+    lower:      -2.9007400166666666
+    upper:       2.9007400166666666
+    velocity:    2.62
+    effort:     87.0
+  position_based_velocity_limits:
+    velocity_offset: 0.6520000381679385
+    deceleration_limit: 6.0
+
+joint2:
+  limit:
+    lower:     -1.8360900166666667
+    upper:      1.8360900166666667
+    velocity:   2.62
+    effort:    87.0
+  position_based_velocity_limits:
+    velocity_offset: 0.2499685851463105
+    deceleration_limit: 2.585
+
+joint3:
+  limit:
+    lower:     -2.9007400166666666
+    upper:      2.9007400166666666
+    velocity:   2.62
+    effort:    87.0
+  position_based_velocity_limits:
+    velocity_offset: 0.20053055661577582
+    deceleration_limit: 3.5
+
+joint4:
+  limit:
+    lower:     -3.077020016666667
+    upper:     -0.11693708333333333
+    velocity:   2.62
+    effort:    87.0
+  position_based_velocity_limits:
+    velocity_offset: 0.3542181933842238
+    deceleration_limit: 4.0
+
+joint5:
+  limit:
+    lower:     -2.87630335
+    upper:      2.87630335
+    velocity:   5.26
+    effort:    12.0
+  position_based_velocity_limits:
+    velocity_offset: 0.5738321197718637
+    deceleration_limit: 17.0
+
+joint6:
+  limit:
+    lower:      0.43982265
+    upper:      4.62163335
+    velocity:   4.18
+    effort:    12.0
+  position_based_velocity_limits:
+    velocity_offset: 0.4884649342105264
+    deceleration_limit: 5.5
+
+joint7:
+  limit:
+    lower:     -3.05083335
+    upper:      3.05083335
+    velocity:   5.26
+    effort:    12.0
+  position_based_velocity_limits:
+    velocity_offset: 0.4591952376425851
+    deceleration_limit: 17.0

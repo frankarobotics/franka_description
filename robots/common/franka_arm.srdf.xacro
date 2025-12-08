@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-    <xacro:macro name="franka_arm_srdf" params="arm_id hand:='true' ee_id:=franka_hand arm_prefix='' no_prefix='false'">
-        <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + arm_id + '_'}" />
+    <xacro:macro name="franka_arm_srdf" params="robot_type hand:='true' ee_id:=franka_hand arm_prefix='' no_prefix='false'">
+        <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + robot_type + '_'}" />
         <xacro:include filename="$(find franka_description)/robots/common/group_definition.xacro"/>
         <xacro:property name="tip_link" value="${prefix + 'hand_tcp' if hand and ee_id == 'franka_hand' else prefix + 'link8'}"/>
         <xacro:group_definition prefix="${prefix}" group_name="${prefix}arm" tip_link="${tip_link}"/>

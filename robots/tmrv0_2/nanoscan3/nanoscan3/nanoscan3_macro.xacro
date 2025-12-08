@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/nanoscan3/common.xacro" />
+  <xacro:include filename="$(find franka_description)/robots/tmrv0_2/nanoscan3/nanoscan3/gazebo_macro.xacro" />
+
+  <!-- joint offsets when mounted on frame -->
+  <xacro:property name="base_x" value="0.0803"/>
+  <xacro:property name="base_y" value="-0.053"/>
+
+  <xacro:property name="sensor_y" value="${-base_y}"/>
+  <xacro:property name="sensor_z" value="0.015"/>
+  <xacro:property name="sensor_rot_z" value="0"/>
+
+  <xacro:macro name="nanoscan3"
+    params="
+      name
+      parent
+      mounting_kit
+      ros_topic
+      update_rate
+      min_angle
+      max_angle
+      min_range
+      max_range
+      gaussian_noise:=0.006
+      max_beams:=540
+      *origin
+    ">
+
+    <xacro:if value="${mounting_kit}">
+      <!-- MOUNT -->
+      <joint name="${name}_mount_joint" type="fixed">
+        <xacro:insert_block name="origin" />
+        <parent link="${parent}" />
+        <child link="${name}_mount" />
+      </joint>
+
+      <link name="${name}_mount">
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find franka_description)/meshes/nanoscan3/MountingKit_2a.dae"/>
+          </geometry>
+          <material name="black">
+            <color rgba="0.0 0.0 0.0 1.0"/>
+          </material>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find franka_description)/meshes/nanoscan3/MountingKit_2a_collision.stl"/>
+          </geometry>
+        </collision>
+      </link>
+      <!-- SENSOR BASE when mounted -->
+      <joint name="${name}_base_joint" type="fixed">
+        <origin xyz="${base_x} ${base_y} 0"/>
+        <parent link="${name}_mount" />
+        <child link="${name}_base" />
+      </joint>
+    </xacro:if>
+
+    <xacro:unless value="${mounting_kit}">
+      <!-- SENSOR BASE without mount-->
+      <joint name="${name}_base_joint" type="fixed">
+        <xacro:insert_block name="origin" />
+        <parent link="${parent}" />
+        <child link="${name}_base" />
+      </joint>
+    </xacro:unless>
+
+    <link name="${name}_base">
+      <origin xyz="${-base_x} ${-base_y} 0"/>
+    </link>
+
+  <!-- SENSOR FRAME -->
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${name}_base" />
+      <child link="${name}" />
+      <origin xyz="0 0 0" rpy="0 0 ${sensor_rot_z}"/>
+    </joint>
+
+    <link name="${name}">
+      <visual>
+        <!-- These values were determined empirically -->
+        <origin xyz="0 0 ${-sensor_z}" rpy="0 0 ${radians(135)}" />
+        <geometry>
+          <mesh filename="file://$(find franka_description)/meshes/nanoscan3/NANS3.dae"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0.0 0.0 0.0 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <!-- These values were determined empirically -->
+        <origin xyz="0 0.07615 ${-sensor_z-0.001}" rpy="0 0 ${radians(-90)}" />
+        <geometry>
+          <mesh filename="file://$(find franka_description)/meshes/nanoscan3/NANS3_collision.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- gazebo integration -->
+    <xacro:sick_safetyscanners2_gazebo
+      name="${name}"
+      link="${name}"
+      ros_topic="${ros_topic}"
+      update_rate="${update_rate}"
+      min_angle="${min_angle}"
+      max_angle="${max_angle}"
+      min_range="${min_range}"
+      max_range="${max_range}"
+      gaussian_noise="${gaussian_noise}"
+      max_beams="${max_beams}">
+    </xacro:sick_safetyscanners2_gazebo>
+
+  </xacro:macro>
+</robot>

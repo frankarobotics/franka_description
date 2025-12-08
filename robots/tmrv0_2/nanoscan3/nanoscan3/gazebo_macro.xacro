@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="sick_safetyscanners2_gazebo" params="name link ros_topic update_rate min_angle max_angle min_range max_range gaussian_noise:=0.006 max_beams:=540">
+
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <gazebo reference="${link}">
+      <material value="Gazebo/Yellow" />
+      <sensor name="${name}" type="gpu_lidar">
+        <topic>${ros_topic}</topic>
+        <update_rate>${update_rate}</update_rate>
+        <gz_frame_id>${link}</gz_frame_id>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>${max_beams}</samples>
+              <resolution>1</resolution>
+              <min_angle>${min_angle}</min_angle>
+              <max_angle>${max_angle}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>16</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.261799</min_angle>
+              <max_angle>0.261799</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>${gaussian_noise}</stddev>
+          </noise>
+        </lidar>
+        <visualize>true</visualize>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
