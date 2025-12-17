@@ -6,6 +6,7 @@ UNRELEASED
 ----------
 * feat: tmrv0_2 added to franka description
 * feat: arm_id replaced by robot_type
+* feat: add RViz config path as launch parameter to visualize_franka.launch.py
 
 1.4.0 (2025-11-10)
 ----------
