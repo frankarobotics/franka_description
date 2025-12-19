@@ -2,7 +2,7 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-UNRELEASED
+1.5.0 (2025-12-19)
 ----------
 * feat: tmrv0_2 added to franka description
 * feat: arm_id replaced by robot_type
