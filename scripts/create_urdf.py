@@ -86,7 +86,7 @@ if __name__ == "__main__":
         print("Call the script from franka_description root folder")
         exit()
 
-    ROBOTS = ["fr3v2.1", "fr3v2", "fr3_duo", "fr3", "fp3", "fer", "tmrv0_2"]
+    ROBOTS = ["fr3v2.1", "fr3v2", "fr3_duo", "fr3", "fp3", "fer", "tmrv0_2", "mobile_fr3_duo"]
 
     END_EFFECTORS = ["none", "franka_hand", "cobot_pump"]
 
@@ -184,7 +184,7 @@ if __name__ == "__main__":
             for robot in ROBOTS:
                 description_types = ["urdf", "srdf"]
                 for description_type in description_types:
-                    if description_type == 'srdf' and (robot == 'fr3_duo' or robot == 'tmrv0_2'):
+                    if description_type == 'srdf' and (robot == 'fr3_duo' or robot == 'tmrv0_2' or robot == 'mobile_fr3_duo'):
                         continue
                     xacro_file = f'robots/{robot}/{robot}.{description_type}.xacro'
                     if HAND and EE != 'none' and robot != 'tmrv0_2':
