@@ -31,7 +31,7 @@ usage: create_urdf.py [-h] [--robot-ee] [--no-ee] [--with-sc] [--abs-path] [--ho
 Generate franka robots urdf models. Script to be executed from franka_description root folder!
 
 positional arguments:
-  robot_model          id of the robot model (accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2, mobile_fr3_duo, none)
+  robot_model          id of the robot model (accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2, mobile_fr3_duo_v0_2, none)
 
 optional arguments:
   -h, --help           show this help message and exit
@@ -53,7 +53,7 @@ The urdf file can be visualized via RViz with the following command:
 # visualize_franka.sh launches the visualize_franka.launch.py in a ros2 instance running in the docker container
 # The arguments given to the .sh script are forwarded as launch arguments
 # Accepted launch arguments are:
-#     robot_type - accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2, mobile_fr3_duo
+#     robot_type - accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2, mobile_fr3_duo_v0_2
 #     load_gripper - accepted values are: true (default ee_id is franka_hand), false (ee_id will be ignored) [WARNING: this argument will be removed in future releases, introducing "none" as ee id]
 #     ee_id - accepted values are: franka_hand, cobot_pump
 
