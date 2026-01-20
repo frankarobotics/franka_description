@@ -86,7 +86,8 @@ if __name__ == "__main__":
         print("Call the script from franka_description root folder")
         exit()
 
-    ROBOTS = ["fr3v2.1", "fr3v2", "fr3_duo", "fr3", "fp3", "fer", "tmrv0_2", "mobile_fr3_duo_v0_2"]
+    ROBOTS = ['fr3v2_1', 'fr3v2', 'fr3_duo', 'fr3', 'fp3', 'fer', 'tmrv0_2', 'mobile_fr3_duo_v0_2']
+    ROBOTS_WITHOUT_SRDF = ['fr3_duo', 'tmrv0_2', 'mobile_fr3_duo_v0_2']
 
     END_EFFECTORS = ["none", "franka_hand", "cobot_pump"]
 
@@ -184,7 +185,16 @@ if __name__ == "__main__":
             for robot in ROBOTS:
                 description_types = ["urdf", "srdf"]
                 for description_type in description_types:
-                    if description_type == 'srdf' and (robot == 'fr3_duo' or robot == 'tmrv0_2' or robot == 'mobile_fr3_duo_v0_2'):
+                    if description_type == 'srdf' and robot in ROBOTS_WITHOUT_SRDF:
+                        # write dummy srdf file
+                        print(f'\n*** Creating dummy {description_type} for {robot} ***')
+                        file_name = f'{robot}'
+                        save_urdf_to_file(
+                            package_path,
+                            f'<robot name="{robot}"></robot>',
+                            file_name,
+                            description_type,
+                        )
                         continue
                     xacro_file = f'robots/{robot}/{robot}.{description_type}.xacro'
                     if HAND and EE != 'none' and robot != 'tmrv0_2':
