@@ -2,7 +2,7 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-UNRELEASED
+1.5.2 (2026-01-22)
 ----------
 * chore: renamed meshes/robot_arms > meshes/robots to support tmr v0.2
 
