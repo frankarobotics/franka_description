@@ -7,6 +7,7 @@ Changelog for package franka_description
 * chore: renamed meshes/robot_arms > meshes/robots to support tmr v0.2
 * chore: tmrv0_2 replace lidar with mounting point and add imu mounting point
 * fix: mounting point typo in tmrv0_2.xacro
+* fix: removed `olv_descriptions_module` dependency completely
 
 1.5.1 (2026-01-16)
 ----------
