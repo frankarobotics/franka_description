@@ -13,7 +13,6 @@
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/caster_wheel.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/rocker_arm.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/inertia.xacro" />
-    <xacro:include filename="$(find franka_description)/robots/tmrv0_2/lidar.xacro" />
 
     <xacro:property name="caster_radius" value="0.03" />
     <xacro:property name="caster_x" value="0.3" />
@@ -28,13 +27,6 @@
     <xacro:property name="argo_drive_x" value="0.3" />
     <xacro:property name="argo_drive_y" value="0.2" />
     <xacro:property name="argo_drive_z" value="0.05" />
-
-
-    <xacro:property name="lidar_x" value="0.3275" />
-    <xacro:property name="lidar_y" value="0.2175" />
-    <xacro:property name="lidar_z" value="0.19065" />
-    <xacro:property name="lidar_pitch" value="${pi}" />
-    <xacro:property name="lidar_yaw" value="${pi*3/4}" />
 
     <!-- Main Platform Chassis -->
     <link name="base_link">
@@ -107,76 +99,54 @@
         xyz="${-argo_drive_x - rocker_arm_x} ${argo_drive_y - rocker_arm_y} ${argo_drive_z - rocker_arm_z}" />
     </xacro:argo_drive>
 
-    <!-- lidars -->
-    <xacro:lidar name="lidar_front" parent="base_link">
-      <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw}" />
-    </xacro:lidar>
-    <link name="lidar_front_inertia">
-      <inertial>
-        <origin xyz="-0.000042 -0.000171 0.017345" rpy="0 0 0"/>
-        <mass value="0.591688"/>
-        <inertia
-          ixx="0.000710467462"
-          ixy="0.000002762520"
-          ixz="0.000001890211"
-          iyy="0.000713021983"
-          iyz="0.000001953103"
-          izz="0.000824272853"/>
-      </inertial>
-    </link>
-
-    <joint name="lidar_front_inertia_joint" type="fixed">
-      <parent link="base_link" />
-      <child link="lidar_front_inertia" />
-      <origin xyz="${lidar_x} ${lidar_y} ${lidar_z}" rpy="0 0 0" />
-    </joint>
-
-    <xacro:lidar name="lidar_rear" parent="base_link">
-      <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 ${lidar_pitch} ${lidar_yaw + pi}" />
-    </xacro:lidar>
-    <link name="lidar_rear_inertia">
-      <inertial>
-        <origin xyz="0.000042 0.000171 0.017345" rpy="0 0 0"/>
-        <mass value="0.591688"/>
-        <inertia
-          ixx="0.000710467462"
-          ixy="0.000002766806"
-          ixz="-0.000001455643"
-          iyy="0.000713021983"
-          iyz="-0.000000197438"
-          izz="0.000824272853"/>
-      </inertial>
-    </link>
-    <joint name="lidar_rear_inertia_joint" type="fixed">
-      <parent link="base_link" />
-      <child link="lidar_rear_inertia" />
-      <origin xyz="${-lidar_x} ${-lidar_y} ${lidar_z}" rpy="0 0 0" />
-    </joint>
-
     <!-- Mounting Points -->
-    <link name="front_mointing_point"/>
-    <joint name="front_mointing_point_joint" type="fixed">
+    <!-- IMU -->
+    <link name="imu_mounting_point"/>
+    <joint name="imu_mounting_point_joint" type="fixed">
       <parent link="base_link" />
-      <child link="front_mointing_point" />
+      <child link="imu_mounting_point" />
+      <origin xyz="0.260 0.0 0.1478" rpy="${pi} 0 0" />
+    </joint>
+
+    <!-- Cameras -->
+    <link name="front_mounting_point"/>
+    <joint name="front_mounting_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="front_mounting_point" />
       <origin xyz="0.380705 0.0 0.2345" rpy="${pi} 0 0" />
     </joint>
-    <link name="rear_mointing_point"/>
-    <joint name="rear_mointing_point_joint" type="fixed">
+    <link name="rear_mounting_point"/>
+    <joint name="rear_mounting_point_joint" type="fixed">
       <parent link="base_link" />
-      <child link="rear_mointing_point" />
+      <child link="rear_mounting_point" />
       <origin xyz="-0.380705 0.0 0.2345" rpy="${pi} 0 ${pi}" />
     </joint>
-    <link name="right_mointing_point"/>
-    <joint name="right_mointing_point_joint" type="fixed">
+    <link name="right_mounting_point"/>
+    <joint name="right_mounting_point_joint" type="fixed">
       <parent link="base_link" />
-      <child link="right_mointing_point" />
+      <child link="right_mounting_point" />
       <origin xyz="0.0 0.272712 0.1145" rpy="${pi} 0 ${pi/2}" />
     </joint>
-    <link name="left_mointing_point"/>
-    <joint name="left_mointing_point_joint" type="fixed">
+    <link name="left_mounting_point"/>
+    <joint name="left_mounting_point_joint" type="fixed">
       <parent link="base_link" />
-      <child link="left_mointing_point" />
+      <child link="left_mounting_point" />
       <origin xyz="0.0 -0.272712 0.1145" rpy="${pi} 0 -${pi/2}" />
+    </joint>
+
+    <!-- Lidars -->
+    <link name="lidar_front_mounting_point"/>
+    <joint name="lidar_front_mounting_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="lidar_front_mounting_point" />
+      <origin xyz="0.3275 0.2175 0.19065" rpy="0 ${pi} ${pi*3/4}" />
+    </joint>
+
+    <link name="lidar_rear_mounting_point"/>
+    <joint name="lidar_rear_mounting_point_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="lidar_rear_mounting_point" />
+      <origin xyz="-0.3275 -0.2175 0.19065" rpy="0 ${pi} ${pi*7/4}" />
     </joint>
     
     <xacro:if value="${ros2_control}">
