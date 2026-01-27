@@ -18,12 +18,15 @@ import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 
+
 from launch import LaunchContext, LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 
 
-def robot_state_publisher_spawner(context: LaunchContext, robot_type, arm_prefix, load_gripper, ee_id):
+def robot_state_publisher_spawner(
+    context: LaunchContext, robot_type, arm_prefix, load_gripper, ee_id
+):
     robot_type_str = robot_type
     arm_prefix_str = arm_prefix
     load_gripper_str = context.perform_substitution(load_gripper)
@@ -36,7 +39,8 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_type, arm_prefix
     )
 
     if robot_type_str == 'fixed_structure':
-        robot_description = xacro.process_file(franka_xacro_filepath).toprettyxml(indent='  ')
+        robot_description = xacro.process_file(
+            franka_xacro_filepath).toprettyxml(indent='  ')
     else:
         robot_description = xacro.process_file(
             franka_xacro_filepath,
@@ -57,11 +61,11 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_type, arm_prefix
             parameters=[{'robot_description': robot_description}],
         ),
         Node(
-                package='joint_state_publisher_gui',
-                executable='joint_state_publisher_gui',
-                name='joint_state_publisher_gui',
-                namespace=robot_type_str + '_' + arm_prefix_str,
-            ),
+            package='joint_state_publisher_gui',
+            executable='joint_state_publisher_gui',
+            name='joint_state_publisher_gui',
+            namespace=robot_type_str + '_' + arm_prefix_str,
+        ),
     ]
 
 
@@ -87,7 +91,8 @@ def generate_launch_description():
         if component == "fixed_structure":
             print("Spawning fixed structure")
             robot_state_publisher_spawner_opaque_function.append(OpaqueFunction(
-                function=robot_state_publisher_spawner, args=[component, "", load_gripper, ee_id]
+                function=robot_state_publisher_spawner, args=[
+                    component, "", load_gripper, ee_id]
             ))
         else:
             print('Spawning arm')
