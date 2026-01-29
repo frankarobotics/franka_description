@@ -2,6 +2,10 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+## UNRELEASED
+-------------
+* feat: add the motor inertia and gear ratio to the urdfs of arms
+
 1.5.3 (2026-02-26)
 ----------
 * fix: removed `olv_descriptions_module` dependency completely

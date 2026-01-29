@@ -263,7 +263,9 @@
              damping="${dynamics.damping}"
              friction="${dynamics.friction}"
              mu_coulomb="${dynamics.mu_coulomb}"
-             mu_viscous="${dynamics.mu_viscous}" />
+             mu_viscous="${dynamics.mu_viscous}"
+             motor_inertia="${dynamics.motor_inertia}"
+             gear_ratio="${dynamics.gear_ratio}" />
   </xacro:macro>
 
   <!-- ========================================================================= -->
