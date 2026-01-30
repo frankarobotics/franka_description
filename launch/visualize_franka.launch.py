@@ -26,10 +26,10 @@ from launch.substitutions import LaunchConfiguration
 def resolve_rviz_config(context: LaunchContext, rviz_file_config):
     """Resolve RViz config to full path. Supports both filename and full path."""
     rviz_file_str = context.perform_substitution(rviz_file_config)
-    
+
     if os.path.isabs(rviz_file_str):
         return rviz_file_str
-    
+
     return os.path.join(
         get_package_share_directory("franka_description"),
         "rviz",
@@ -48,7 +48,8 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_type, load_gripp
         robot_type_str + '.urdf.xacro',
     )
     robot_description = xacro.process_file(
-        franka_xacro_filepath, mappings={"hand": load_gripper_str, "ee_id": ee_id_str}
+        franka_xacro_filepath, mappings={
+            "hand": load_gripper_str, "ee_id": ee_id_str}
     ).toprettyxml(indent="  ")
 
     return [
@@ -64,7 +65,7 @@ def robot_state_publisher_spawner(context: LaunchContext, robot_type, load_gripp
 
 def rviz_spawner(context: LaunchContext, rviz_file_config):
     rviz_config_path = resolve_rviz_config(context, rviz_file_config)
-    
+
     return [
         Node(
             package="rviz2",
@@ -89,9 +90,10 @@ def generate_launch_description():
     rviz_file = LaunchConfiguration(rviz_file_parameter_name)
 
     robot_state_publisher_spawner_opaque_function = OpaqueFunction(
-        function=robot_state_publisher_spawner, args=[robot_type, load_gripper, ee_id]
+        function=robot_state_publisher_spawner, args=[
+            robot_type, load_gripper, ee_id]
     )
-    
+
     rviz_spawner_opaque_function = OpaqueFunction(
         function=rviz_spawner, args=[rviz_file]
     )
