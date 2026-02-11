@@ -7,7 +7,9 @@
                   ros2_control:=true
                   use_fake_hardware:=false
                   fake_sensor_commands:=false
-                  reduced_version:=false">
+                  reduced_version:=false
+                  robot_namespace:=''
+                  gazebo:=false">
 
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/argo_drive.xacro" />
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/caster_wheel.xacro" />
@@ -156,6 +158,8 @@
         robot_ip="${robot_ip}"
         use_fake_hardware="${use_fake_hardware}"
         fake_sensor_commands="${fake_sensor_commands}"
+        robot_namespace="${robot_namespace}"
+        gazebo="${gazebo}"
       />
     </xacro:if>
   </xacro:macro>

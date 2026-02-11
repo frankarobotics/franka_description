@@ -61,6 +61,9 @@
   <!-- Name of the description package -->
   <xacro:arg name="description_pkg" default="franka_description" />
 
+  <!-- The name of the frame to which the robot is connected. -->
+  <xacro:arg name="connected_to" default="base" />
+
   <link name="base">
   </link>
 
@@ -119,7 +122,8 @@
                           no_prefix="$(arg no_prefix)"
                           arm_prefix= "${modified_prefix}"
                           description_pkg="$(arg description_pkg)"
-                          connected_to="${arm_prefixes_list[i]}_base">
+                          connected_to="${arm_prefixes_list[i]}_base"
+                          robot_namespace="">
       </xacro:franka_robot>
       <xacro:loop i="${i+1}"/>
     </xacro:unless>

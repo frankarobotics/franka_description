@@ -63,11 +63,24 @@
   <!-- Name of the description package -->
   <xacro:arg name="description_pkg" default="franka_description" />
 
+  <!-- The name of the frame to which the robot is connected. -->
+  <xacro:arg name="connected_to" default="base" />
+
   <!-- Should the reduced tmr kinematic version (without caster wheels) be used? -->
   <xacro:arg name="reduced_version" default="false" />
 
-  <link name="base">
-  </link>
+  <!-- Should the arms be used? -->
+  <xacro:arg name="use_arms" default="true" />
+
+  <xacro:unless value="$(arg gazebo)">
+      <link name="base"/>
+
+      <joint name="base_joint" type="fixed">
+        <parent link="base"/>
+        <child link="base_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </joint>
+  </xacro:unless>
 
   <xacro:property name="number_of_robots" value = "3"/>
   <xacro:property name="arm_prefixes_list" value="${['','left','right']}" /> 
@@ -81,12 +94,6 @@
                 use_fake_hardware="$(arg use_fake_hardware)"
                 fake_sensor_commands="$(arg fake_sensor_commands)"
                 reduced_version="$(arg reduced_version)"/>
-
-        <joint name="base_joint" type="fixed">
-          <parent link="base" />
-          <child link="base_link" />
-          <origin xyz="0 0 0" rpy="0 0 0" />
-        </joint>
 
         <link name="franka_spine">
           <visual name="franka_spine_visual">
@@ -134,52 +141,55 @@
         </xacro:mount>
       </xacro:if>
       <xacro:unless value="${robot_type_i == 'tmrv0_2'}">
-        <xacro:property name="mount_to_base" value="${xacro.load_yaml('$(arg mount_kinematics)')}"/>
-        <xacro:property name="robot_prefix" value="${arm_prefixes_list[i]}"/>
-        <xacro:property name="modified_prefix" value="${robot_prefix + '_' if robot_prefix else ''}"/>
-        <joint name="${arm_prefixes_list[i]}_base_joint" type="fixed">
-          <parent link="mount_link"/>
-          <child link="${arm_prefixes_list[i]}_base"/>
-          <xacro:if value="${robot_prefix == 'left'}">
-            <xacro:property name="mount_corner" value="${mount_to_base['left']}" lazy_eval="false" />
-          </xacro:if>
-          <xacro:if value="${robot_prefix == 'right'}">
-            <xacro:property name="mount_corner" value="${mount_to_base['right']}" lazy_eval="false" />
-          </xacro:if>
-          <origin rpy="${mount_corner.kinematic.roll} ${mount_corner.kinematic.pitch} ${mount_corner.kinematic.yaw}" xyz="${mount_corner.kinematic.x} ${mount_corner.kinematic.y} ${mount_corner.kinematic.z}"/>
-        </joint>
+        <xacro:if value="$(arg use_arms)">
+          <xacro:property name="mount_to_base" value="${xacro.load_yaml('$(arg mount_kinematics)')}"/>
+          <xacro:property name="robot_prefix" value="${arm_prefixes_list[i]}"/>
+          <xacro:property name="modified_prefix" value="${robot_prefix + '_' if robot_prefix else ''}"/>
+          <joint name="${arm_prefixes_list[i]}_base_joint" type="fixed">
+            <parent link="mount_link"/>
+            <child link="${arm_prefixes_list[i]}_base"/>
+            <xacro:if value="${robot_prefix == 'left'}">
+              <xacro:property name="mount_corner" value="${mount_to_base['left']}" lazy_eval="false" />
+            </xacro:if>
+            <xacro:if value="${robot_prefix == 'right'}">
+              <xacro:property name="mount_corner" value="${mount_to_base['right']}" lazy_eval="false" />
+            </xacro:if>
+            <origin rpy="${mount_corner.kinematic.roll} ${mount_corner.kinematic.pitch} ${mount_corner.kinematic.yaw}" xyz="${mount_corner.kinematic.x} ${mount_corner.kinematic.y} ${mount_corner.kinematic.z}"/>
+          </joint>
 
-        <xacro:arg name="inertials_path" default="$(find franka_description)/robots/${robot_type_i}/inertials.yaml"/>
-        <xacro:arg name="kinematics_path" default="$(find franka_description)/robots/${robot_type_i}/kinematics.yaml"/>
-        <xacro:arg name="dynamics_path" default="$(find franka_description)/robots/${robot_type_i}/dynamics.yaml"/>
-        <xacro:arg name="joint_limits_path" default="$(find franka_description)/robots/${robot_type_i}/joint_limits.yaml"/>
-        <xacro:arg name="accelerometers_path" default="$(find franka_description)/robots/${robot_type_i}/accelerometers.yaml"/>
-        <xacro:franka_robot robot_type="${robot_type_i}"
-                            joint_limits="${xacro.load_yaml('$(arg joint_limits_path)')}"
-                            inertials="${xacro.load_yaml('$(arg inertials_path)')}"
-                            kinematics="${xacro.load_yaml('$(arg kinematics_path)')}"
-                            dynamics="${xacro.load_yaml('$(arg dynamics_path)')}"
-                            accelerometer_config="${xacro.load_yaml('$(arg accelerometers_path)')}"
-                            gazebo="$(arg gazebo)"
-                            hand="$(arg hand)"
-                            ee_id="$(arg ee_id)"
-                            special_connection="$(arg special_connection)"
-                            xyz_ee="$(arg xyz_ee)"
-                            rpy_ee="$(arg rpy_ee)"
-                            tcp_xyz="$(arg tcp_xyz)"
-                            tcp_rpy="$(arg tcp_rpy)"
-                            safety_distance="$(arg safety_distance)"
-                            with_sc="$(arg with_sc)"
-                            ros2_control="$(arg ros2_control)"
-                            robot_ip="${robot_ips_list[i]}"
-                            use_fake_hardware="$(arg use_fake_hardware)"
-                            fake_sensor_commands="$(arg fake_sensor_commands)"
-                            gazebo_effort="$(arg gazebo_effort)"
-                            no_prefix="$(arg no_prefix)"
-                            arm_prefix= "${modified_prefix}"
-                            description_pkg="$(arg description_pkg)"
-                            connected_to="${arm_prefixes_list[i]}_base">
-        </xacro:franka_robot>
+          <xacro:arg name="inertials_path" default="$(find franka_description)/robots/${robot_type_i}/inertials.yaml"/>
+          <xacro:arg name="kinematics_path" default="$(find franka_description)/robots/${robot_type_i}/kinematics.yaml"/>
+          <xacro:arg name="dynamics_path" default="$(find franka_description)/robots/${robot_type_i}/dynamics.yaml"/>
+          <xacro:arg name="joint_limits_path" default="$(find franka_description)/robots/${robot_type_i}/joint_limits.yaml"/>
+          <xacro:arg name="accelerometers_path" default="$(find franka_description)/robots/${robot_type_i}/accelerometers.yaml"/>
+          <xacro:franka_robot robot_type="${robot_type_i}"
+                              joint_limits="${xacro.load_yaml('$(arg joint_limits_path)')}"
+                              inertials="${xacro.load_yaml('$(arg inertials_path)')}"
+                              kinematics="${xacro.load_yaml('$(arg kinematics_path)')}"
+                              dynamics="${xacro.load_yaml('$(arg dynamics_path)')}"
+                              accelerometer_config="${xacro.load_yaml('$(arg accelerometers_path)')}"
+                              gazebo="$(arg gazebo)"
+                              hand="$(arg hand)"
+                              ee_id="$(arg ee_id)"
+                              special_connection="$(arg special_connection)"
+                              xyz_ee="$(arg xyz_ee)"
+                              rpy_ee="$(arg rpy_ee)"
+                              tcp_xyz="$(arg tcp_xyz)"
+                              tcp_rpy="$(arg tcp_rpy)"
+                              safety_distance="$(arg safety_distance)"
+                              with_sc="$(arg with_sc)"
+                              ros2_control="$(arg ros2_control)"
+                              robot_ip="${robot_ips_list[i]}"
+                              use_fake_hardware="$(arg use_fake_hardware)"
+                              fake_sensor_commands="$(arg fake_sensor_commands)"
+                              gazebo_effort="$(arg gazebo_effort)"
+                              no_prefix="$(arg no_prefix)"
+                              arm_prefix= "${modified_prefix}"
+                              description_pkg="$(arg description_pkg)"
+                              connected_to="${arm_prefixes_list[i]}_base"
+                              robot_namespace="">
+          </xacro:franka_robot>
+        </xacro:if>
       </xacro:unless>
       <xacro:loop i="${i+1}"/>
     </xacro:unless>

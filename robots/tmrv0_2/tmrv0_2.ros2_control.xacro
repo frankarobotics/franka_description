@@ -5,7 +5,9 @@
     params="mobile_robot_type
             robot_ip
             use_fake_hardware
-            fake_sensor_commands">
+            fake_sensor_commands
+            gazebo
+            robot_namespace">
     <ros2_control name="TmrHardware" type="system">
       <hardware>
         <param name="version">0.1.0</param>
@@ -17,7 +19,11 @@
           <param name="state_following_offset">0.0</param>
         </xacro:if>
 
-        <xacro:if value="${use_fake_hardware == 0}">
+        <xacro:if value="${gazebo}">
+          <plugin>franka_ign_ros2_control/IgnitionSystem</plugin>
+        </xacro:if>
+
+        <xacro:if value="${use_fake_hardware == 0 and gazebo == 0}">
           <plugin>franka_hardware/FrankaHardwareInterface</plugin>
           <param name="robot_ip">${robot_ip}</param>
         </xacro:if>
@@ -62,5 +68,22 @@
       <xacro:general_purpose_io prefix="wz" command_interface="cartesian_velocity" index="5"/>
 
     </ros2_control>
+    <xacro:if value="${gazebo}">
+      <gazebo>
+        <plugin
+          filename="franka_ign_ros2_control-system"
+          name="ign_ros2_control::IgnitionROS2ControlPlugin">
+
+          <ros>
+            <namespace>${robot_namespace}</namespace>
+          </ros>
+
+          <parameters>
+            $(find franka_gazebo_bringup)/config/franka_gazebo_controllers.yaml
+          </parameters>
+
+        </plugin>
+      </gazebo>
+    </xacro:if>
   </xacro:macro>
 </robot>
