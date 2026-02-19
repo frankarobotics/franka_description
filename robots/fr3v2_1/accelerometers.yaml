@@ -1,95 +1,90 @@
 link0:
   accelerometer_top:
-    x: 0
-    y: 0
-    z: 0.05
-    roll: 3.14159
-    pitch: 0
-    yaw: 0
+    x: -1.7402e-02
+    y: -7.8720e-03
+    z: 4.7150e-02
+    roll: 3.1416
+    pitch: 0.0000
+    yaw: 0.0000
   accelerometer_bottom:
-    x: 0
-    y: 0
-    z: 0.06
-    roll: 0
-    pitch: 0
-    yaw: 0
-
+    x: -1.9739e-02
+    y: 1.5506e-03
+    z: 5.0750e-02
+    roll: 0.0000
+    pitch: 0.0000
+    yaw: -1.5708
 link1:
   accelerometer_top:
-    x: 0
-    y: -0.1
-    z: 0.0
-    roll: 1.5708
-    pitch: 0
-    yaw: 0
-  accelerometer_bottom:
-    x: 0
-    y: -0.09
-    z: 0.0
+    x: 1.7402e-02
+    y: -9.3352e-02
+    z: -7.8700e-03
     roll: -1.5708
-    pitch: 0
-    yaw: 0
-
+    pitch: 0.0000
+    yaw: 3.1416
+  accelerometer_bottom:
+    x: 1.9740e-02
+    y: -8.9750e-02
+    z: 1.5500e-03
+    roll: -1.5708
+    pitch: 1.5708
+    yaw: 0.0000
 link2:
   accelerometer_top:
-    x: 0
-    y: -0.13
-    z: 0
-    roll: -1.5708
-    pitch: 0
-    yaw: 0
-  accelerometer_bottom:
-    x: 0
-    y: -0.14
-    z: 0
+    x: 1.7403e-02
+    y: -1.1515e-01
+    z: 7.8700e-03
     roll: 1.5708
-    pitch: 0
-    yaw: 0
-
+    pitch: 0.0000
+    yaw: 3.1416
+  accelerometer_bottom:
+    x: 1.9737e-02
+    y: -1.1875e-01
+    z: -1.5500e-03
+    roll: 1.5708
+    pitch: -1.5708
+    yaw: 0.0000
 link3:
   accelerometer_top:
-    x: 0.0825
-    y: 0.05
-    z: 0
+    x: 6.5099e-02
+    y: 7.7352e-02
+    z: -7.8700e-03
     roll: -1.5708
-    pitch: 0
-    yaw: 0
+    pitch: 0.0000
+    yaw: 0.0000
   accelerometer_bottom:
-    x: 0.0825
-    y: 0.04
-    z: 0
+    x: 6.2769e-02
+    y: 7.3756e-02
+    z: 1.5500e-03
     roll: 1.5708
-    pitch: 0
-    yaw: 0
-
+    pitch: 1.5708
+    yaw: 0.0000
 link4:
   accelerometer_top:
-    x: -0.0825
-    y: 0.05
-    z: 0
-    roll: 1.5708
-    pitch: 0
-    yaw: 0
-  accelerometer_bottom:
-    x: -0.0825
-    y: 0.06
-    z: 0
+    x: -6.5100e-02
+    y: 4.6152e-02
+    z: -7.8700e-03
     roll: -1.5708
-    pitch: 0
-    yaw: 0
-
+    pitch: 0.0000
+    yaw: -3.1416
+  accelerometer_bottom:
+    x: -6.2775e-02
+    y: 4.9753e-02
+    z: 1.5500e-03
+    roll: -1.5708
+    pitch: 1.5708
+    yaw: 0.0000
 link5:
   accelerometer_top:
-    x: 0
-    y: 0.11
-    z: 0
+    x: -1.7363e-02
+    y: 8.5872e-02
+    z: -7.9500e-03
     roll: -1.5708
-    pitch: 0
-    yaw: 0
+    pitch: 0.0000
+    yaw: 0.0000
   accelerometer_bottom:
-    x: 0
-    y: 0.1
-    z: 0
+    x: -1.9742e-02
+    y: 8.2275e-02
+    z: 1.4600e-03
     roll: 1.5708
-    pitch: 0
-    yaw: 0
+    pitch: 1.5708
+    yaw: 0.0000
