@@ -86,7 +86,6 @@
     </joint>
   </xacro:if>
 
-
   <xacro:franka_robot robot_type="fer"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fer/joint_limits.yaml')}"
                       inertials="${xacro.load_yaml('$(find franka_description)/robots/fer/inertials.yaml')}"

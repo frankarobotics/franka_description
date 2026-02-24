@@ -112,6 +112,5 @@
                       description_pkg="$(arg description_pkg)"
                       connected_to="$(arg connected_to)"
                       robot_namespace="$(arg robot_namespace)"/>
-  </xacro:franka_robot>
 
 </robot>

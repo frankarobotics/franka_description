@@ -65,7 +65,7 @@
   <xacro:arg name="connected_to" default="base" />
 
   <!-- Robot namespace -->
-   <xacro:arg name="robot_namespace" default="" />
+  <xacro:arg name="robot_namespace" default="" />
   
   <!-- Append an underscore to the user-provided prefix, if non-empty. -->
   <xacro:property name="prefix" value="$(arg arm_prefix)"/>

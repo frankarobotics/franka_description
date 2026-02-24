@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <xacro:macro name="head" params="name parent *origin">   
+    <link name="head_link" >
+      <visual>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/accessories/fr3_duo_head/visual/fr3_duo_head.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/accessories/fr3_duo_head/collision/fr3_duo_head.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1.0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+          ixx="0.01" ixy="0.0" ixz="0.0"
+          iyy="0.01" iyz="0.0"
+          izz="0.01"/>
+      </inertial>
+    </link>
+
+    <joint name="head_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child  link="head_link" />
+    </joint>
+
+    <link name="head_camera_mounting_point" >
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+          ixx="0.001" ixy="0.0" ixz="0.0"
+          iyy="0.001" iyz="0.0"
+          izz="0.001"/>
+      </inertial>
+    </link>
+
+    <joint name="head_camera_mounting_point_joint" type="fixed">
+      <origin xyz="0.0498 -0.02 0.2345" rpy="0 0.7156 0" />
+      <parent link="head_link" />
+      <child  link="head_camera_mounting_point" />
+    </joint>
+
+  </xacro:macro>
+
+</robot>
