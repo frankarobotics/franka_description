@@ -71,6 +71,21 @@
   <xacro:property name="prefix" value="$(arg arm_prefix)"/>
   <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
 
+  <!--Position offset with respect to the world-->
+  <xacro:arg name="xyz" default="0 0 0" />
+
+  <!--Rotation offset with respect to the world-->
+  <xacro:arg name="rpy" default="0 0 0" />
+
+  <xacro:if value="$(arg gazebo)">
+    <link name="world" />
+    <joint name="world_joint" type="fixed">
+      <origin xyz="$(arg xyz)" rpy="$(arg rpy)" />
+      <parent link="world" />
+      <child  link="${modified_prefix}$(arg robot_type)_link0" />
+    </joint>
+  </xacro:if>
+
   <xacro:franka_robot robot_type="fr3v2"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3v2/joint_limits.yaml')}"
                       inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3v2/inertials.yaml')}"

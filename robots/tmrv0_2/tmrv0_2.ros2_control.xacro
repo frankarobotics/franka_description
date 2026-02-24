@@ -35,12 +35,18 @@
           <state_interface name="position">
             <param name="initial_value">0.0</param>
           </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
         </joint>
       </xacro:macro>
 
       <xacro:macro name="configure_driving_joint" params="joint_name">
         <joint name="${joint_name}">
           <command_interface name="velocity"/>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
           <state_interface name="velocity">
             <param name="initial_value">0.0</param>
           </state_interface>
@@ -51,6 +57,58 @@
       <xacro:configure_driving_joint joint_name="${mobile_robot_type}_joint_1"/>
       <xacro:configure_steering_joint joint_name="${mobile_robot_type}_joint_2"/>
       <xacro:configure_driving_joint joint_name="${mobile_robot_type}_joint_3"/>
+
+      <xacro:if value="${gazebo}">
+        <!-- Rocker Arm -->
+        <joint name="rocker_arm_joint">
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+
+        <!-- Front caster steering -->
+        <joint name="caster_front_left_steering_joint">
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+
+        <!-- Front caster joint -->
+        <joint name="caster_front_left_joint">
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+
+        <!-- Rear caster steering -->
+        <joint name="caster_rear_right_steering_joint">
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+
+        <!-- Rear caster joint -->
+        <joint name="caster_rear_right_joint">
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+      </xacro:if>
 
       <xacro:macro name="general_purpose_io" params="prefix command_interface index">
         <gpio name="${prefix}">

@@ -9,7 +9,7 @@
     <xacro:property name="base_depth" value="0.25" />
     <xacro:property name="base_height" value="0.077" />
     <xacro:property name="offset_wheel" value="0.085" />
-    <xacro:property name="mass" value="0.5" />
+    <xacro:property name="mass" value="2.5" />
 
     <xacro:if value="${name == 'argo_drive_front'}">
       <xacro:property name="steering_joint" value="0" />
@@ -72,7 +72,7 @@
       <child  link="${name}_steering_link" />
       <axis   xyz="0 0 1" />
       <limit  effort="500" velocity="20" />
-      <dynamics damping="0.003" friction="0.0"/>
+      <dynamics damping="20.0" friction="5.0"/>
     </joint>
 
     <link name="${name}_link" >
@@ -103,7 +103,7 @@
       <child  link="${name}_link" />
       <axis   xyz="0 1 0" />
       <limit  effort="500" velocity="20" />
-      <dynamics damping="0.003" friction="0.0"/>
+      <dynamics damping="5.0" friction="1.0"/>
     </joint>
 
   </xacro:macro>

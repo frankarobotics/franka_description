@@ -127,13 +127,13 @@
     <joint name="right_mounting_point_joint" type="fixed">
       <parent link="base_link" />
       <child link="right_mounting_point" />
-      <origin xyz="0.0 0.272712 0.1145" rpy="${pi} 0 ${pi/2}" />
+      <origin xyz="0.0 -0.272712 0.1145" rpy="${pi} 0 -${pi/2}" />
     </joint>
     <link name="left_mounting_point"/>
     <joint name="left_mounting_point_joint" type="fixed">
       <parent link="base_link" />
       <child link="left_mounting_point" />
-      <origin xyz="0.0 -0.272712 0.1145" rpy="${pi} 0 -${pi/2}" />
+      <origin xyz="0.0 0.272712 0.1145" rpy="${pi} 0 ${pi/2}" />
     </joint>
 
     <!-- Lidars -->
