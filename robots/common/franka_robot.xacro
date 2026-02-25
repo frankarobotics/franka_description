@@ -28,7 +28,8 @@
                       no_prefix:='false'
                       arm_prefix:=''
                       description_pkg:='franka_description'
-                      connected_to:='base'">
+                      connected_to:='base'
+                      robot_namespace:=''">
                       
     <xacro:include filename="$(find franka_description)/robots/common/utils.xacro" />
 
@@ -102,18 +103,6 @@
     <!-- Definition of additional Gazebo tags -->
     <xacro:if value="${gazebo}">
 
-      <xacro:if value="${parent != ''}">
-        <!-- Gazebo requires a joint to a link called "world" for statically mounted robots -->
-        <xacro:if value="${parent == 'world'}">
-          <link name="${parent}" />
-        </xacro:if>
-        <joint name="${parent}_joint" type="fixed">
-          <origin xyz="${xyz}" rpy="${rpy}" />
-          <parent link="${parent}" />
-          <child  link="${arm_prefix}${robot_type}_link0" />
-        </joint>
-      </xacro:if>
-
       <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint1" transmission="hardware_interface/PositionJointInterface" />
       <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint2" transmission="hardware_interface/PositionJointInterface" />
       <xacro:gazebo-joint joint="${arm_prefix}${robot_type}_joint3" transmission="hardware_interface/PositionJointInterface" />
@@ -164,6 +153,7 @@
           hand="${hand}"
           gazebo_effort="${gazebo_effort}"
           arm_prefix="${arm_prefix}"
+          robot_namespace="${robot_namespace}"
       />
     </xacro:if>
 

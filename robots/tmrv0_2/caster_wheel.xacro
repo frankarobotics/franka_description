@@ -46,7 +46,15 @@
       <child  link="${name}_fixed_link" />
     </joint>
 
-    <link name="${name}_steering_link" />
+    <link name="${name}_steering_link">
+      <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <mass value="0.01"/>
+          <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                   iyy="0.0001" iyz="0.0" 
+                   izz="0.0001"/>
+      </inertial>
+    </link>
 
     <joint name="${name}_steering_joint" type="continuous">
       <origin xyz="0 0 0"/>
@@ -75,6 +83,13 @@
         <xacro:caster_wheel_geometry/>
       </collision>
 
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001"/>
+      </inertial>
     </link>
 
     <joint name="${name}_joint" type="continuous">

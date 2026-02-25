@@ -61,9 +61,30 @@
   <!-- Name of the description package -->
   <xacro:arg name="description_pkg" default="franka_description" />
   
+  <!-- The name of the frame to which the robot is connected. -->
+  <xacro:arg name="connected_to" default="base" />
+
+  <!-- Robot namespace -->
+  <xacro:arg name="robot_namespace" default="" />
+  
   <!-- Append an underscore to the user-provided prefix, if non-empty. -->
   <xacro:property name="prefix" value="$(arg arm_prefix)"/>
   <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
+
+  <!--Position offset with respect to the world-->
+  <xacro:arg name="xyz" default="0 0 0" />
+
+  <!--Rotation offset with respect to the world-->
+  <xacro:arg name="rpy" default="0 0 0" />
+
+  <xacro:if value="$(arg gazebo)">
+    <link name="world" />
+    <joint name="world_joint" type="fixed">
+      <origin xyz="$(arg xyz)" rpy="$(arg rpy)" />
+      <parent link="world" />
+      <child  link="${modified_prefix}$(arg robot_type)_link0" />
+    </joint>
+  </xacro:if>
 
   <xacro:franka_robot robot_type="fp3"
                       joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fp3/joint_limits.yaml')}"
@@ -89,7 +110,7 @@
                       no_prefix="$(arg no_prefix)"
                       arm_prefix="${modified_prefix}"
                       description_pkg="$(arg description_pkg)"
-                      connected_to= "base">
-  </xacro:franka_robot>
+                      connected_to="$(arg connected_to)"
+                      robot_namespace="$(arg robot_namespace)"/>
 
 </robot>
