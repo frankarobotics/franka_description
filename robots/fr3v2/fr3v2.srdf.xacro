@@ -18,11 +18,15 @@
   <!-- Which end-effector would be mounted at the flange?" -->
   <xacro:arg name="ee_id" default="franka_hand" />
 
+  <!-- Append an underscore to the user-provided prefix, if non-empty. -->
+  <xacro:property name="prefix" value="$(arg arm_prefix)"/>
+  <xacro:property name="modified_prefix" value="${prefix + '_' if prefix else ''}"/>
+
   <xacro:franka_arm_srdf robot_type="$(arg robot_type)"
                       hand="$(arg hand)"
                       ee_id="$(arg ee_id)"
                       no_prefix="$(arg no_prefix)"
-                      arm_prefix= "$(arg arm_prefix)">
+                      arm_prefix="${modified_prefix}">
   </xacro:franka_arm_srdf>
 
 </robot>
