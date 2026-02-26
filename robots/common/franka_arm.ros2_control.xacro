@@ -12,8 +12,7 @@
                  arm_prefix:=''
                  robot_namespace:=''">
 
-    <xacro:property name="arm_prefix_modified" value="${'' if arm_prefix == '' else arm_prefix + '_'}" />
-    <ros2_control name="${arm_prefix_modified}FrankaHardwareInterface" type="system">
+    <ros2_control name="${arm_prefix}FrankaHardwareInterface" type="system">
         <hardware>
           <param name="version">0.1.0</param>
           <param name="robot_type">${robot_type}</param>
@@ -73,7 +72,7 @@
 
 
       <xacro:macro name="general_purpose_io" params="prefix command_interface index">
-        <gpio name="${prefix}">
+        <gpio name="${arm_prefix}${prefix}">
           <command_interface name="${command_interface}"/>
           <param name="index">${index}</param>
         </gpio>
