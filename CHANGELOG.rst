@@ -2,7 +2,7 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.5.4 (2026-03-02)
+1.6.0 (2026-03-02)
 -------------
 * feat: add the motor inertia and gear ratio to the urdfs of arms
 * fix: corrected accelerometer frames for fr3v1, fr3v2, fr3v2.1
