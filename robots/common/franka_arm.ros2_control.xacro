@@ -24,7 +24,7 @@
           </xacro:if>
 
           <xacro:if value="${gazebo}">
-            <plugin>franka_ign_ros2_control/IgnitionSystem</plugin>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
           </xacro:if>
 
           <xacro:if value="${use_fake_hardware == 0 and gazebo == 0}">
@@ -104,8 +104,8 @@
     <xacro:if value="${gazebo}">
       <gazebo>
         <plugin
-          filename="franka_ign_ros2_control-system"
-          name="ign_ros2_control::IgnitionROS2ControlPlugin">
+          filename="gz_ros2_control-system"
+          name="gz_ros2_control::GazeboSimROS2ControlPlugin">
 
           <ros>
             <namespace>${robot_namespace}</namespace>
