@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 docker build -t urdf_creation \
     --build-arg USER_UID=$(id -u) \
