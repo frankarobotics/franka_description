@@ -2,13 +2,16 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.6.1 (2026-03-10)
+------------------
+* chore: remove exchange franka_ign_ros2_control plugin with gz_ros2_control
+
 1.6.0 (2026-03-02)
 -------------
 * feat: add the motor inertia and gear ratio to the urdfs of arms
 * fix: corrected accelerometer frames for fr3v1, fr3v2, fr3v2.1
 * feat: passive state interfaces added to enable gazebo simulation of the mobile base
 * fix: properly handle arm_prefixes in srdf
-* chore: remove exchange franka_ign_ros2_control plugin with gz_ros2_control
 
 1.5.3 (2026-02-26)
 ----------
