@@ -37,6 +37,10 @@
                 <xacro:include filename="$(find franka_description)/end_effectors/franka_hand/franka_hand.srdf.xacro"/>
                 <xacro:franka_hand_srdf prefix="${prefix}"/>
             </xacro:if>
+            <xacro:if value="${ee_id == 'cobot_pump'}">
+                <xacro:include filename="$(find franka_description)/end_effectors/cobot_pump/cobot_pump.srdf.xacro"/>
+                <xacro:cobot_pump_srdf prefix="${prefix}"/>
+            </xacro:if>
         </xacro:if>
 
     </xacro:macro>
