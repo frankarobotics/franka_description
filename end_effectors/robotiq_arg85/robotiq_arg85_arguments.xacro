@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Name for the robot -->
+  <xacro:arg name="robot_type" default="fr3" />
+
+  <!-- End-effector id" -->
+  <xacro:arg name="ee_id" default="robotiq_arg85" />
+
+  <!-- Where is the end-effector connected to, if different from the robot flange?  -->
+  <xacro:arg name="special_connection" default="" />
+
+  <!-- Should self-collision be enabled? -->
+  <xacro:arg name="with_sc" default="false" />
+
+  <!-- Position offset between ee and parent frame -->
+  <xacro:arg name="xyz_ee" default="0 0 0" />
+
+  <!-- Rotation offset between ee and parent frame -->
+  <xacro:arg name="rpy_ee" default="0 0 0" />
+
+  <!-- Position offset between ee frame and tcp frame -->
+  <xacro:arg name="tcp_xyz" default="0 0 0.15" />
+
+  <!-- Rotation offset between ee frame and tcp frame -->
+  <xacro:arg name="tcp_rpy" default="0 0 0" />
+
+  <!-- Safety distance for the collision capsules -->
+  <xacro:arg name="safety_distance" default="0.03" />
+
+  <!-- Is the robot being simulated in gazebo? -->
+  <xacro:arg name="gazebo" default="false" />
+
+  <!-- Name of the description package -->
+  <xacro:arg name="description_pkg" default="franka_description" />
+
+</robot>

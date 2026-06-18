@@ -89,7 +89,7 @@ if __name__ == '__main__':
     ROBOTS = ['fr3v2_1', 'fr3v2', 'fr3_duo', 'fr3', 'fp3', 'fer', 'tmrv0_2', 'mobile_fr3_duo_v0_2']
     ROBOTS_WITHOUT_SRDF = ['tmrv0_2', 'mobile_fr3_duo_v0_2']
 
-    END_EFFECTORS = ['none', 'franka_hand', 'cobot_pump']
+    END_EFFECTORS = ['none', 'franka_hand', 'cobot_pump', 'robotiq_arg85']
 
     parser = argparse.ArgumentParser(
         description="""

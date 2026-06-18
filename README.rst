@@ -48,7 +48,7 @@ the output urdf model:
 
    optional arguments:
      -h, --help           show this help message and exit
-     --robot-ee           id of the robot end effector (accepted values are: franka_hand, cobot_pump)
+     --robot-ee           id of the robot end effector (accepted values are: franka_hand, cobot_pump, robotiq_arg85)
      --no-ee              Disable loading of end-effector (robot-ee would be ingnored if set) [WARNING: this argument will be removed in future releases, introducing "none" as ee id].
      --with-sc            Include self-collision volumes in the urdf model.
      --abs-path           Use absolute paths.
@@ -69,7 +69,7 @@ The urdf file can be visualized via RViz with the following command:
    # Accepted launch arguments are:
    #     robot_type - accepted values are: fr3v2_1, fr3v2, fr3, fp3, fer, fr3_duo, tmrv0_2, mobile_fr3_duo_v0_2
    #     load_gripper - accepted values are: true (default ee_id is franka_hand), false (ee_id will be ignored) [WARNING: this argument will be removed in future releases, introducing "none" as ee id]
-   #     ee_id - accepted values are: franka_hand, cobot_pump
+   #     ee_id - accepted values are: franka_hand, cobot_pump, robotiq_arg85
 
    ./scripts/visualize_franka.sh robot_type:=<robot_type>
 

@@ -72,7 +72,31 @@
       />
     </xacro:if>
 
-    <xacro:if value="${hand and ee_id != 'none' and ee_id != 'franka_hand'}">
+    <xacro:if value="${hand and ee_id == 'robotiq_arg85'}">
+      <xacro:include filename="$(find franka_description)/end_effectors/robotiq_arg85/robotiq_arg85.xacro"/>
+      <xacro:property name="connection"
+        value="${special_connection if special_connection != '' else robot_type + '_link8'}"/>
+      <xacro:robotiq_arg85
+        connected_to="${arm_prefix}${connection}"
+        robot_type="${robot_type}"
+        arm_prefix="${arm_prefix}"
+        ee_id="${ee_id}"
+        rpy_ee="${rpy_ee}"
+        xyz_ee="${xyz_ee}"
+        tcp_xyz="${tcp_xyz}"
+        tcp_rpy="${tcp_rpy}"
+        safety_distance="${safety_distance}"
+        gazebo="${gazebo}"
+        description_pkg="${description_pkg}"
+        with_sc="${with_sc}"
+        no_prefix="${no_prefix}"
+        ros2_control="${ros2_control}"
+        use_fake_hardware="${use_fake_hardware}"
+        mock_sensor_commands="${fake_sensor_commands}"
+      />
+    </xacro:if>
+
+    <xacro:if value="${hand and ee_id != 'none' and ee_id != 'franka_hand' and ee_id != 'robotiq_arg85'}">
       <xacro:include filename="$(find franka_description)/end_effectors/common/ee_with_one_link.xacro"/>
       <xacro:include filename="$(find franka_description)/end_effectors/common/utils.xacro"/>
       <xacro:property name="connection"
