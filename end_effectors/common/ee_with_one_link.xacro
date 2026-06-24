@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ee_with_one_link">
   <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
-  <xacro:macro name="ee_with_one_link" params="connected_to:='' robot_type arm_prefix:='' ee_id ee_inertials rpy_ee:='0 0 0' xyz_ee:='0 0 0' tcp_xyz:='0 0 0' tcp_rpy:='0 0 0' safety_distance:=0 gazebo:=false description_pkg:=franka_description with_sc:=false">
+  <xacro:macro name="ee_with_one_link" params="connected_to:='' robot_type arm_prefix:='' ee_id ee_inertials rpy_ee:='0 0 0' xyz_ee:='0 0 0' tcp_xyz:='0 0 0' tcp_rpy:='0 0 0' safety_distance:=0 include_self_collision_geometry:=true description_pkg:=franka_description with_sc:=false">
     <xacro:property name="ee_prefix" default="robot_"/>
     <xacro:unless value="${robot_type == ''}">
       <xacro:property name="ee_prefix" value="${arm_prefix}${robot_type}_" />
@@ -14,7 +14,7 @@
       </joint>
     </xacro:unless>
 
-    <xacro:ee_link_with_sc name="${ee_id}" gazebo="${gazebo}" with_sc="${with_sc}">
+    <xacro:ee_link_with_sc name="${ee_id}" include_self_collision_geometry="${include_self_collision_geometry}" with_sc="${with_sc}">
       <self_collision_geometries>
         <xacro:collision_capsule xyz="0 0 0.04" direction="y" radius="${0.04+safety_distance}" length="0.1" />
         <xacro:collision_capsule xyz="0 0 0.10" direction="y" radius="${0.02+safety_distance}" length="0.1" />

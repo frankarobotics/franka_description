@@ -15,9 +15,6 @@
   <!-- Should the reduced kinematic version (without caster wheels) be used? -->
   <xacro:arg name="reduced_version" default="false"/>
 
-  <!-- Should the robot be spawned in Gazebo?" -->
-  <xacro:arg name="gazebo" default="false"/>
-
   <!-- The namespace of the robot -->
   <xacro:arg name="robot_namespace" default=""/>
 
@@ -27,7 +24,6 @@
 
   <xacro:tmrv0_2 mobile_robot_type="$(arg robot_type)"
     reduced_version="$(arg reduced_version)"
-    robot_namespace="$(arg robot_namespace)"
-    gazebo="$(arg gazebo)"/>
+    robot_namespace="$(arg robot_namespace)"/>
 
 </robot>

@@ -40,8 +40,11 @@
   <!-- Should self-collision be enabled? -->
   <xacro:arg name="with_sc" default="false"/>
 
-  <!-- Should the robot be spawned in Gazebo?" -->
-  <xacro:arg name="gazebo" default="false"/>
+  <!-- The frame the robot base is rigidly attached to -->
+  <xacro:arg name="connected_to" default="base"/>
+
+  <!-- Emit the coarse self-collision capsule geometry inside the *_sc sub-links? -->
+  <xacro:arg name="include_self_collision_geometry" default="true"/>
 
   <!-- Name of the description package -->
   <xacro:arg name="description_pkg" default="franka_description"/>
@@ -58,17 +61,8 @@
   offset with respect to the world-->
   <xacro:arg name="rpy" default="0 0 0"/>
 
-  <xacro:if value="$(arg gazebo)">
-    <link name="world"/>
-    <joint name="world_joint" type="fixed">
-      <origin xyz="$(arg xyz)" rpy="$(arg rpy)"/>
-      <parent link="world"/>
-      <child link="${modified_prefix}$(arg robot_type)_link0"/>
-    </joint>
-  </xacro:if>
-
   <xacro:franka_robot robot_type="fr3v2"
-    gazebo="$(arg gazebo)"
+    include_self_collision_geometry="$(arg include_self_collision_geometry)"
     hand="$(arg hand)"
     ee_id="$(arg ee_id)"
     special_connection="$(arg special_connection)"
@@ -81,7 +75,7 @@
     no_prefix="$(arg no_prefix)"
     arm_prefix="${modified_prefix}"
     description_pkg="$(arg description_pkg)"
-    connected_to="base">
+    connected_to="$(arg connected_to)">
   </xacro:franka_robot>
 
 </robot>

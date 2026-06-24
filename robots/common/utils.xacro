@@ -27,13 +27,15 @@
   <!-- Macro to add a single link, both with                      -->
   <!--  * detailed meshes for environmental collision checking    -->
   <!--  * and coarse geometry models for self-collision checking  -->
-  <!--    (only if 'gazebo' param is set)                         -->
+  <!--    (only if 'include_self_collision_geometry' is true)     -->
   <!--                                                            -->
   <!-- name:  Name of the robot link (without prefix)             -->
   <!-- rpy:   Rotation of the *_sc link relative to parent [rad]  -->
   <!-- self_collision_geometries:  self <collision> models        -->
+  <!-- include_self_collision_geometry: emit the coarse capsules  -->
+  <!--   inside the *_sc sub-link (true) or leave it empty (false) -->
   <!-- ========================================================== -->
-  <xacro:macro name="link_with_sc" params="name no_prefix:='false' rpy:='0 0 0' **self_collision_geometries gazebo:=false with_sc:=false with_accelerometers:=false">
+  <xacro:macro name="link_with_sc" params="name no_prefix:='false' rpy:='0 0 0' **self_collision_geometries include_self_collision_geometry:=true with_sc:=false with_accelerometers:=false">
     <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + robot_type + '_'}" />
     <!-- sub-link defining detailed meshes for collision with environment -->
     <link name="${prefix}${name}">
@@ -53,9 +55,9 @@
     <!-- sub-link defining coarse geometries of real robot's internal self-collision -->
     <xacro:if value="${with_sc}">
       <link name="${prefix}${name}_sc">
-        <xacro:unless value="${gazebo}">
+        <xacro:if value="${include_self_collision_geometry}">
           <xacro:insert_block name="self_collision_geometries" />
-        </xacro:unless>
+        </xacro:if>
       </link>
       <!-- fixed joint between both sub-links -->
       <joint name="${prefix}${name}_sc_joint" type="fixed">
@@ -113,107 +115,6 @@
         <sphere radius="${radius}" />
       </geometry>
     </collision>
-  </xacro:macro>
-
-  <!-- ========================================================== -->
-  <!-- Adds the required tags to simulate one joint in gazebo     -->
-  <!--                                                            -->
-  <!-- joint - Name of the fer joint to simulate                  -->
-  <!-- transmission - type of the transmission of the joint       -->
-  <!-- ========================================================== -->
-  <xacro:macro name="gazebo-joint" params="joint transmission:=hardware_interface/EffortJointInterface">
-    <gazebo reference="${joint}">
-      <!-- Needed for ODE to output external wrenches on joints -->
-      <provideFeedback>true</provideFeedback>
-    </gazebo>
-
-    <transmission name="${joint}_transmission">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${joint}">
-        <hardwareInterface>${transmission}</hardwareInterface>
-      </joint>
-      <actuator name="${joint}_motor">
-        <hardwareInterface>${transmission}</hardwareInterface>
-      </actuator>
-    </transmission>
-  </xacro:macro>
-
-  <xacro:macro name="gazebo-friction" params="link mu">
-    <gazebo reference="${link}">
-      <collision>
-        <max_contacts>10</max_contacts>
-        <surface>
-          <contact>
-            <ode>
-              <!-- These two parameter need application specific tuning. -->
-              <!-- Usually you want no "snap out" velocity and a generous -->
-              <!-- penetration depth to keep the grasping stable -->
-              <max_vel>0</max_vel>
-              <min_depth>0.001</min_depth>
-            </ode>
-          </contact>
-          <friction>
-            <ode>
-              <mu>${mu}</mu>
-              <mu2>${mu}</mu2>
-            </ode>
-          </friction>
-          <bounce/>
-        </surface>
-      </collision>
-    </gazebo>
-  </xacro:macro>
-
-  <!-- ========================================================== -->
-  <!-- Adds the required tags to provide a `FrankaStateInterface` -->
-  <!-- when simulating with franka_hw_sim plugin                  -->
-  <!--                                                            -->
-  <!-- robot_type - Arm ID of the fer to simulate (default 'fer')     -->
-  <!-- ========================================================== -->
-  <xacro:macro name="transmission-franka-state" params="robot_type:=fer">
-    <transmission name="${arm_prefix}${robot_type}_franka_state">
-      <type>franka_hw/FrankaStateInterface</type>
-      <joint name="${arm_prefix}${robot_type}_joint1"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_type}_joint2"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_type}_joint3"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_type}_joint4"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_type}_joint5"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_type}_joint6"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-      <joint name="${arm_prefix}${robot_type}_joint7"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></joint>
-
-      <actuator name="${arm_prefix}${robot_type}_motor1"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_type}_motor2"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_type}_motor3"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_type}_motor4"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_type}_motor5"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_type}_motor6"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-      <actuator name="${arm_prefix}${robot_type}_motor7"><hardwareInterface>franka_hw/FrankaStateInterface</hardwareInterface></actuator>
-    </transmission>
-  </xacro:macro>
-
-  <!-- ============================================================ -->
-  <!-- Adds the required tags to provide a `FrankaModelInterface`   -->
-  <!-- when simulating with franka_hw_sim plugin                    -->
-  <!--                                                              -->
-  <!-- robot_type - Arm ID of the fer to simulate (default 'fer')       -->
-  <!-- root   - Joint name of the base of the robot                 -->
-  <!-- tip    - Joint name of the tip of the robot (flange or hand) -->
-  <!-- ============================================================ -->
-  <xacro:macro name="transmission-franka-model" params="robot_type:=fer root:=fer_joint1 tip:=fer_joint7">
-    <transmission name="${arm_prefix}${robot_type}_franka_model">
-      <type>franka_hw/FrankaModelInterface</type>
-      <joint name="${root}">
-        <role>root</role>
-        <hardwareInterface>franka_hw/FrankaModelInterface</hardwareInterface>
-      </joint>
-      <joint name="${tip}">
-        <role>tip</role>
-        <hardwareInterface>franka_hw/FrankaModelInterface</hardwareInterface>
-      </joint>
-
-      <actuator name="${root}_motor_root"><hardwareInterface>franka_hw/FrankaModelInterface</hardwareInterface></actuator>
-      <actuator name="${tip}_motor_tip"  ><hardwareInterface>franka_hw/FrankaModelInterface</hardwareInterface></actuator>
-    </transmission>
   </xacro:macro>
 
   <xacro:macro name="inertia-cylinder" params="mass radius h">

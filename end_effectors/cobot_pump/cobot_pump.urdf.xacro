@@ -13,7 +13,7 @@
                           tcp_xyz="$(arg tcp_xyz)"
                           tcp_rpy="$(arg tcp_rpy)"
                           safety_distance="$(arg safety_distance)"
-                          gazebo="$(arg gazebo)"
+                          include_self_collision_geometry="$(arg include_self_collision_geometry)"
                           description_pkg="$(arg description_pkg)"
                           with_sc="$(arg with_sc)">
    </xacro:ee_with_one_link>
