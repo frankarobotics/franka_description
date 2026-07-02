@@ -9,9 +9,9 @@ head:
 
 head_camera_mounting_point:
   kinematic:
-    x: 0.0498
-    y: -0.02
-    z: 0.2345
+    x: 0.042463788936189344
+    y: -0.014113
+    z: 0.22352590079539492
     roll: 0.0
     pitch: 0.7156
     yaw: 0.0
