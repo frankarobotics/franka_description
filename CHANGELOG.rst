@@ -2,8 +2,8 @@
 Changelog for package franka_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.8.1 (2026-07-07)
+------------------
 
 * fix: define modified_prefix in tmrv0_2 description so mobile_teleop (robot_type tmrv0_2) renders
 
