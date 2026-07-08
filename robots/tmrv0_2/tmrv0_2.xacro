@@ -4,8 +4,7 @@
   <xacro:macro name="tmrv0_2"
     params="mobile_robot_type
                   reduced_version:=false
-                  robot_namespace:=''
-                  gazebo:=false">
+                  robot_namespace:=''">
 
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/argo_drive.xacro"/>
     <xacro:include filename="$(find franka_description)/robots/tmrv0_2/caster_wheel.xacro"/>

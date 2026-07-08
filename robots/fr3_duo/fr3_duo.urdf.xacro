@@ -38,8 +38,8 @@
   <!-- Should self-collision be enabled? -->
   <xacro:arg name="with_sc" default="false"/>
 
-  <!-- Should the robot be spawned in Gazebo?" -->
-  <xacro:arg name="gazebo" default="false"/>
+  <!-- Emit the coarse self-collision capsule geometry inside the *_sc sub-links? -->
+  <xacro:arg name="include_self_collision_geometry" default="true"/>
 
   <!-- Name of the description package -->
   <xacro:arg name="description_pkg" default="franka_description"/>
@@ -58,15 +58,6 @@
   <xacro:arg name="base_mount" default="base"/>
   <xacro:property name="base_mount_str" value="$(arg base_mount)"/>
 
-  <xacro:if value="$(arg gazebo)">
-    <link name="world"/>
-    <joint name="world_joint" type="fixed">
-      <origin xyz="$(arg xyz)" rpy="$(arg rpy)"/>
-      <parent link="world"/>
-      <child link="${base_mount_str}"/>
-    </joint>
-  </xacro:if>
-
   <xacro:if value="${base_mount_str == 'base'}">
     <link name="${base_mount_str}"/>
   </xacro:if>
@@ -82,11 +73,14 @@
     tcp_rpy="$(arg tcp_rpy)"
     safety_distance="$(arg safety_distance)"
     with_sc="$(arg with_sc)"
-    gazebo="$(arg gazebo)"
+    include_self_collision_geometry="$(arg include_self_collision_geometry)"
     description_pkg="$(arg description_pkg)"
     base_mount="${base_mount_str}"
     connected_to="${base_mount_str}"
     arm_prefixes="${arm_prefixes_list}"
-    no_prefix="$(arg no_prefix)"/>
+    no_prefix="$(arg no_prefix)">
+    <arm0_extras/>
+    <arm1_extras/>
+  </xacro:fr3_duo>
 
 </robot>

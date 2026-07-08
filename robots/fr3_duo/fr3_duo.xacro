@@ -18,13 +18,15 @@
             tcp_rpy
             safety_distance
             with_sc
-            gazebo
+            include_self_collision_geometry
             description_pkg
             base_mount
             connected_to
             arm_prefixes
             no_prefix:=false
-            is_mobile_fr3_duo:=false">
+            is_mobile_fr3_duo:=false
+            **arm0_extras
+            **arm1_extras">
 
     <xacro:property name="robot_types_list" value="${robot_types}"/>
     <xacro:property name="arm_prefixes_list" value="${arm_prefixes}"/>
@@ -54,7 +56,7 @@
         <xacro:property name="robot_type_i" value="${robot_types_list[i]}"/>
         <xacro:franka_robot
           robot_type="${robot_type_i}"
-          gazebo="${gazebo}"
+          include_self_collision_geometry="${include_self_collision_geometry}"
           hand="${hand}"
           ee_id="${ee_id}"
           special_connection="${special_connection}"
@@ -69,6 +71,15 @@
           description_pkg="${description_pkg}"
           connected_to="${arm_prefixes_list[i]}_base">
         </xacro:franka_robot>
+        <!-- Per-arm extension point (e.g. simulation transmissions injected by
+             the simulation bringup). Each block is evaluated in the caller's
+             scope, so the caller supplies the concrete arm prefix / robot type. -->
+        <xacro:if value="${i == 0}">
+          <xacro:insert_block name="arm0_extras"/>
+        </xacro:if>
+        <xacro:if value="${i == 1}">
+          <xacro:insert_block name="arm1_extras"/>
+        </xacro:if>
         <xacro:fr3_duo_loop i="${i+1}"/>
       </xacro:unless>
     </xacro:macro>

@@ -15,7 +15,7 @@
 from os import path
 import xml.etree.ElementTree as ET
 
-from ament_index_python.packages import get_package_share_directory, PackageNotFoundError
+from ament_index_python.packages import get_package_share_directory
 
 import pytest
 import xacro
@@ -30,12 +30,6 @@ ARM_ROBOT_TYPES = [
 
 ROBOT_TYPES = ARM_ROBOT_TYPES + ['tmrv0_2', 'fr3_duo', 'mobile_fr3_duo_v0_2']
 
-_has_gazebo_bringup = True
-try:
-    get_package_share_directory('franka_gazebo_bringup')
-except PackageNotFoundError:
-    _has_gazebo_bringup = False
-
 
 def get_urdf_xacro(robot_type: str):
     return path.join(
@@ -46,12 +40,16 @@ def get_urdf_xacro(robot_type: str):
     )
 
 
-@pytest.mark.parametrize('gazebo', ['true', 'false'])
+@pytest.mark.parametrize('include_self_collision_geometry', ['true', 'false'])
 @pytest.mark.parametrize('robot_type', ROBOT_TYPES)
-def test_urdf_is_well_formed(robot_type: str, gazebo: str):
-    if gazebo == 'true' and not _has_gazebo_bringup:
-        pytest.skip('franka_gazebo_bringup package not available')
-    urdf = xacro.process_file(get_urdf_xacro(robot_type), mappings={'gazebo': gazebo}).toxml()
+def test_urdf_is_well_formed(robot_type: str, include_self_collision_geometry: str):
+    urdf = xacro.process_file(
+        get_urdf_xacro(robot_type),
+        mappings={
+            'with_sc': 'true',
+            'include_self_collision_geometry': include_self_collision_geometry,
+        },
+    ).toxml()
     root = ET.fromstring(urdf)
     assert root.tag == 'robot', 'urdf must have topmost level robot tag'
     assert len(root) > 0, 'urdf cannot be empty'

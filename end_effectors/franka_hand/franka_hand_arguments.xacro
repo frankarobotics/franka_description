@@ -31,8 +31,8 @@
   <!-- Safety distance for the collision capsules -->
   <xacro:arg name="safety_distance" default="0.03" />
 
-  <!-- Is the robot being simulated in gazebo? -->
-  <xacro:arg name="gazebo" default="false" />
+  <!-- Emit the coarse self-collision capsule geometry inside the *_sc sub-links? -->
+  <xacro:arg name="include_self_collision_geometry" default="true" />
 
   <!-- Name of the description package -->
   <xacro:arg name="description_pkg" default="franka_description" />

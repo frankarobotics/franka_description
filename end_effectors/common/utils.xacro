@@ -27,13 +27,15 @@
   <!-- Macro to add a single link, both with                      -->
   <!--  * detailed meshes for environmental collision checking    -->
   <!--  * and coarse geometry models for self-collision checking  -->
-  <!--    (only if 'gazebo' param is set)                         -->
+  <!--    (only if 'include_self_collision_geometry' is true)     -->
   <!--                                                            -->
   <!-- name:  Name of the end-effector (without prefix)             -->
   <!-- rpy:   Rotation of the *_sc link relative to parent [rad]  -->
   <!-- self_collision_geometries:  self <collision> models        -->
+  <!-- include_self_collision_geometry: emit the coarse capsules  -->
+  <!--   inside the *_sc sub-link (true) or leave it empty (false) -->
   <!-- ========================================================== -->
-  <xacro:macro name="ee_link_with_sc" params="name prefix=${ee_prefix} rpy:='0 0 0' **self_collision_geometries gazebo:=false with_sc:=false">
+  <xacro:macro name="ee_link_with_sc" params="name prefix=${ee_prefix} rpy:='0 0 0' **self_collision_geometries include_self_collision_geometry:=true with_sc:=false">
     <!-- sub-link defining detailed meshes for collision with environment -->
     <link name="${prefix}${name}">
       <visual name="${prefix}${name}_visual">
@@ -52,9 +54,9 @@
     <!-- sub-link defining coarse geometries of real end-effector's internal self-collision -->
     <xacro:if value="${with_sc}">
       <link name="${prefix}${name}_sc">
-        <xacro:unless value="${gazebo}">
+        <xacro:if value="${include_self_collision_geometry}">
           <xacro:insert_block name="self_collision_geometries" />
-        </xacro:unless>
+        </xacro:if>
       </link>
       <!-- fixed joint between both sub-links -->
       <joint name="${prefix}${name}_sc_joint" type="fixed">

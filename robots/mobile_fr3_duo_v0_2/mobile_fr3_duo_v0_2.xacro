@@ -5,7 +5,7 @@
     name="mobile_fr3_duo_v0_2"
     params="robot_types
             hand
-            gazebo
+            include_self_collision_geometry
             reduced_version
             description_pkg
             connected_to
@@ -18,7 +18,9 @@
             tcp_xyz
             tcp_rpy
             safety_distance
-            with_sc">
+            with_sc
+            **arm0_extras
+            **arm1_extras">
 
     <xacro:include filename="$(find franka_description)/accessories/franka_spine_v0_1/franka_spine.xacro"/>
     <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
@@ -44,8 +46,7 @@
     <!-- The mobile base -->
     <xacro:tmrv0_2
       mobile_robot_type="${robot_types_list[0]}"
-      reduced_version="${reduced_version}"
-      gazebo="${gazebo}"/>
+      reduced_version="${reduced_version}"/>
 
     <!-- Spine -->
     <xacro:franka_spine parent="base_link"/>
@@ -64,12 +65,15 @@
       tcp_rpy="${tcp_rpy}"
       safety_distance="${safety_distance}"
       with_sc="${with_sc}"
-      gazebo="${gazebo}"
+      include_self_collision_geometry="${include_self_collision_geometry}"
       description_pkg="${description_pkg}"
       base_mount="franka_spine_mounting_point"
       connected_to="${connected_to}"
       arm_prefixes="${arm_prefixes_list}"
-      is_mobile_fr3_duo="true"/>
+      is_mobile_fr3_duo="true">
+      <arm0_extras><xacro:insert_block name="arm0_extras"/></arm0_extras>
+      <arm1_extras><xacro:insert_block name="arm1_extras"/></arm1_extras>
+    </xacro:fr3_duo>
 
   </xacro:macro>
 </robot>

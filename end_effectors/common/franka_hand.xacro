@@ -10,7 +10,7 @@
                        tcp_xyz:='0 0 0.1034'
                        tcp_rpy:='0 0 0'
                        safety_distance:=0
-                       gazebo:=false
+                       include_self_collision_geometry:=true
                        description_pkg:=franka_description
                        with_sc:=false
                        no_prefix:=false">
@@ -26,7 +26,7 @@
       </joint>
     </xacro:unless>
 
-    <xacro:ee_link_with_sc name="hand" gazebo="${gazebo}" with_sc="${with_sc}">
+    <xacro:ee_link_with_sc name="hand" include_self_collision_geometry="${include_self_collision_geometry}" with_sc="${with_sc}">
       <self_collision_geometries>
         <xacro:collision_capsule xyz="0 0 0.04" direction="y" radius="${0.04+safety_distance}" length="0.1" />
         <xacro:collision_capsule xyz="0 0 0.10" direction="y" radius="${0.02+safety_distance}" length="0.1" />
