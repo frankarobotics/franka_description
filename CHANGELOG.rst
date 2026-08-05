@@ -4,6 +4,7 @@ Changelog for package franka_description
 
 UNRELEASED
 ----------
+* fix: the development container now builds when the host UID/GID is already taken inside the base image (``osrf/ros:jazzy-desktop`` ships an ``ubuntu`` user at 1000:1000), which previously broke ``create_urdf.sh``/``visualize_franka.sh`` for most Linux users
 * refactor: removed all Gazebo tags, macros, and arguments from franka_description (now simulator-agnostic); the Gazebo SDF/transmission machinery, world anchor, and self-collision suppression moved to franka_gazebo. MIGRATION: the public ``gazebo`` xacro argument was removed — consumers that passed ``gazebo:=true`` to franka_description URDFs must instead use the franka_gazebo bringup entry points; passing the old arg now has no effect.
 
 2.8.1 (2026-07-07)
