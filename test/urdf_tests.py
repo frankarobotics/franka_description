@@ -54,6 +54,30 @@ def get_end_effector_xacro(ee_id: str):
     )
 
 
+def get_srdf_xacro(robot_type: str):
+    return path.join(
+        get_package_share_directory('franka_description'),
+        'robots',
+        robot_type,
+        robot_type + '.srdf.xacro',
+    )
+
+
+def get_link_names(root: ET.Element):
+    return {link.get('name') for link in root.iter('link') if link.get('name')}
+
+
+def get_referenced_links(srdf: ET.Element):
+    """Return every link name an srdf refers to, whatever tag it appears in."""
+    attributes = ('link1', 'link2', 'base_link', 'tip_link', 'parent_link', 'link')
+    return {
+        element.get(attribute)
+        for element in srdf.iter()
+        for attribute in attributes
+        if element.get(attribute)
+    }
+
+
 def get_tcp_origin(root: ET.Element):
     """Return the xyz origin of the only tcp joint in a generated description."""
     joints = [
@@ -154,6 +178,44 @@ def test_tcp_offset_can_be_overridden(robot_type: str):
         get_urdf_xacro(robot_type), mappings={'tcp_xyz': '0 0 0.2'}
     ).toxml()
     assert get_tcp_origin(ET.fromstring(urdf)) == '0 0 0.2'
+
+
+@pytest.mark.parametrize('no_prefix', ['false', 'true'])
+@pytest.mark.parametrize('ee_id', END_EFFECTOR_IDS)
+@pytest.mark.parametrize('robot_type', ARM_ROBOT_TYPES)
+def test_every_joint_connects_existing_links(robot_type: str, ee_id: str, no_prefix: str):
+    """A urdf is only loadable if every joint refers to links the urdf defines."""
+    root = ET.fromstring(
+        xacro.process_file(
+            get_urdf_xacro(robot_type),
+            mappings={'ee_id': ee_id, 'no_prefix': no_prefix},
+        ).toxml()
+    )
+    links = get_link_names(root)
+    for joint in root.iter('joint'):
+        for end in ('parent', 'child'):
+            referenced = joint.find(end).get('link')
+            assert referenced in links, (
+                f'joint {joint.get("name")} has {end} link {referenced}, '
+                'which the urdf does not define'
+            )
+
+
+@pytest.mark.parametrize('no_prefix', ['false', 'true'])
+@pytest.mark.parametrize('ee_id', END_EFFECTOR_IDS)
+@pytest.mark.parametrize('robot_type', ARM_ROBOT_TYPES)
+def test_srdf_only_refers_to_links_the_urdf_defines(
+    robot_type: str, ee_id: str, no_prefix: str
+):
+    """An srdf that names a link absent from the urdf is rejected by MoveIt."""
+    mappings = {'ee_id': ee_id, 'no_prefix': no_prefix}
+    urdf = ET.fromstring(
+        xacro.process_file(get_urdf_xacro(robot_type), mappings=mappings).toxml()
+    )
+    srdf = ET.fromstring(
+        xacro.process_file(get_srdf_xacro(robot_type), mappings=mappings).toxml()
+    )
+    assert get_referenced_links(srdf) <= get_link_names(urdf)
 
 
 if __name__ == '__main__':
