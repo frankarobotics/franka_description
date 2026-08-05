@@ -30,6 +30,11 @@ ARM_ROBOT_TYPES = [
 
 ROBOT_TYPES = ARM_ROBOT_TYPES + ['tmrv0_2', 'fr3_duo', 'mobile_fr3_duo_v0_2']
 
+END_EFFECTOR_IDS = [
+    'franka_hand',
+    'cobot_pump',
+]
+
 
 def get_urdf_xacro(robot_type: str):
     return path.join(
@@ -38,6 +43,26 @@ def get_urdf_xacro(robot_type: str):
         robot_type,
         robot_type + '.urdf.xacro',
     )
+
+
+def get_end_effector_xacro(ee_id: str):
+    return path.join(
+        get_package_share_directory('franka_description'),
+        'end_effectors',
+        ee_id,
+        ee_id + '.urdf.xacro',
+    )
+
+
+def get_tcp_origin(root: ET.Element):
+    """Return the xyz origin of the only tcp joint in a generated description."""
+    joints = [
+        joint
+        for joint in root.iter('joint')
+        if joint.get('name', '').endswith('_tcp_joint')
+    ]
+    assert len(joints) == 1, f'expected exactly one tcp joint, found {len(joints)}'
+    return joints[0].find('origin').get('xyz')
 
 
 @pytest.mark.parametrize('include_self_collision_geometry', ['true', 'false'])
@@ -82,6 +107,53 @@ def test_with_ee(robot_type: str):
     assert root.find(f".//joint[@name='{robot_type}_finger_joint2']") is not None, (
         'urdf must contain the finger 2 joint tag'
     )
+
+
+@pytest.mark.parametrize('ee_id', END_EFFECTOR_IDS)
+@pytest.mark.parametrize('robot_type', ARM_ROBOT_TYPES)
+def test_tcp_offset_matches_end_effector(robot_type: str, ee_id: str):
+    """A robot must place the tcp where the end effector alone would place it."""
+    standalone = ET.fromstring(
+        xacro.process_file(
+            get_end_effector_xacro(ee_id), mappings={'ee_id': ee_id}
+        ).toxml()
+    )
+    mounted = ET.fromstring(
+        xacro.process_file(
+            get_urdf_xacro(robot_type), mappings={'ee_id': ee_id}
+        ).toxml()
+    )
+    assert get_tcp_origin(mounted) == get_tcp_origin(standalone)
+
+
+@pytest.mark.parametrize('ee_id', END_EFFECTOR_IDS)
+def test_tcp_offset_survives_direct_macro_use(ee_id: str, tmp_path):
+    """Callers of the franka_robot macro must not silently lose the tcp offset."""
+    caller = tmp_path / 'direct.urdf.xacro'
+    caller.write_text(
+        '<?xml version="1.0" encoding="utf-8"?>\n'
+        '<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="direct">\n'
+        '  <xacro:include filename="$(find franka_description)'
+        '/robots/common/franka_robot.xacro"/>\n'
+        f'  <xacro:franka_robot robot_type="fr3" ee_id="{ee_id}" connected_to="base"/>\n'
+        '</robot>\n'
+    )
+    standalone = ET.fromstring(
+        xacro.process_file(
+            get_end_effector_xacro(ee_id), mappings={'ee_id': ee_id}
+        ).toxml()
+    )
+    direct = ET.fromstring(xacro.process_file(str(caller)).toxml())
+    assert get_tcp_origin(direct) == get_tcp_origin(standalone)
+
+
+@pytest.mark.parametrize('robot_type', ARM_ROBOT_TYPES)
+def test_tcp_offset_can_be_overridden(robot_type: str):
+    """An explicitly requested tcp offset must win over the end effector default."""
+    urdf = xacro.process_file(
+        get_urdf_xacro(robot_type), mappings={'tcp_xyz': '0 0 0.2'}
+    ).toxml()
+    assert get_tcp_origin(ET.fromstring(urdf)) == '0 0 0.2'
 
 
 if __name__ == '__main__':

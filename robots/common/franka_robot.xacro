@@ -7,7 +7,7 @@
                       rpy:='0 0 0'
                       xyz_ee:='0 0 0'
                       rpy_ee:='0 0 0'
-                      tcp_xyz:='0 0 0'
+                      tcp_xyz:=''
                       tcp_rpy:='0 0 0'
                       safety_distance:='0.03'
                       hand:='true'
@@ -23,6 +23,14 @@
     <xacro:include filename="$(find franka_description)/robots/common/utils.xacro"/>
 
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.xacro"/>
+
+    <!-- The tcp offset belongs to the end effector, so an empty tcp_xyz resolves to
+         that end effector's own value rather than to zero. These must match the
+         defaults in end_effectors/<ee_id>/<ee_id>_arguments.xacro, which
+         test_tcp_offset_matches_end_effector enforces. -->
+    <xacro:property name="ee_tcp_xyz"
+      value="${'0 0 0.1034' if ee_id == 'franka_hand' else '0 0 0.105' if ee_id == 'cobot_pump' else '0 0 0'}"/>
+    <xacro:property name="tcp_xyz_resolved" value="${ee_tcp_xyz if tcp_xyz == '' else tcp_xyz}"/>
 
     <xacro:franka_arm
       robot_type="${robot_type}"
@@ -56,7 +64,7 @@
         ee_inertials="${xacro.load_yaml('$(find franka_description)/end_effectors/' + ee_id + '/inertials.yaml')}"
         rpy_ee="${rpy_ee}"
         xyz_ee="${xyz_ee}"
-        tcp_xyz="${tcp_xyz}"
+        tcp_xyz="${tcp_xyz_resolved}"
         tcp_rpy="${tcp_rpy}"
         safety_distance="${safety_distance}"
         include_self_collision_geometry="${include_self_collision_geometry}"
@@ -78,7 +86,7 @@
         ee_inertials="${xacro.load_yaml('$(find franka_description)/end_effectors/' + ee_id + '/inertials.yaml')}"
         rpy_ee="${rpy_ee}"
         xyz_ee="${xyz_ee}"
-        tcp_xyz="${tcp_xyz}"
+        tcp_xyz="${tcp_xyz_resolved}"
         tcp_rpy="${tcp_rpy}"
         safety_distance="${safety_distance}"
         include_self_collision_geometry="${include_self_collision_geometry}"
