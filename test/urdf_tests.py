@@ -78,6 +78,24 @@ def get_referenced_links(srdf: ET.Element):
     }
 
 
+def get_tcp_link(root: ET.Element):
+    """Return the link a description places at the mounted end effector's tcp."""
+    joints = [
+        joint
+        for joint in root.iter('joint')
+        if joint.get('name', '').endswith('_tcp_joint')
+    ]
+    assert len(joints) == 1, f'expected exactly one tcp joint, found {len(joints)}'
+    return joints[0].find('child').get('link')
+
+
+def get_chain(srdf: ET.Element):
+    """Return the only planning chain of a single-arm srdf."""
+    chains = list(srdf.iter('chain'))
+    assert len(chains) == 1, f'expected exactly one chain, found {len(chains)}'
+    return chains[0]
+
+
 def get_tcp_origin(root: ET.Element):
     """Return the xyz origin of the only tcp joint in a generated description."""
     joints = [
@@ -216,6 +234,34 @@ def test_srdf_only_refers_to_links_the_urdf_defines(
         xacro.process_file(get_srdf_xacro(robot_type), mappings=mappings).toxml()
     )
     assert get_referenced_links(srdf) <= get_link_names(urdf)
+
+
+@pytest.mark.parametrize('no_prefix', ['false', 'true'])
+@pytest.mark.parametrize('ee_id', END_EFFECTOR_IDS)
+@pytest.mark.parametrize('robot_type', ARM_ROBOT_TYPES)
+def test_arm_group_tips_at_the_end_effector_tcp(
+    robot_type: str, ee_id: str, no_prefix: str
+):
+    """A pose goal is only a tool pose if the planning chain ends at the tool."""
+    mappings = {'ee_id': ee_id, 'no_prefix': no_prefix}
+    urdf = ET.fromstring(
+        xacro.process_file(get_urdf_xacro(robot_type), mappings=mappings).toxml()
+    )
+    srdf = ET.fromstring(
+        xacro.process_file(get_srdf_xacro(robot_type), mappings=mappings).toxml()
+    )
+    assert get_chain(srdf).get('tip_link') == get_tcp_link(urdf)
+
+
+@pytest.mark.parametrize('robot_type', ARM_ROBOT_TYPES)
+def test_arm_group_tips_at_the_flange_without_an_end_effector(robot_type: str):
+    """With no end effector there is no tool, so the chain ends at the flange."""
+    srdf = ET.fromstring(
+        xacro.process_file(
+            get_srdf_xacro(robot_type), mappings={'hand': 'false'}
+        ).toxml()
+    )
+    assert get_chain(srdf).get('tip_link') == robot_type + '_link8'
 
 
 if __name__ == '__main__':
