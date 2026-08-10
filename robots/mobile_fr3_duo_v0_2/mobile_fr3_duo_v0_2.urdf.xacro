@@ -27,7 +27,7 @@
   <xacro:arg name="rpy_ee" default="0 0 ${-pi/4}"/>
 
   <!-- Position offset between ee frame and tcp frame -->
-  <xacro:arg name="tcp_xyz" default="0 0 0.1034"/>
+  <xacro:arg name="tcp_xyz" default=""/>
 
   <!-- Rotation offset between ee frame and tcp frame -->
   <xacro:arg name="tcp_rpy" default="0 0 0"/>

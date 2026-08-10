@@ -11,6 +11,12 @@ The Franka Description repository offers all Franka Robotics models. It includes
 robot parameters, crucial for simulating these robots in various environments. Additionally, the repository provides
 a feature to create URDFs (Unified Robot Description Format) for the selected Franka robot model.
 
+Robot model support
+-------------------
+
+The ``fer`` model (Franka Emika Robot, formerly Panda) is **not supported**. It is still shipped and can still be
+generated, but issues reported against it will not be fixed. Use ``fr3`` or ``fp3`` instead.
+
 Features
 --------
 

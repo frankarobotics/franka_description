@@ -8,13 +8,15 @@ ARG USERNAME=user
 
 WORKDIR /workspaces
 
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+# The base image already ships a user and group at UID/GID 1000, so only
+# create ours when the host UID/GID is still free.
+RUN (getent group $USER_GID || groupadd --gid $USER_GID $USERNAME) \
+    && (getent passwd $USER_UID || useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME) \
     && mkdir -p -m 0700 /run/user/"${USER_UID}" \
     && mkdir -p -m 0700 /run/user/"${USER_UID}"/gdm \
-    && chown user:user /run/user/"${USER_UID}" \
-    && chown user:user /workspaces \
-    && chown user:user /run/user/"${USER_UID}"/gdm 
+    && chown $USER_UID:$USER_GID /run/user/"${USER_UID}" \
+    && chown $USER_UID:$USER_GID /workspaces \
+    && chown $USER_UID:$USER_GID /run/user/"${USER_UID}"/gdm
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -28,7 +30,8 @@ RUN apt-get update && \
 
 ENV XDG_RUNTIME_DIR=/run/user/"${USER_UID}"
 
-USER $USERNAME
+# Address the account by UID:GID, it may pre-exist under a different name.
+USER $USER_UID:$USER_GID
 
 RUN echo "source /ros_entrypoint.sh" >>~/.bashrc
 ARG MAX_ROS_DOMAIN_ID=232
