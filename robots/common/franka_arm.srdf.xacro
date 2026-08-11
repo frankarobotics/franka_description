@@ -4,7 +4,10 @@
     <xacro:macro name="franka_arm_srdf" params="robot_type hand:='true' ee_id:=franka_hand arm_prefix='' no_prefix='false'">
         <xacro:property name="prefix" value="${'' if no_prefix else arm_prefix + robot_type + '_'}" />
         <xacro:include filename="$(find franka_description)/robots/common/group_definition.xacro"/>
-        <xacro:property name="tip_link" value="${prefix + 'hand_tcp' if hand and ee_id == 'franka_hand' else prefix + 'link8'}"/>
+
+        <xacro:property name="ee_tcp_link"
+            value="${'hand_tcp' if ee_id == 'franka_hand' else 'cobot_pump_tcp' if ee_id == 'cobot_pump' else 'link8'}"/>
+        <xacro:property name="tip_link" value="${prefix + ee_tcp_link if hand else prefix + 'link8'}"/>
         <xacro:group_definition prefix="${prefix}" group_name="${prefix}arm" tip_link="${tip_link}"/>
 
         <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base"/>
